@@ -1,6 +1,6 @@
 #include "box.hpp"
 
-Box::Box(glm::vec3 min, glm::vec3 max)
+Box::Box(glm::vec3 min, glm::vec3 max, std::string name, std::string color) : Shape(name, color)
 {
 	min_ = min;
 	max_ = max;
