@@ -1,3 +1,5 @@
+#ifndef SHAPE_HPP
+#define SHAPE_HPP
 #include <iostream>
 
 class Shape {
@@ -12,3 +14,4 @@ public:
 
 };
 std::ostream& operator << (std::ostream& os, Shape const& s);
+#endif

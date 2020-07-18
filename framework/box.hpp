@@ -1,3 +1,5 @@
+#ifndef BOX_HPP
+#define BOX_HPP
 #define GLM_SWIZZLE
 #include <glm/vec3.hpp>
 #define _USE_MATH_DEFINES
@@ -11,6 +13,8 @@ public:
 	Box(glm::vec3 min, glm::vec3 max, std::string name, std::string color);
 	float area();
 	float volume();
+	std::ostream& print(std::ostream& os) const override;
 
 
 };
+#endif

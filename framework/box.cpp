@@ -1,3 +1,4 @@
+#include "glm/ext.hpp"
 #include "box.hpp"
 
 Box::Box(glm::vec3 min, glm::vec3 max, std::string name, std::string color) : Shape(name, color)
@@ -14,4 +15,11 @@ float Box::area()
 float Box::volume()
 {
 	return abs(min_.x - max_.x)*abs(min_.y - max_.y)*abs(min_.z - max_.z);
+}
+
+std::ostream& Box::print(std::ostream& os) const
+{
+	Shape::print(os);
+	os << "Min:  " << glm::to_string(min_) << " Max: " << glm::to_string(max_);
+	return os;
 }
