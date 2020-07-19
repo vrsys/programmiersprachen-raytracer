@@ -5,7 +5,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/intersect.hpp >
 
-TEST_CASE(" intersect_ray_sphere ", "[intersect]")
+TEST_CASE("intersect_ray_sphere", "[intersect]")
 {
     // Ray
     glm::vec3 ray_origin{ 0.0f, 0.0f, 0.0f };
@@ -44,6 +44,17 @@ TEST_CASE(" intersect_ray_sphere ", "[intersect]")
     REQUIRE(h3.color == "Green");
     REQUIRE(h3.name == "Sphere3");
     REQUIRE(h3.direction == r3.direction);
+}
+TEST_CASE("dtor", "[destruction]") {
+    glm::vec3 position{ 0.0f, 0.0f, 0.0f };
+    Sphere* s1 = new Sphere{position ,1.2f, "Sphere0", "Red"};
+    Shape* s2 = new Sphere{position ,1.2f, "Sphere", "Red"};
+    s1->print(std::cout);
+    std::cout << std::endl;
+    s2->print(std::cout);
+    std::cout << std::endl;
+    delete s1;
+    delete s2;
 }
 
 

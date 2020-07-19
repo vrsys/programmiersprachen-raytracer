@@ -14,7 +14,8 @@ public:
 	float area();
 	float volume();
 	std::ostream& print(std::ostream& os) const override;
-
+	~Box();
+	
 
 };
 #endif

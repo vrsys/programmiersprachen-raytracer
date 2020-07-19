@@ -23,3 +23,10 @@ std::ostream& Box::print(std::ostream& os) const
 	os << "Min:  " << glm::to_string(min_) << " Max: " << glm::to_string(max_);
 	return os;
 }
+
+Box::~Box()
+{
+	
+	std::cout << "Box dtor:" << *this << std::endl;
+
+}

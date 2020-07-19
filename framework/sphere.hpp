@@ -16,5 +16,6 @@ public:
 	float volume();
 	std::ostream& print(std::ostream& os) const override;
 	HitPoint intersect(Ray r);
+	~Sphere();
 };
 #endif

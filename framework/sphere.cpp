@@ -38,3 +38,8 @@ HitPoint Sphere::intersect(Ray r)
 	}
 	return h;
 }
+
+Sphere::~Sphere()
+{
+	std::cout << "Sphere dtor:" << *this << std::endl;
+}
