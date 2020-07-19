@@ -3,6 +3,8 @@
 #include <iostream>
 
 class Shape {
+protected:
+
 	std::string name_;
 	std::string color_;
 

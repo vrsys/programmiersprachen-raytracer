@@ -4,6 +4,8 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include "shape.hpp"
+#include "hitpoint.hpp"
+#include "ray.hpp"
 
 class Sphere : public Shape {
 	glm::vec3 center_;
@@ -13,5 +15,6 @@ public:
 	float area();
 	float volume();
 	std::ostream& print(std::ostream& os) const override;
+	HitPoint intersect(Ray r);
 };
 #endif
