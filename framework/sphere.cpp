@@ -2,7 +2,7 @@
 #include "glm/ext.hpp"
 #include "sphere.hpp"
 
-Sphere::Sphere(glm::vec3& center, float radius, std::string name, std::string color) : Shape(name, color)
+Sphere::Sphere(glm::vec3& center, float radius, std::string name, Color color) : Shape(name, color)
 {
 	center_ = center;
 	radius_ = radius;
@@ -15,7 +15,7 @@ float Sphere::area()
 
 float Sphere::volume()
 {
-	return (4/3)*M_PI*pow(radius_,3);
+	return (M_PI*pow(radius_,3)*(4.0f/3.0f));
 }
 
 std::ostream& Sphere::print(std::ostream& os) const

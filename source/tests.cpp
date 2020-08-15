@@ -5,6 +5,33 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/intersect.hpp >
 
+TEST_CASE("Sphere_Volume+Area", "[VolumeArea]")
+{
+    Sphere s1(glm::vec3(0, 0, 10), 5, "Sphere1", "Yellow");
+    REQUIRE(s1.area() == Approx(314.16f));
+    REQUIRE(s1.volume() == Approx(523.6f));
+    Sphere s2(glm::vec3(0, 0, 0), 0, "Sphere2", "Yellow");
+    REQUIRE(s2.area() == Approx(0.0f));
+    REQUIRE(s2.area() == Approx(0.0f));
+    Sphere s3(glm::vec3(9.2, -10, 10.121), 2, "Sphere3", "Yellow");
+    REQUIRE(s3.area() == Approx(50.26548f));
+    REQUIRE(s3.volume() == Approx(33.51f));
+}
+
+TEST_CASE("Box_Volume+Area", "[VolumeArea]")
+{
+    Box b1(glm::vec3(0, 0, 0), glm::vec3(2, 2, 2), "Box1", "Green");
+    REQUIRE(b1.area() == Approx(24.0f));
+    REQUIRE(b1.volume() == Approx(8.0f));
+    Box b2(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), "Box2", "Green");
+    REQUIRE(b2.area() == Approx(0.0f));
+    REQUIRE(b2.area() == Approx(0.0f));
+    Box b3(glm::vec3(-1, -1, -1), glm::vec3(-4, -4, -4), "Box3", "Green");
+    REQUIRE(b3.area() == Approx(54.0f));
+    REQUIRE(b3.volume() == Approx(27.0f));
+}
+
+
 TEST_CASE("intersect_ray_sphere", "[intersect]")
 {
     // Ray
