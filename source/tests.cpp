@@ -4,7 +4,7 @@
 #include "sphere.hpp"
 #include <glm/glm.hpp>
 #include <glm/gtx/intersect.hpp >
-
+/*
 TEST_CASE("Sphere_Volume+Area", "[VolumeArea]")
 {
     Sphere s1(glm::vec3(0, 0, 10), 5, "Sphere1", "Yellow");
@@ -83,10 +83,11 @@ TEST_CASE("dtor", "[destruction]") {
     delete s1;
     delete s2;
 }
-
+*/
 
 int main(int argc, char *argv[])
 {
+    /*
     Sphere s1(glm::vec3(0,0,0),5,"Sphere1","Yellow");
     std::cout << s1 << std::endl;
     Sphere s2(glm::vec3(5, -3, 0.1), 5, "Sphere2", "Cyan");
@@ -95,5 +96,6 @@ int main(int argc, char *argv[])
     std::cout << b1 << std::endl;
     std::cout << " " << std::endl;
     std::cout << " " << std::endl;
+    */
     return Catch::Session().run(argc, argv);
 }
