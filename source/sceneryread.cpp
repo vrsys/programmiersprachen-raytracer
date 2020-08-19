@@ -2,6 +2,7 @@
 #include <sstream>  //stringstream -> easy parsing mechanics
 #include <string>   // buffer lines read from file
 #include <iostream> 
+#include <glm/vec3.hpp>
 
 int main(int argc, char** argv) {
 
@@ -40,7 +41,19 @@ int main(int argc, char** argv) {
 
             // check for specific shape
             if ("shape" == class_name) {
-                //check for shape type, then: parse attributes (including material lookup)
+                //check for shape type, then: parse attributes (including material lookup
+                in_sstream >> class_name;
+                if ("sphere" == class_name) {
+                    glm::vec3 center;
+                    float radius;
+                    std::string material_name;
+                    in_sstream >> center.x >> center.y >> center.z >> radius >> material_name;
+                }
+                else if ("box" == class_name) {
+                    glm::vec3 min, max;
+                    std::string material_name;
+                    in_sstream >> min.x >> min.y >> min.z >> max.x >> max.y >> max.z >> material_name;
+                }
             }
             else if ("material" == class_name) {
                 //parse material attributes
@@ -52,6 +65,9 @@ int main(int argc, char** argv) {
 
                 in_sstream >> material_name;
                 in_sstream >> ka_red >> ka_green >> ka_blue; // 
+                in_sstream >> kd_red >> kd_green >> kd_blue;
+                in_sstream >> ks_red >> ks_green >> ks_blue;
+                in_sstream >> m;
 
                 std::cout << ka_red << " " << ka_green << " " << ka_blue << std::endl;
 
