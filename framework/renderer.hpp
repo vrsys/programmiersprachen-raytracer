@@ -22,6 +22,7 @@ public:
   Renderer(unsigned w, unsigned h, std::string const& file);
 
   void render();
+  void render2();
   void write(Pixel const& p);
 
   inline std::vector<Color> const& color_buffer() const
