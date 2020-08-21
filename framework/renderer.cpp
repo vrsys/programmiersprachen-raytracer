@@ -36,6 +36,26 @@ void Renderer::render()
   ppm_.save(filename_);
 }
 
+void Renderer::render(Scene& scene)
+{
+    std::size_t const checker_pattern_size = 20;
+
+    for (unsigned y = 0; y < height_; ++y) {
+        for (unsigned x = 0; x < width_; ++x) {
+            Pixel p(x, y);
+            if (((x / checker_pattern_size) % 2) != ((y / checker_pattern_size) % 2)) {
+                p.color = Color{ 0.0f, 1.0f, float(x) / height_ };
+            }
+            else {
+                p.color = Color{ 1.0f, 0.0f, float(y) / width_ };
+            }
+
+            write(p);
+        }
+    }
+    ppm_.save(filename_);
+}
+
 
 void Renderer::write(Pixel const& p)
 {
