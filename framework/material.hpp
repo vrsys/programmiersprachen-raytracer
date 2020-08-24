@@ -1,3 +1,6 @@
+#ifndef MATERIAL_HPP
+#define MATERIAL_HPP
+
 #include "color.hpp"
 
 
@@ -15,4 +18,6 @@ public:
 	float m_;
 
 };
+
+#endif
 

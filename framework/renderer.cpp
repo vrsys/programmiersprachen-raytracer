@@ -56,6 +56,24 @@ void Renderer::render(Scene& scene)
     ppm_.save(filename_);
 }
 
+Color Renderer::trace(Scene& scene, Ray& ray){
+    return Color {0,0,0};
+    }
+
+Ray Renderer::camera_ray(Camera const& camera, int x, int y)
+{
+    double normalized_x = (x + 0.5) / width_;
+    double normalized_y = (y + 0.5) / height_;
+    double window_space_x = (2 * normalized_x - 1) * ratio_;
+    double window_space_y = (1 - 2 * normalized_x);
+    //double scale =
+    
+    glm::vec3 dir{window_space_x, window_space_y, -1};
+    
+    return Ray{camera.campos,glm::normalize(dir)};
+   
+}
+
 
 void Renderer::write(Pixel const& p)
 {

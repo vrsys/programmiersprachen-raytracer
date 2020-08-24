@@ -16,6 +16,7 @@
 #include <string>
 #include <glm/glm.hpp>
 #include "scene.hpp"
+#include "ray.hpp"
 
 class Renderer
 {
@@ -23,7 +24,9 @@ public:
   Renderer(unsigned w, unsigned h, std::string const& file);
 
   void render();
-  void Renderer::render(Scene& scene);
+  void render(Scene& scene);
+  Ray camera_ray(Camera const& camera, int x, int y);
+  Color trace(Scene& scene, Ray& ray);
   void write(Pixel const& p);
 
   inline std::vector<Color> const& color_buffer() const
@@ -34,6 +37,7 @@ public:
 private:
   unsigned width_;
   unsigned height_;
+  unsigned ratio_ = width_/height_;
   std::vector<Color> color_buffer_;
   std::string filename_;
   PpmWriter ppm_;
