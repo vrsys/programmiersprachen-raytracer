@@ -42,14 +42,10 @@ void Renderer::render(Scene& scene)
 
     for (unsigned y = 0; y < height_; ++y) {
         for (unsigned x = 0; x < width_; ++x) {
-            Pixel p(x, y);
-            if (((x / checker_pattern_size) % 2) != ((y / checker_pattern_size) % 2)) {
-                p.color = Color{ 0.0f, 1.0f, float(x) / height_ };
-            }
-            else {
-                p.color = Color{ 1.0f, 0.0f, float(y) / width_ };
-            }
-
+            Ray ray = camera_ray(scene.camera, x, y);
+            Color pixel_color = trace(scene, ray);
+            Pixel p{ (unsigned)x, (unsigned)y };
+            p.color = pixel_color;
             write(p);
         }
     }
