@@ -42,7 +42,9 @@ void Renderer::render(Scene& scene)
 
     for (unsigned y = 0; y < height_; ++y) {
         for (unsigned x = 0; x < width_; ++x) {
+            //for every pixel on our screen we need to find a ray going from origin to out 
             Ray ray = camera_ray(scene.camera, x, y);
+            //trace the ray back into the scene
             Color pixel_color = trace(scene, ray);
             Pixel p{ (unsigned)x, (unsigned)y };
             p.color = pixel_color;
@@ -52,12 +54,33 @@ void Renderer::render(Scene& scene)
     ppm_.save(filename_);
 }
 
-Color Renderer::trace(Scene& scene, Ray& ray){
+Color Renderer::trace(Scene& scene, Ray& ray) {
+    HitPoint min_dist_hitpoint;
+    double min_dist = LONG_MAX;
+    for (auto shape : scene.objects) {
+        HitPoint hp = shape->intersect(ray);
+        double dist = glm::distance(scene.camera->campos, hp.intersection);
+        if (dist > 0 && dist < min_dist) {
+            min_dist = dist;
+            min_dist_hitpoint = hp;
+        }
+    }
+    if (min_dist == LONG_MAX) {
+        //background color could be set in scenery 
+        return (Color{ 0,0,0 });
+    }
+
+   
     return Color {0,0,0};
     }
 
-Ray Renderer::camera_ray(Camera const& camera, int x, int y)
+Ray Renderer::camera_ray(std::shared_ptr<Camera> camera, int x, int y)
 {
+    /*
+    * We currently have a window made of pixels, we want to convert this into rays to calculate intersections
+    * this aims to turn a pixel value into a vector and then a ray which goes out from camera position to 
+    * essentially map out our scene seen through our window
+    */
     double normalized_x = (x + 0.5) / width_;
     double normalized_y = (y + 0.5) / height_;
     double window_space_x = (2 * normalized_x - 1) * ratio_;
@@ -66,7 +89,7 @@ Ray Renderer::camera_ray(Camera const& camera, int x, int y)
     
     glm::vec3 dir{window_space_x, window_space_y, -1};
     
-    return Ray{camera.campos,glm::normalize(dir)};
+    return Ray{camera->campos, glm::normalize(dir)};
    
 }
 

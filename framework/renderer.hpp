@@ -17,6 +17,7 @@
 #include <glm/glm.hpp>
 #include "scene.hpp"
 #include "ray.hpp"
+#include "HitPoint.hpp"
 
 class Renderer
 {
@@ -25,7 +26,7 @@ public:
 
   void render();
   void render(Scene& scene);
-  Ray camera_ray(Camera const& camera, int x, int y);
+  Ray camera_ray(std::shared_ptr<Camera> camera, int x, int y);
   Color trace(Scene& scene, Ray& ray);
   void write(Pixel const& p);
 

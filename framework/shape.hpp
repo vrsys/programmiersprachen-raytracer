@@ -2,6 +2,8 @@
 #define SHAPE_HPP
 #include <iostream>
 #include <color.hpp>
+#include "hitpoint.hpp"
+#include "ray.hpp"
 
 class Shape {
 protected:
@@ -14,6 +16,7 @@ public:
 	virtual float area() = 0;
 	virtual float volume() = 0;
 	virtual std::ostream& print(std::ostream& os) const;
+	virtual HitPoint intersect(Ray r);
 	virtual ~Shape();
 
 };

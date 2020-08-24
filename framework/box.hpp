@@ -6,6 +6,7 @@
 #include <math.h>
 #include "shape.hpp"
 
+
 class Box : public Shape {
 	glm::vec3 min_;
 	glm::vec3 max_;
@@ -14,6 +15,7 @@ public:
 	float area();
 	float volume();
 	std::ostream& print(std::ostream& os) const override;
+	HitPoint intersect(Ray r);
 	~Box();
 	
 

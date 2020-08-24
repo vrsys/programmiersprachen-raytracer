@@ -4,8 +4,6 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include "shape.hpp"
-#include "hitpoint.hpp"
-#include "ray.hpp"
 #include <color.hpp>
 
 class Sphere : public Shape {

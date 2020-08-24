@@ -24,6 +24,11 @@ std::ostream& Box::print(std::ostream& os) const
 	return os;
 }
 
+HitPoint Box::intersect(Ray r)
+{
+	return HitPoint();
+}
+
 Box::~Box()
 {
 	
