@@ -59,7 +59,7 @@ Color Renderer::trace(Scene& scene, Ray& ray) {
     double min_dist = LONG_MAX;
     for (auto shape : scene.objects) {
         HitPoint hp = shape->intersect(ray);
-        double dist = glm::distance(scene.camera->campos, hp.intersection);
+        double dist = glm::distance(scene.camera->cam_pos, hp.intersection);
         if (dist > 0 && dist < min_dist) {
             min_dist = dist;
             min_dist_hitpoint = hp;
@@ -68,6 +68,9 @@ Color Renderer::trace(Scene& scene, Ray& ray) {
     if (min_dist == LONG_MAX) {
         //background color could be set in scenery 
         return (Color{ 0,0,0 });
+    }
+    else {
+        return (Color{ 1,1,1 });
     }
 
    
@@ -89,7 +92,7 @@ Ray Renderer::camera_ray(std::shared_ptr<Camera> camera, int x, int y)
     
     glm::vec3 dir{window_space_x, window_space_y, -1};
     
-    return Ray{camera->campos, glm::normalize(dir)};
+    return Ray{camera->cam_pos, glm::normalize(dir)};
    
 }
 
