@@ -125,34 +125,32 @@ int main(int argc, char** argv, Scene & scene) {
             else if (class_name == "camera") {
                 //parse camera attribute
                 std::string camera_name;
+                float fov;
                 float pos_x;
                 float pos_y;
                 float pos_z;
                 float dir_x;
                 float dir_y;
                 float dir_z;
-                float right_x;
-                float right_y;
-                float right_z;
-                float down_x;
-                float down_y;
-                float down_z;
+                float up_x;
+                float up_y;
+                float up_z;
+               
 
                 in_sstream >> camera_name;
+                in_sstream >> fov;
                 in_sstream >> pos_x;
                 in_sstream >> pos_y;
                 in_sstream >> pos_z;
                 in_sstream >> dir_x;
                 in_sstream >> dir_y;
                 in_sstream >> dir_z;
-                in_sstream >> right_x;
-                in_sstream >> right_y;
-                in_sstream >> right_z;
-                in_sstream >> down_x;
-                in_sstream >> down_y;
-                in_sstream >> down_z;
+                in_sstream >> up_x;
+                in_sstream >> up_y;
+                in_sstream >> up_z;
+                
 
-                std::shared_ptr<Camera> camera = std::make_shared<Camera>(camera_name,glm::vec3(pos_x,pos_y,pos_z), glm::vec3(dir_x, dir_y, dir_z), glm::vec3(right_x, right_y, right_z), glm::vec3(down_x, down_y, down_z));
+                std::shared_ptr<Camera> camera = std::make_shared<Camera>(camera_name, fov ,glm::vec3(pos_x,pos_y,pos_z), glm::vec3(dir_x, dir_y, dir_z), glm::vec3(up_x, up_y, up_z));
 
                 scene.camera = camera;
                   

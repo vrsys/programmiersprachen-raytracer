@@ -9,7 +9,7 @@ Material::Material() :
 
 
 Material::Material( Color ka, Color kd, Color ks, float m):
-	//name_{ name },
+	//name_{ name }
 	ka_{ ka },
 	kd_{ kd },
 	ks_{ ks },

@@ -9,14 +9,14 @@ struct Camera {
 
 
     Camera();
-    Camera(std::string const& name ,glm::vec3 const& pos, glm::vec3 const& dir, glm::vec3 const& right, glm::vec3 const& down);
+    Camera(std::string const& name ,float fovx ,glm::vec3 const& pos, glm::vec3 const& dir, glm::vec3 const& up);
 
 
     std::string name_ = "Camera";
-    glm::vec3 campos;
-    glm::vec3 camdir;
-    glm::vec3 camright;
-    glm::vec3 camdown;
+    float fov_x = 45.0f;
+    glm::vec3 cam_pos;
+    glm::vec3 cam_dir;
+    glm::vec3 cam_up;
 };
 
 #endif

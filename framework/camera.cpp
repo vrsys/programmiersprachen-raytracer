@@ -3,21 +3,20 @@
 
 Camera::Camera():
 
-	campos{ glm::vec3{0.0f, 0.0f, 0.0f} },
-	camdir{ glm::vec3{0.0f, 0.0f, -1.0f} },
-	camright{ glm::vec3{0.0f, 0.0f, 0.0f} },
-	camdown{ glm::vec3{0.0f, 0.0f, 0.0f} }{}
+	cam_pos{ glm::vec3{0.0f, 0.0f, 0.0f} },
+	cam_dir{ glm::vec3{0.0f, 0.0f, -1.0f} },
+	cam_up{ glm::vec3{0.0f, 1.0f, 0.0f} }{}
 
 
 
 
 
-Camera::Camera(std::string const& name ,glm::vec3 const& pos, glm::vec3 const& dir, glm::vec3 const& right, glm::vec3 const& down):
+Camera::Camera(std::string const& name ,float fovx ,glm::vec3 const& pos, glm::vec3 const& dir, glm::vec3 const& up):
 	name_{ name },
-	campos{pos},
-	camdir{dir},
-	camright{right},
-	camdown{down}{}
+	fov_x{fovx},
+	cam_pos{pos},
+	cam_dir{dir},
+	cam_up{up}{}
 
 
 
