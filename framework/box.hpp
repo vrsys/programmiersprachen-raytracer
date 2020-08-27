@@ -11,7 +11,7 @@ class Box : public Shape {
 	glm::vec3 min_;
 	glm::vec3 max_;
 public:
-	Box(glm::vec3 min, glm::vec3 max, std::string name, Color color);
+	Box(glm::vec3& min, glm::vec3& max, std::string name, Material material);
 	float area();
 	float volume();
 	std::ostream& print(std::ostream& os) const override;

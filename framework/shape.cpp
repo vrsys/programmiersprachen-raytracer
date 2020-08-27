@@ -1,15 +1,15 @@
 #include "shape.hpp"
 
 
-Shape::Shape(std::string name, Color color)
+Shape::Shape(std::string name, Material material)
 {
 	name_ = name;
-	color_ = color;
+	material_ = material;
 }
 
 std::ostream& Shape::print(std::ostream& os) const
 {
-	os << "Name: " << name_ << " Color: " << color_ << " ";
+	os << "Name: " << name_ << " ";
 	return os;
 }
 

@@ -29,6 +29,7 @@ public:
   Ray camera_ray(std::shared_ptr<Camera> camera, int x, int y);
   Color trace(Scene& scene, Ray& ray);
   void write(Pixel const& p);
+  Scene readScene(std::string const& filename) const;
 
   inline std::vector<Color> const& color_buffer() const
   {

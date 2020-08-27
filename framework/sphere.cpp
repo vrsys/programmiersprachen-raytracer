@@ -2,7 +2,7 @@
 #include "glm/ext.hpp"
 #include "sphere.hpp"
 
-Sphere::Sphere(glm::vec3& center, float radius, std::string name, Color color) : Shape(name, color)
+Sphere::Sphere(glm::vec3& center, float radius, std::string name, Material material) : Shape(name, material)
 {
 	center_ = center;
 	radius_ = radius;
@@ -30,7 +30,7 @@ HitPoint Sphere::intersect(Ray const& r) const
 	HitPoint h;
 	h.hashit = glm::intersectRaySphere(r.origin, glm::normalize(r.direction), center_,pow(radius_,2),h.distance);
 	if (h.hashit == true) {
-		h.color = color_;
+		h.material = material_;
 		h.name = name_;
 		h.direction = r.direction;
 		h.intersection = r.origin + (glm::normalize(r.direction) * h.distance);
