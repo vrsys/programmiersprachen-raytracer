@@ -25,7 +25,7 @@ std::ostream& Sphere::print(std::ostream& os) const
 	return os;
 }
 
-HitPoint Sphere::intersect(Ray r)
+HitPoint Sphere::intersect(Ray const& r) const
 {
 	HitPoint h;
 	h.hashit = glm::intersectRaySphere(r.origin, glm::normalize(r.direction), center_,pow(radius_,2),h.distance);

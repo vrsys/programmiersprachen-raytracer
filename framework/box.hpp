@@ -15,7 +15,7 @@ public:
 	float area();
 	float volume();
 	std::ostream& print(std::ostream& os) const override;
-	HitPoint intersect(Ray r);
+	HitPoint intersect(Ray const& r) const;
 	~Box();
 	
 

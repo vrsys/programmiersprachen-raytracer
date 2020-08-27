@@ -70,6 +70,10 @@ Color Renderer::trace(Scene& scene, Ray& ray) {
         return (Color{ 0,0,0 });
     }
     else {
+        /*
+        * 
+        * 
+        */
         return (Color{ 1,1,1 });
     }
 
