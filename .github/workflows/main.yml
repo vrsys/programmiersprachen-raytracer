@@ -28,3 +28,8 @@ jobs:
           mkdir build
           cd build/
           echo $PWD
+          cmake .. 
+      - name: Configure with cmake
+        run: cmake ..
+      - name: Build with make
+        run: make
