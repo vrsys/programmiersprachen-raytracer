@@ -12,7 +12,7 @@ int main(int argc, char* argv[])
   unsigned const image_width = 500;
   unsigned const image_height = 500;
   //std::string const filename = "./checkerboard.ppm";
-  std::string const filename = "./res/scene01.sdf";
+  std::string const filename = "../../res/scene01.sdf";
 
   Renderer renderer{image_width, image_height, filename};
   Scene scene = renderer.readScene(filename);
