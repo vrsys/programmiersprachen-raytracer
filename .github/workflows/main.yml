@@ -36,9 +36,10 @@ jobs:
         # run: cmake ..
         run: |
           cd build/
-          for file in $PWD/*; do
-            echo "${file##*/}"; 
-          done
+          #for file in $PWD/*; do
+          #  echo "${file##*/}"; 
+          #done
+          cmake ..
     # make 
     #  - name: Build with make
     #    run: make
