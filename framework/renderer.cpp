@@ -104,7 +104,7 @@ Ray Renderer::camera_ray(std::shared_ptr<Camera> camera, int x, int y)
 void Renderer::write(Pixel const& p)
 {
   // flip pixels, because of opengl glDrawPixels
-  size_t buf_pos = (width_*p.y + p.x);
+  size_t buf_pos = width_ * p.y + p.x;
   if (buf_pos >= color_buffer_.size() || (int)buf_pos < 0) {
     std::cerr << "Fatal Error Renderer::write(Pixel p) : "
       << "pixel out of ppm_ : "

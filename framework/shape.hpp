@@ -17,7 +17,7 @@ public:
 	virtual float area() = 0;
 	virtual float volume() = 0;
 	virtual std::ostream& print(std::ostream& os) const;
-	virtual HitPoint intersect(Ray r);
+	virtual HitPoint intersect(Ray const& r)const = 0;
 	virtual ~Shape();
 
 };

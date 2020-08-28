@@ -19,7 +19,7 @@ public:
 	float area();
 	float volume();
 	std::ostream& print(std::ostream& os) const override;
-	HitPoint intersect(Ray const&  r) const;
+	HitPoint intersect(Ray const& r) const override;
 
 };
 #endif

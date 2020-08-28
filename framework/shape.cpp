@@ -13,6 +13,7 @@ std::ostream& Shape::print(std::ostream& os) const
 	return os;
 }
 
+
 Shape::~Shape()
 {
 	std::cout << "Shape dtor:" << *this << std::endl;
