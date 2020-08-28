@@ -35,9 +35,9 @@ jobs:
       - name: Configure with cmake
         # run: cmake ..
         run: |
-          echo $PWD
-          for file in * do
-           echo "${file##*/}
+          cd build/
+          for file in $PWD/*; do
+            echo "${file##*/}"; 
           done
     # make 
     #  - name: Build with make
