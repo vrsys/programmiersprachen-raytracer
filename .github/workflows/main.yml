@@ -42,5 +42,7 @@ jobs:
           #done
           cmake ..
     # make 
-    #  - name: Build with make
-    #    run: make
+      - name: Build with make
+        run: |
+            cd build/
+            make
