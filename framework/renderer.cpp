@@ -131,7 +131,8 @@ Scene Renderer::readScene(std::string const& filename) const {
     Scene scene{};
     // open file in read-only && ASCII mode 
     std::ifstream in_file;
-    in_file.exceptions(std::ifstream::failbit | std::ifstream::badbit); 
+    in_file.exceptions(std::ifstream::badbit); 
+
     try {
         in_file.open(filename, std::ios::in);
 
