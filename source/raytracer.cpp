@@ -13,8 +13,10 @@ int main(int argc, char* argv[])
   unsigned const image_height = 500;
   //std::string const filename = "./checkerboard.ppm";
   std::string const filename = "../../res/scene01.sdf";
+  //File to write image to
+  std::string const renderedSceneFilename = "../../res/scene01.ppm";
 
-  Renderer renderer{image_width, image_height, filename};
+  Renderer renderer{image_width, image_height, renderedSceneFilename};
   Scene scene = renderer.readScene(filename);
 
   renderer.render(scene);
