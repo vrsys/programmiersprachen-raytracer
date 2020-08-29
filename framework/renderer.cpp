@@ -41,7 +41,6 @@ void Renderer::render()
 
 void Renderer::render(Scene& scene)
 {
-    std::size_t const checker_pattern_size = 20;
 
     for (unsigned y = 0; y < height_; ++y) {
         for (unsigned x = 0; x < width_; ++x) {
@@ -100,6 +99,7 @@ Ray Renderer::camera_ray(std::shared_ptr<Camera> camera, int x, int y)
     glm::vec3 dir{window_space_x, window_space_y, -1.0f};
     // std::shared_ptr<glm::vec3> ndir = std::make_shared<glm::vec3>(glm::normalize(dir));
     glm::vec3 ndir = glm::normalize(dir);
+    //Does normalized do the right thing right now?
     return Ray{camera->cam_pos, ndir};
    
 }
@@ -137,7 +137,7 @@ Scene Renderer::readScene(std::string const& filename) const {
         in_file.open(filename, std::ios::in);
 
         while (std::getline(in_file, line_buffer)) {
-            std::cout << ++line_count << ": " << line_buffer << std::endl; 
+            //std::cout << ++line_count << ": " << line_buffer << std::endl; 
 
             //construct stringstream using line_buffer string
             std::istringstream in_sstream(line_buffer);
