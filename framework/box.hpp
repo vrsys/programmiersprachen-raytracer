@@ -5,7 +5,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include "shape.hpp"
-
+#include <vector>
 
 class Box : public Shape {
 	glm::vec3 min_;
