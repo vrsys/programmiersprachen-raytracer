@@ -85,7 +85,25 @@ Color Renderer::shading(Scene& scene, HitPoint& hitpoint)
 {
     //First we must look at what light hits our hitpoint
     std::vector<std::shared_ptr<Light>>lights{};
+    for (auto light : scene.lights) {
+        HitPoint min_dist_hitpoint;
+        double min_dist = LONG_MAX;
 
+        glm::vec3 lightDir = hitpoint.intersection - light->pos_;
+        Ray lightRay{ light->pos_, glm::normalize(lightDir)};
+        for (auto shape : scene.objects) {
+            HitPoint hp = shape->intersect(lightRay);
+            double dist = glm::distance(light->pos_, hp.intersection);
+            if (dist < min_dist) {
+                min_dist = dist;
+                min_dist_hitpoint = hp;
+            }
+        }
+        if (min_dist_hitpoint.intersection == hitpoint.intersection) {
+            lights.push_back(light);
+        }
+
+    }
 
     return Color();
 }
