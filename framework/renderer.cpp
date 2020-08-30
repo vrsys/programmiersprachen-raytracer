@@ -98,6 +98,7 @@ Ray Renderer::camera_ray(std::shared_ptr<Camera> camera, int x, int y)
     
     glm::vec3 dir{window_space_x, window_space_y, -1.0f};
     // std::shared_ptr<glm::vec3> ndir = std::make_shared<glm::vec3>(glm::normalize(dir));
+    float m = glm::length(dir);
     glm::vec3 ndir = glm::normalize(dir);
     //Does normalized do the right thing right now?
     return Ray{camera->cam_pos, ndir};
@@ -232,26 +233,30 @@ Scene Renderer::readScene(std::string const& filename) const {
                 else if (class_name == "camera") {
                     //parse camera attribute
                     std::string camera_name;
-                    float fov;
-                    float pos_x;
-                    float pos_y;
-                    float pos_z;
-                    float dir_x;
-                    float dir_y;
-                    float dir_z;
-                    float up_x;
-                    float up_y;
-                    float up_z;
+                    float fov = 45;
+                    float pos_x = 0;
+                    float pos_y = 0;
+                    float pos_z = 0;
+                    float dir_x = 0;
+                    float dir_y = 0;
+                    float dir_z = -1;
+                    float up_x = 0;
+                    float up_y = 0;
+                    float up_z = 0;
 
 
                     in_sstream >> camera_name;
+
                     in_sstream >> fov;
+
                     in_sstream >> pos_x;
                     in_sstream >> pos_y;
                     in_sstream >> pos_z;
+
                     in_sstream >> dir_x;
                     in_sstream >> dir_y;
                     in_sstream >> dir_z;
+
                     in_sstream >> up_x;
                     in_sstream >> up_y;
                     in_sstream >> up_z;
