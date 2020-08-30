@@ -93,12 +93,11 @@ Ray Renderer::camera_ray(std::shared_ptr<Camera> camera, int x, int y)
     double normalized_x = (x + 0.5) / width_;
     double normalized_y = (y + 0.5) / height_;
     double window_space_x = (2 * normalized_x - 1) * ratio_;
-    double window_space_y = (1 - 2 * normalized_x);
+    double window_space_y = (1 - 2 * normalized_y);
     //double scale =
     
     glm::vec3 dir{window_space_x, window_space_y, -1.0f};
     // std::shared_ptr<glm::vec3> ndir = std::make_shared<glm::vec3>(glm::normalize(dir));
-    float m = glm::length(dir);
     glm::vec3 ndir = glm::normalize(dir);
     //Does normalized do the right thing right now?
     return Ray{camera->cam_pos, ndir};
