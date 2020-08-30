@@ -28,6 +28,7 @@ public:
   void render(Scene& scene);
   Ray camera_ray(std::shared_ptr<Camera> camera, int x, int y);
   Color trace(Scene& scene, Ray& ray);
+  Color shading(Scene& scene, HitPoint& hitpoint);
   void write(Pixel const& p);
   Scene readScene(std::string const& filename) const;
 

@@ -72,16 +72,23 @@ Color Renderer::trace(Scene& scene, Ray& ray) {
         return (Color{ 0.1,0.1,0.1 });
     }
     else {
-        /*
-        * 
-        * 
-        */
+        //shading to determin color 
+        //return (shading(scene, min_dist_hitpoint));
         return (Color{ 1,1,1 });
     }
 
    
-    return Color {0,0,0};
-    }
+
+}
+
+Color Renderer::shading(Scene& scene, HitPoint& hitpoint)
+{
+    //First we must look at what light hits our hitpoint
+    std::vector<std::shared_ptr<Light>>lights{};
+
+
+    return Color();
+}
 
 Ray Renderer::camera_ray(std::shared_ptr<Camera> camera, int x, int y)
 {
@@ -93,7 +100,7 @@ Ray Renderer::camera_ray(std::shared_ptr<Camera> camera, int x, int y)
     double normalized_x = (x + 0.5) / width_;
     double normalized_y = (y + 0.5) / height_;
     double window_space_x = (2 * normalized_x - 1) * ratio_;
-    double window_space_y = (1 - 2 * normalized_y);
+    double window_space_y = (2 * normalized_y -1);
     //double scale =
     
     glm::vec3 dir{window_space_x, window_space_y, -1.0f};
