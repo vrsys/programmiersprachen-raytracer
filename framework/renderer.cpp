@@ -69,7 +69,7 @@ Color Renderer::trace(Scene& scene, Ray& ray) {
     }
     if (min_dist == LONG_MAX) {
         //background color could be set in scenery 
-        return (Color{ 0,0,0 });
+        return (Color{ 0.1,0.1,0.1 });
     }
     else {
         /*
