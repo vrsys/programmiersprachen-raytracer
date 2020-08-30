@@ -105,7 +105,12 @@ Color Renderer::shading(Scene& scene, HitPoint& hitpoint)
 
     }
 
-    return Color();
+    float r = 0;
+    float g = 0;
+    float b = 0;
+
+
+    return Color{ r,g,b };
 }
 
 Ray Renderer::camera_ray(std::shared_ptr<Camera> camera, int x, int y)
@@ -119,9 +124,11 @@ Ray Renderer::camera_ray(std::shared_ptr<Camera> camera, int x, int y)
     double normalized_y = (y + 0.5) / height_;
     double window_space_x = (2 * normalized_x - 1) * ratio_;
     double window_space_y = (2 * normalized_y -1);
-    //double scale =
+    //scale fov
+    double final_x = window_space_x * tan((camera->fov_x * M_PI)/180);
+    double final_y = window_space_y * tan((camera->fov_x * M_PI)/180);
     
-    glm::vec3 dir{window_space_x, window_space_y, -1.0f};
+    glm::vec3 dir{final_x, final_y, -1.0f};
     // std::shared_ptr<glm::vec3> ndir = std::make_shared<glm::vec3>(glm::normalize(dir));
     glm::vec3 ndir = glm::normalize(dir);
     //Does normalized do the right thing right now?
