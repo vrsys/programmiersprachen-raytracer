@@ -117,7 +117,7 @@ Color Renderer::shading(Scene& scene, HitPoint& hitpoint)
     float b = 1;
 
     if (lights.size() == 0) {
-        if ((scene.ambient->r = 0) && (scene.ambient->g = 0) && (scene.ambient->b = 0)) {
+        if ((scene.ambient->r == 0) && (scene.ambient->g == 0) && (scene.ambient->b == 0)) {
             return Color{ 0,0,0 };
         }
         else {
@@ -127,6 +127,11 @@ Color Renderer::shading(Scene& scene, HitPoint& hitpoint)
             return Color{ r,g,b };
         }
     }
+    float cosO = abs(glm::dot(glm::normalize(hitpoint.direction), glm::normalize(hitpoint.normal)));
+    r = scene.ambient->r * hitpoint.material.ka_.r + (lights.at(0)->brightness_ * 0.01) * hitpoint.material.kd_.r * cosO * lights.at(0)->color_.r;
+    g = scene.ambient->g * hitpoint.material.ka_.g + (lights.at(0)->brightness_ * 0.01) * hitpoint.material.kd_.g * cosO * lights.at(0)->color_.g;
+    b = scene.ambient->b * hitpoint.material.ka_.b + (lights.at(0)->brightness_ * 0.01) * hitpoint.material.kd_.b * cosO * lights.at(0)->color_.b;
+
 
 
     return Color{ r,g,b };

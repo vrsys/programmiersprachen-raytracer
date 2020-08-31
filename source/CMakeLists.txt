@@ -1,4 +1,4 @@
-add_executable(example example.cpp "sceneryread.cpp")
+add_executable(example example.cpp)
 
 target_link_libraries(example ${FRAMEWORK_NAME} ${LIBRARIES})
 add_dependencies(example glfw ${FRAMEWORK_NAME} ${COPY_BINARY})
@@ -24,14 +24,3 @@ target_link_libraries(tests ${FRAMEWORK_NAME} ${LIBRARIES}
   add_dependencies(tests glfw ${FRAMEWORK_NAME} ${COPY_BINARY})
 
 install(TARGETS tests DESTINATION .)
-
-
-add_executable(sceneryread sceneryread.cpp )
-
-target_link_libraries(sceneryread ${FRAMEWORK_NAME} ${LIBRARIES}
-  glfw
-  ${GLFW_LIBRARIES}
-  )
-add_dependencies(sceneryread glfw ${FRAMEWORK_NAME} ${COPY_BINARY})
-
-install(TARGETS raytracer DESTINATION .)
