@@ -7,7 +7,8 @@ define shape box ltop 20 20 -100 70 70 -200 white
 define shape box rbottom -70 -70 -100 -20 -20 -200 red
 define shape sphere bsphere -20 0 -150 8 blue
 # light - from right above
-define light sun 0 100 -150 .2 .2 .2 100
+define light sun 0 1000 0 .2 .2 .2 100
+ambient 0.1 0.1 0.1
 # camera
 define camera eye 45.0
 # ... and go

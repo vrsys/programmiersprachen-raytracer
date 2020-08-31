@@ -107,7 +107,9 @@ Color Renderer::shading(Scene& scene, HitPoint& hitpoint)
             lights.push_back(light);
         }
     }
- 
+    float red_ambient = scene.ambient->r * hitpoint.material.ka_.r;
+    float green_ambient = scene.ambient->g * hitpoint.material.ka_.g;
+    float blue_ambient = scene.ambient->b * hitpoint.material.ka_.b;
    
 
     float r = 1;
@@ -115,7 +117,15 @@ Color Renderer::shading(Scene& scene, HitPoint& hitpoint)
     float b = 1;
 
     if (lights.size() == 0) {
-        return Color{ 0,0,0 };
+        if ((scene.ambient->r = 0) && (scene.ambient->g = 0) && (scene.ambient->b = 0)) {
+            return Color{ 0,0,0 };
+        }
+        else {
+            r = scene.ambient->r * hitpoint.material.ka_.r;
+            g = scene.ambient->g * hitpoint.material.ka_.g;
+            b = scene.ambient->b * hitpoint.material.ka_.b;
+            return Color{ r,g,b };
+        }
     }
 
 
@@ -191,7 +201,19 @@ Scene Renderer::readScene(std::string const& filename) const {
             //std::cout << "Identifier content: " << identifier << std::endl;
 
             // check for shapes / materials / lights
-            if ("define" == identifier) {
+            if (identifier == "ambient") {
+
+                float ambient_r = 0;
+                float ambient_g = 0;
+                float ambient_b = 0;
+
+                in_sstream >> ambient_r >> ambient_g >> ambient_b;
+
+                std::shared_ptr<Color> ambient = std::make_shared<Color>(ambient_r, ambient_g, ambient_b);
+                scene.ambient = ambient;
+            }
+
+            else if ("define" == identifier) {
                 in_sstream >> class_name;
 
                 // check for specific shape
@@ -311,17 +333,7 @@ Scene Renderer::readScene(std::string const& filename) const {
 
 
                 }
-                else if (identifier == "ambient") {
-
-                    float ambient_r;
-                    float ambient_g;
-                    float ambient_b;
-
-                    in_sstream >> ambient_r >> ambient_g >> ambient_b;
-
-                    std::shared_ptr<glm::vec3> ambient = std::make_shared<glm::vec3>(ambient_r, ambient_g, ambient_b);
-                    scene.ambient = ambient;
-                }
+                
                 else {
                     std::cout << "Line was not valid: " << line_count << std::endl;
                 }

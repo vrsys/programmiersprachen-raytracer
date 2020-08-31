@@ -34,6 +34,7 @@ HitPoint Sphere::intersect(Ray const& r) const
 		h.name = name_;
 		h.direction = r.direction;
 		h.intersection = r.origin + (glm::normalize(r.direction) * h.distance);
+		h.normal = glm::normalize(h.intersection - center_);
 
 	}
 	return h;
