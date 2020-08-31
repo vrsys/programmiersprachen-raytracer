@@ -69,12 +69,12 @@ Color Renderer::trace(Scene& scene, Ray& ray) {
     }
     if (min_dist == LONG_MAX) {
         //background color could be set in scenery 
-        return (Color{ 0.1,0.1,0.1 });
+        return (Color{ 0.2,0.2,0.2 });
     }
     else {
         //shading to determin color 
-        //return (shading(scene, min_dist_hitpoint));
-        return (Color{ 1,1,1 });
+        return (shading(scene, min_dist_hitpoint));
+        //return (Color{ 1,1,1 });
     }
 
    
@@ -85,36 +85,48 @@ Color Renderer::shading(Scene& scene, HitPoint& hitpoint)
 {
     //First we must look at what light hits our hitpoint
     std::vector<std::shared_ptr<Light>>lights{};
+  
     for (auto light : scene.lights) {
-        HitPoint min_dist_hitpoint;
-        double min_dist = LONG_MAX;
 
         glm::vec3 lightDir = hitpoint.intersection - light->pos_;
-        Ray lightRay{ light->pos_, glm::normalize(lightDir)};
+        glm::vec3 normLightDir = glm::normalize(lightDir);
+        Ray lightRay{ light->pos_ , normLightDir };
+        float dist = glm::distance(hitpoint.intersection, light->pos_);
+        bool shadow = false;
+       
         for (auto shape : scene.objects) {
+
             HitPoint hp = shape->intersect(lightRay);
-            double dist = glm::distance(light->pos_, hp.intersection);
-            if (dist < min_dist) {
-                min_dist = dist;
-                min_dist_hitpoint = hp;
+            
+            if (glm::distance(hp.intersection, light->pos_) < (dist - 0.1)) {
+                shadow = true;
+                break;
             }
         }
-        if (min_dist_hitpoint.intersection == hitpoint.intersection) {
+        if (shadow == false) {
             lights.push_back(light);
         }
-
     }
+ 
+   
 
-    float r = 0;
-    float g = 0;
-    float b = 0;
+    float r = 1;
+    float g = 1;
+    float b = 1;
+
+    if (lights.size() == 0) {
+        return Color{ 0,0,0 };
+    }
 
 
     return Color{ r,g,b };
 }
 
-Ray Renderer::camera_ray(std::shared_ptr<Camera> camera, int x, int y)
-{
+
+
+
+
+Ray Renderer::camera_ray(std::shared_ptr<Camera> camera, int x, int y){
     /*
     * We currently have a window made of pixels, we want to convert this into rays to calculate intersections
     * this aims to turn a pixel value into a vector and then a ray which goes out from camera position to 
