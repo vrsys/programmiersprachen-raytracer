@@ -3,13 +3,13 @@ define material red 1 0 0 1 0 0 1 0 0 1
 define material blue 0 0 1 0 0 1 0 0 1 1
 define material green 0 0.9 0 0 0.9 0 0 0.9 0 1
 # geometry
-define shape box ltop 20 20 -100 70 70 -200 green
-define shape box rbottom -70 -70 -100 -20 -20 -200 red
+define shape box ltop 20 20 -100 70 70 -400 green
+define shape box rbottom -70 -70 -100 -20 -20 -400 red
 define shape sphere bsphere -20 0 -150 8 blue
 # light - from right above
-define light sun 0 1000 0 .2 .2 .2 100
+define light sun 0 120 0 .3 .3 .3 100
 ambient 0.1 0.1 0.1
 # camera
-define camera eye 45.0
+define camera eye 45.0 0 100 0 0 0.5 -1  
 # ... and go
 render eye image .ppm 480 320
