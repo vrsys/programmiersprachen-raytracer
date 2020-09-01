@@ -27,6 +27,7 @@ public:
   void render();
   void render(Scene& scene);
   Ray camera_ray(std::shared_ptr<Camera> camera, int x, int y);
+  glm::mat4 transform_cam(std::shared_ptr <Camera> camera);
   Color trace(Scene& scene, Ray& ray);
   Color shading(Scene& scene, HitPoint& hitpoint);
   void write(Pixel const& p);

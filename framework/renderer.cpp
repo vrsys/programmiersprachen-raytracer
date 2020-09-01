@@ -158,9 +158,43 @@ Ray Renderer::camera_ray(std::shared_ptr<Camera> camera, int x, int y){
     glm::vec3 dir{final_x, final_y, -1.0f};
     // std::shared_ptr<glm::vec3> ndir = std::make_shared<glm::vec3>(glm::normalize(dir));
     glm::vec3 ndir = glm::normalize(dir);
-    //Does normalized do the right thing right now?
-    return Ray{camera->cam_pos, ndir};
+    Ray cam_norm_ray = { camera->cam_pos , ndir };
+    //if ((camera->cam_pos == glm::vec3{ 0, 0, 0 }) && (camera->cam_dir == glm::vec3{ 0, 0, -1 }) && (camera->cam_up == glm::vec3{ 0, 0, 0 })){
+        //return cam_norm_ray;
+    //}
+    glm::mat4 transform_cam_matrix = transform_cam(camera);
+    //glm::vec4 origin_transformed_ray = glm::vec4 { camera->cam_pos, 1 } * transform_cam_matrix;
+    //{origin_transformed_ray.x, origin_transformed_ray.y, origin_transformed_ray.z}
+    glm::vec4 direction_transormed_ray = glm::vec4 { cam_norm_ray.direction, 0.0f } * transform_cam_matrix;
+    Ray transformed_ray = { camera->cam_pos,
+       glm::normalize(glm::vec3 {direction_transormed_ray.x, direction_transormed_ray.y, direction_transormed_ray.z})
+    };
+    return transformed_ray;
    
+}
+
+glm::mat4 Renderer::transform_cam(std::shared_ptr <Camera> camera)
+{
+    glm::vec3 n = camera->cam_dir;
+    if (n != glm::vec3{ 0, 0, 0 }) {
+        n = glm::normalize(n);
+    }
+    glm::vec3 u = glm::cross(n, camera->cam_up);
+    if (u != glm::vec3{ 0, 0, 0 }) {
+        u = glm::normalize(u);
+    }
+    glm::vec3 v = glm::cross(u, n);
+    if (v != glm::vec3{ 0, 0, 0 }) {
+        v = glm::normalize(v);
+    }
+
+   
+    return glm::mat4
+    { glm::vec4{u.x, u.y, u.z, 0 },
+        glm::vec4{v.x, v.y, v.z, 0 },
+        glm::vec4{-n.x, -n.y, -n.z, 0 },
+        glm::vec4{camera->cam_pos.x, camera->cam_pos.y, camera->cam_pos.z, 1} 
+    };
 }
 
 
@@ -311,7 +345,7 @@ Scene Renderer::readScene(std::string const& filename) const {
                     float dir_y = 0;
                     float dir_z = -1;
                     float up_x = 0;
-                    float up_y = 0;
+                    float up_y = 1;
                     float up_z = 0;
 
 
