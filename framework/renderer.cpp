@@ -69,7 +69,7 @@ Color Renderer::trace(Scene& scene, Ray& ray) {
     }
     if (min_dist == LONG_MAX) {
         //background color could be set in scenery 
-        return (Color{ 0.2,0.2,0.2 });
+        return (Color{ 0.05,0.05,0.05 });
     }
     else {
         //shading to determin color 
@@ -112,29 +112,47 @@ Color Renderer::shading(Scene& scene, HitPoint& hitpoint)
     float blue_ambient = scene.ambient->b * hitpoint.material.ka_.b;
    
 
-    float r = 1;
-    float g = 1;
-    float b = 1;
+    float r_ambient = scene.ambient->r * hitpoint.material.ka_.r;
+    float g_ambient = scene.ambient->g * hitpoint.material.ka_.g;
+    float b_ambient = scene.ambient->b * hitpoint.material.ka_.b;
+    float r_diffuse = 0;
+    float g_diffuse = 0;
+    float b_diffuse = 0;
+    float r_specular = 0;
+    float g_specular = 0;
+    float b_specular = 0;
+
 
     if (lights.size() == 0) {
         if ((scene.ambient->r == 0) && (scene.ambient->g == 0) && (scene.ambient->b == 0)) {
             return Color{ 0,0,0 };
         }
         else {
-            r = scene.ambient->r * hitpoint.material.ka_.r;
-            g = scene.ambient->g * hitpoint.material.ka_.g;
-            b = scene.ambient->b * hitpoint.material.ka_.b;
-            return Color{ r,g,b };
+            return Color{ scene.ambient->r * hitpoint.material.ka_.r, scene.ambient->g * hitpoint.material.ka_.g, scene.ambient->b * hitpoint.material.ka_.b };
         }
     }
-    float cosO = abs(glm::dot(glm::normalize(hitpoint.direction), glm::normalize(hitpoint.normal)));
-    r = scene.ambient->r * hitpoint.material.ka_.r + (lights.at(0)->brightness_ * 0.01) * hitpoint.material.kd_.r * cosO * lights.at(0)->color_.r;
-    g = scene.ambient->g * hitpoint.material.ka_.g + (lights.at(0)->brightness_ * 0.01) * hitpoint.material.kd_.g * cosO * lights.at(0)->color_.g;
-    b = scene.ambient->b * hitpoint.material.ka_.b + (lights.at(0)->brightness_ * 0.01) * hitpoint.material.kd_.b * cosO * lights.at(0)->color_.b;
 
-
-
-    return Color{ r,g,b };
+    
+    for (std::shared_ptr<Light> light : lights) {
+        float cos0 = (glm::dot(glm::normalize(hitpoint.intersection - light->pos_), glm::normalize(hitpoint.normal)));
+        float dif = (light->brightness_ * 0.01) * hitpoint.material.kd_.r * cos0 * light->color_.r;
+        r_diffuse += (dif > 0) ? dif : 0;
+        dif = (light->brightness_ * 0.01) * hitpoint.material.kd_.g * cos0 * light->color_.g;
+        g_diffuse += (dif > 0) ? dif : 0; 
+        dif = (light->brightness_ * 0.01) * hitpoint.material.kd_.b * cos0 * light->color_.b;
+        b_diffuse += (dif > 0) ? dif : 0; 
+        glm::vec3 normLight = glm::normalize(hitpoint.intersection - light->pos_);
+        glm::vec3 r = (2 * glm::dot(normLight, glm::normalize(hitpoint.normal)) * glm::normalize(hitpoint.normal) - normLight);
+        float cosb = pow(glm::dot(glm::normalize(hitpoint.intersection - scene.camera->cam_pos), r),hitpoint.material.m_);
+        float spec = (light->brightness_ * 0.01) * hitpoint.material.ks_.r * cosb * light->color_.r;
+        r_specular += (spec > 0) ? spec : 0;
+        spec = (light->brightness_ * 0.01) * hitpoint.material.ks_.g * cosb * light->color_.g;
+        g_specular += (spec > 0) ? spec : 0;
+        spec = (light->brightness_ * 0.01) * hitpoint.material.ks_.b * cosb * light->color_.b;
+        b_specular += (spec > 0) ? spec : 0; 
+    }
+   
+    return Color{ r_ambient + r_diffuse + r_specular, g_ambient + g_diffuse + g_specular, b_ambient + b_diffuse + b_specular };
 }
 
 
