@@ -158,6 +158,10 @@ HitPoint Box::intersect(Ray const& ray) const
 			if (glm::length(hits_vec.at(it).intersection - ray.origin) < distance) {
 
 				distance = glm::length(hits_vec.at(it).intersection - ray.origin);
+				glm::vec4 transformed_hitpoint = world_transformation_ * glm::vec4{ hits_vec.at(it).intersection, 1.0f };
+				glm::vec4 transformed_normale = glm::transpose(world_transformation_inv_) * glm::vec4{ hits_vec.at(it).normal, 0.0f };
+				hits_vec.at(it).intersection = { transformed_hitpoint.x, transformed_hitpoint.y, transformed_hitpoint.z };
+				hits_vec.at(it).normal = glm::normalize(glm::vec3(transformed_normale.x, transformed_normale.y, transformed_normale.z));
 				closest_hit = hits_vec.at(it);
 
 			}

@@ -24,7 +24,7 @@ std::ostream& operator << (std::ostream& os, Shape const& s) {
 	return s.print(os);
 }
 
-Ray Shape::transformRay(Ray const& ray, glm::mat4 const& mat)
+Ray transformRay(Ray const& ray, glm::mat4 const& mat)
 {    
 	//homogenous coordinates
 	glm::vec4 origin{ ray.origin , 1}; // 1 cause its a point

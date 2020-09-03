@@ -22,9 +22,12 @@ public:
 	virtual std::ostream& print(std::ostream& os) const;
 	virtual HitPoint intersect(Ray const& r)const = 0;
 	virtual ~Shape();
-	Ray transformRay(Ray const& ray, glm::mat4 const& mat);
-
+	
 
 };
+
+Ray transformRay(Ray const& ray, glm::mat4 const& mat);
 std::ostream& operator << (std::ostream& os, Shape const& s);
+
+
 #endif
