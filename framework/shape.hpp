@@ -5,12 +5,15 @@
 #include "hitpoint.hpp"
 #include "ray.hpp"
 #include "material.hpp"
+#include <glm/glm.hpp>
 
 class Shape {
 protected:
 
 	std::string name_;
 	Material material_;
+	glm::mat4 world_transformation_{};
+	glm::mat4 world_transformation_inv_{};
 
 public:
 	Shape(std::string name, Material material);
@@ -19,6 +22,8 @@ public:
 	virtual std::ostream& print(std::ostream& os) const;
 	virtual HitPoint intersect(Ray const& r)const = 0;
 	virtual ~Shape();
+	Ray transformRay(Ray const& ray, glm::mat4 const& mat);
+
 
 };
 std::ostream& operator << (std::ostream& os, Shape const& s);
