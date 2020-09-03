@@ -1,0 +1,17 @@
+# materials
+define material red 1 0 0 1 0 0 1 0 0 1
+define material blue 0 0 1 0 0 1 0 0 1 1
+define material beige 0.96 0.96 0.86 0.96 0.96 0.86 0.96 0.96 0.86 1
+define material green 0 0.9 0 0 1 0 0 0.9 0 1
+# geometry
+define shape box botbox -400 -250 0 400 -200 -800 beige
+define shape sphere msphere -50 0 -200 50 red
+define shape box rb_blue 100 -200 -250 150 -150 -300 blue
+# light
+define light spot1 -300 300 0 1 1 1 30
+define light spot2 400 200 -300 1 1 1 20
+define light sun -20 998 0 .5 .5 .2 70ambient 0.05 0.05 0.05
+# camera
+define camera eye 45.0 
+# ... and go
+render eye image .ppm 480 320
