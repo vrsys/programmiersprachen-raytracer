@@ -22,7 +22,9 @@ public:
 	virtual std::ostream& print(std::ostream& os) const;
 	virtual HitPoint intersect(Ray const& r)const = 0;
 	virtual ~Shape();
-	
+	void translate(glm::vec3 const& axis);
+	void scale(glm::vec3 const& axis);
+	void rotate(float angle, glm::vec3 const& axis);
 
 };
 
