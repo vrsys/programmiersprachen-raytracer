@@ -374,6 +374,26 @@ Scene Renderer::readScene(std::string const& filename) const {
                     }
                 }
                 else {
+                    auto it = scene.objects.begin();
+                    while ((*it)->name() != shape_name) ++it;
+                    std::shared_ptr<Shape> object = *it;
+                    if (transformation_type == "translate") {
+                        float x, y, z;
+                        in_sstream >> x >> y >> z;
+                        object->translate({ x,y,z });
+                        
+                    }
+                    else if (transformation_type == "rotate") {
+                        float angle_degres, xr, yr, zr;
+                        in_sstream >> angle_degres >> xr >> yr >> zr;
+                        float angle = angle_degres / 180 * M_PI;
+                        object->rotate(angle,{xr,yr,zr});
+                    }
+                    else if (transformation_type == "scale") {
+                        float x, y, z;
+                        in_sstream >> x >> y >> z;
+                        object->scale({ x,y,z });
+                    }
 
                 }
             }
