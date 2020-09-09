@@ -337,16 +337,6 @@ Scene Renderer::readScene(std::string const& filename) const {
                 }
             }
 
-            else if (identifier == "ambient") {
-            float ambient_r, ambient_g, ambient_b;
-
-            in_sstream >> ambient_r >> ambient_g >> ambient_b;
-
-            std::cout << "Light in line " << line_count << ": " << ambient_r << " " << ambient_g << " " << ambient_b << std::endl;
-            std::shared_ptr<Color> ambient = std::make_shared<Color>(ambient_r, ambient_g, ambient_b);
-            scene.ambient = ambient;
-            }
-
             else if (identifier == "transform") {
                 std::string object_name, transformation_type;
                 in_sstream >> object_name >> transformation_type;
@@ -387,7 +377,6 @@ Scene Renderer::readScene(std::string const& filename) const {
 
                 }
             }
-
             else if (identifier == "render") {
             unsigned height, width;
             std::string filename;
@@ -395,7 +384,6 @@ Scene Renderer::readScene(std::string const& filename) const {
 
             in_sstream >> camera_name >> filename >> width >> height;
 
-            std::cout << "Renderer in line " << line_count << ": " << camera_name << " " << filename << " " << width << " " << height << std::endl;
             scene.width = width;
             scene.height = height;
             scene.filename = filename;
