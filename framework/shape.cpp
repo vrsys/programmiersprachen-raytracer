@@ -2,11 +2,17 @@
 #include <glm/gtx/transform.hpp>
 
 
-Shape::Shape(std::string name, Material material)
+
+Shape::Shape(std::string const& name, Material const& material) :
+	name_{ name },
+	material_{ material } {}
+
+
+std::string Shape::name() const
 {
-	name_ = name;
-	material_ = material;
+	return name_;
 }
+
 
 std::ostream& Shape::print(std::ostream& os) const
 {
