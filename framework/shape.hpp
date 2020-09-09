@@ -16,7 +16,8 @@ protected:
 	glm::mat4 world_transformation_inv_{};
 
 public:
-	Shape(std::string name, Material material);
+	Shape(std::string const& name, Material const& material);
+	std::string name() const;
 	virtual float area() = 0;
 	virtual float volume() = 0;
 	virtual std::ostream& print(std::ostream& os) const;
