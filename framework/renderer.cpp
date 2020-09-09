@@ -45,7 +45,7 @@ void Renderer::render(Scene& scene)
     for (unsigned y = 0; y < height_; ++y) {
         for (unsigned x = 0; x < width_; ++x) {
             //for every pixel on our screen we need to find a ray going from origin to out 
-            Ray ray = camera_ray(scene.camera, x, y);
+            Ray ray = scene.camera->camera_ray(x, y, width_, height_);
             //trace the ray back into the scene
             Color pixel_color = trace(scene, ray);
             Pixel p{ (unsigned)x, (unsigned)y };
@@ -155,65 +155,6 @@ Color Renderer::shading(Scene& scene, HitPoint& hitpoint)
     return Color{ r_ambient + r_diffuse + r_specular, g_ambient + g_diffuse + g_specular, b_ambient + b_diffuse + b_specular };
 }
 
-
-
-
-
-Ray Renderer::camera_ray(std::shared_ptr<Camera> camera, int x, int y){
-    /*
-    * We currently have a window made of pixels, we want to convert this into rays to calculate intersections
-    * this aims to turn a pixel value into a vector and then a ray which goes out from camera position to 
-    * essentially map out our scene seen through our window
-    */
-    double normalized_x = (x + 0.5) / width_;
-    double normalized_y = (y + 0.5) / height_;
-    double window_space_x = (2 * normalized_x - 1) * ratio_;
-    double window_space_y = (2 * normalized_y -1);
-    //scale fov
-    double final_x = window_space_x * tan((camera->fov_x * M_PI)/180);
-    double final_y = window_space_y * tan((camera->fov_x * M_PI)/180);
-    
-    glm::vec3 dir{final_x, final_y, -1.0f};
-    // std::shared_ptr<glm::vec3> ndir = std::make_shared<glm::vec3>(glm::normalize(dir));
-    glm::vec3 ndir = glm::normalize(dir);
-    Ray cam_norm_ray = { camera->cam_pos , ndir };
-    //if ((camera->cam_pos == glm::vec3{ 0, 0, 0 }) && (camera->cam_dir == glm::vec3{ 0, 0, -1 }) && (camera->cam_up == glm::vec3{ 0, 0, 0 })){
-        //return cam_norm_ray;
-    //}
-    glm::mat4 transform_cam_matrix = transform_cam(camera);
-    //glm::vec4 origin_transformed_ray = glm::vec4 { camera->cam_pos, 1 } * transform_cam_matrix;
-    //{origin_transformed_ray.x, origin_transformed_ray.y, origin_transformed_ray.z}
-    glm::vec4 direction_transormed_ray = glm::vec4 { cam_norm_ray.direction, 0.0f } * transform_cam_matrix;
-    Ray transformed_ray = { camera->cam_pos,
-       glm::normalize(glm::vec3 {direction_transormed_ray.x, direction_transormed_ray.y, direction_transormed_ray.z})
-    };
-    return transformed_ray;
-   
-}
-
-glm::mat4 Renderer::transform_cam(std::shared_ptr <Camera> camera)
-{
-    glm::vec3 n = camera->cam_dir;
-    if (n != glm::vec3{ 0, 0, 0 }) {
-        n = glm::normalize(n);
-    }
-    glm::vec3 u = glm::cross(n, camera->cam_up);
-    if (u != glm::vec3{ 0, 0, 0 }) {
-        u = glm::normalize(u);
-    }
-    glm::vec3 v = glm::cross(u, n);
-    if (v != glm::vec3{ 0, 0, 0 }) {
-        v = glm::normalize(v);
-    }
-
-   
-    return glm::mat4
-    { glm::vec4{u.x, u.y, u.z, 0 },
-        glm::vec4{v.x, v.y, v.z, 0 },
-        glm::vec4{-n.x, -n.y, -n.z, 0 },
-        glm::vec4{camera->cam_pos.x, camera->cam_pos.y, camera->cam_pos.z, 1} 
-    };
-}
 
 
 void Renderer::write(Pixel const& p)
@@ -393,6 +334,47 @@ Scene Renderer::readScene(std::string const& filename) const {
                 
                 else {
                     std::cout << "Line was not valid: " << line_count << std::endl;
+                }
+            }
+
+            else if (identifier == "transform") {
+                std::string object_name, transformation_type;
+                in_sstream >> object_name >> transformation_type;
+                if (object_name == scene.camera->name_) {
+                    if (transformation_type == "translate") {
+                        float xt, yt, zt;
+                        in_sstream >> xt >> yt >> zt;
+                        scene.camera->cam_pos.x += xt;
+                        scene.camera->cam_pos.y += yt;
+                        scene.camera->cam_pos.z += zt;
+                    }
+                    else if (transformation_type == "rotate") {
+                        float angle_degres, xr, yr, zr;
+                        in_sstream >> angle_degres >> xr >> yr >> zr;
+                        float angle = angle_degres / 180 * M_PI;
+                        float x = scene.camera->cam_dir.x;
+                        float y = scene.camera->cam_dir.y;
+                        float z = scene.camera->cam_dir.z;
+                        if (xr == 1) {
+                            scene.camera->cam_dir.y = y * cos(angle) - z * sin(angle);
+                            scene.camera->cam_dir.z = z * sin(angle) + y * cos(angle);
+                        }
+                        else if (xr == 0 && yr == 1) {
+                            scene.camera->cam_dir.x = x * cos(angle) + z * sin(angle);
+                            scene.camera->cam_dir.z = -x * sin(angle) + z * cos(angle);
+                        }
+                        else if (xr == 0 && yr == 0 && zr == 1) {
+                            scene.camera->cam_dir.x = x * cos(angle) - y * sin(angle);
+                            scene.camera->cam_dir.y = x * sin(angle) + y * cos(angle);
+                        }
+
+                    }
+                    else {
+                        std::cout << transformation_type << " is not viable for Camera" << std::endl;
+                    }
+                }
+                else {
+
                 }
             }
             else if (identifier == "render") {
