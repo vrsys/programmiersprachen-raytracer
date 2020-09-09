@@ -11,7 +11,7 @@
 
 struct HitPoint {
 	bool hashit = false;
-	float distance = 0;
+	double distance = LONG_MAX;
 	std::string name = "";
 	Material material = {{ 0.0f , 0.0f , 0.0f },
 	{ 0.0f , 0.0f , 0.0f },
