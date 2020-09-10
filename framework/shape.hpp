@@ -8,9 +8,11 @@
 #include <glm/glm.hpp>
 
 class Shape {
+public:
+	std::string name_;
 protected:
 
-	std::string name_;
+	
 	Material material_;
 	glm::mat4 world_transformation_{};
 	glm::mat4 world_transformation_inv_{};

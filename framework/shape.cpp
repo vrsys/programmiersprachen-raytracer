@@ -60,7 +60,8 @@ void Shape::scale(glm::vec3 const& axis)
 
 void Shape::rotate(float angle, glm::vec3 const& axis)
 {
-	world_transformation_ = glm::rotate(world_transformation_, glm::radians(angle), axis);
+
+	world_transformation_ = glm::rotate(world_transformation_, angle, axis);
 	world_transformation_inv_ = glm::inverse(world_transformation_);
 
 }

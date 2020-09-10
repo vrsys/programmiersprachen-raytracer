@@ -107,9 +107,7 @@ Color Renderer::shading(Scene& scene, HitPoint& hitpoint)
             lights.push_back(light);
         }
     }
-    float red_ambient = scene.ambient->r * hitpoint.material.ka_.r;
-    float green_ambient = scene.ambient->g * hitpoint.material.ka_.g;
-    float blue_ambient = scene.ambient->b * hitpoint.material.ka_.b;
+    
    
 
     float r_ambient = scene.ambient->r * hitpoint.material.ka_.r;
@@ -257,7 +255,7 @@ Scene Renderer::readScene(std::string const& filename) const {
                     float m;
 
                     in_sstream >> material_name;
-                    in_sstream >> ka_red >> ka_green >> ka_blue; // 
+                    in_sstream >> ka_red >> ka_green >> ka_blue; 
                     in_sstream >> kd_red >> kd_green >> kd_blue;
                     in_sstream >> ks_red >> ks_green >> ks_blue;
                     in_sstream >> m;
@@ -269,67 +267,28 @@ Scene Renderer::readScene(std::string const& filename) const {
 
                 }
                 else if ("light" == class_name) {
-                    std::string light_name;
-                    float pos_x;
-                    float pos_y;
-                    float pos_z;
-                    float color_r;
-                    float color_g;
-                    float color_b;
-                    float brightness;
-
-                    in_sstream >> light_name;
-                    in_sstream >> pos_x;
-                    in_sstream >> pos_y;
-                    in_sstream >> pos_z;
-                    in_sstream >> color_r;
-                    in_sstream >> color_g;
-                    in_sstream >> color_b;
-                    in_sstream >> brightness;
-
-
-                    Color light_color{ color_r, color_g, color_b };
-
-                    std::shared_ptr<Light> light = std::make_shared<Light>(light_name, glm::vec3(pos_x, pos_y, pos_z), light_color, brightness);
-                    scene.lights.push_back(light);
+                    
+                    Light light;
+                    in_sstream >> light.name_ >> light.pos_.x >> light.pos_.y >> light.pos_.z >> light.color_.r >> light.color_.g >> light.color_.b >> light.brightness_;
+                    light = light;
+                    scene.lights.push_back(std::make_shared<Light>(light));
+                    
                 }
                 else if (class_name == "camera") {
                     //parse camera attribute
-                    std::string camera_name;
-                    float fov = 45;
-                    float pos_x = 0;
-                    float pos_y = 0;
-                    float pos_z = 0;
-                    float dir_x = 0;
-                    float dir_y = 0;
-                    float dir_z = -1;
-                    float up_x = 0;
-                    float up_y = 1;
-                    float up_z = 0;
+                    Camera camera;
+                    
+                    in_sstream >> camera.name_;
 
+                    in_sstream >> camera.fov_x;
 
-                    in_sstream >> camera_name;
+                    in_sstream >> camera.cam_pos.x >> camera.cam_pos.y >> camera.cam_pos.z;
+                    
+                    in_sstream >> camera.cam_dir.x >> camera.cam_dir.y >> camera.cam_dir.z;
 
-                    in_sstream >> fov;
-
-                    in_sstream >> pos_x;
-                    in_sstream >> pos_y;
-                    in_sstream >> pos_z;
-
-                    in_sstream >> dir_x;
-                    in_sstream >> dir_y;
-                    in_sstream >> dir_z;
-
-                    in_sstream >> up_x;
-                    in_sstream >> up_y;
-                    in_sstream >> up_z;
-
-
-                    std::shared_ptr<Camera> camera = std::make_shared<Camera>(camera_name, fov, glm::vec3(pos_x, pos_y, pos_z), glm::vec3(dir_x, dir_y, dir_z), glm::vec3(up_x, up_y, up_z));
-
-                    scene.camera = camera;
-
-
+                    in_sstream >> camera.cam_up.x >> camera.cam_up.y >> camera.cam_up.z;
+      
+                    scene.camera = std::make_shared<Camera>(camera);
                 }
                 
                 else {
@@ -374,26 +333,28 @@ Scene Renderer::readScene(std::string const& filename) const {
                     }
                 }
                 else {
-                    auto it = scene.objects.begin();
-                    while ((*it)->name() != shape_name) ++it;
-                    std::shared_ptr<Shape> object = *it;
-                    if (transformation_type == "translate") {
-                        float x, y, z;
-                        in_sstream >> x >> y >> z;
-                        object->translate({ x,y,z });
-                        
+                    for (auto it : scene.objects) {
+                        if ( it->name_ == object_name){
+                            if (transformation_type == "translate") {
+                                float x, y, z;
+                                in_sstream >> x >> y >> z;
+                                it->translate({ x,y,z });
+
+                            }
+                            else if (transformation_type == "rotate") {
+                                float angle_degres, xr, yr, zr;
+                                in_sstream >> angle_degres >> xr >> yr >> zr;
+                                float angle = angle_degres / 180 * M_PI;
+                                it->rotate(angle, { xr,yr,zr });
+                            }
+                            else if (transformation_type == "scale") {
+                                float x, y, z;
+                                in_sstream >> x >> y >> z;
+                                it->scale({ x,y,z });
+                            }
+                        }
                     }
-                    else if (transformation_type == "rotate") {
-                        float angle_degres, xr, yr, zr;
-                        in_sstream >> angle_degres >> xr >> yr >> zr;
-                        float angle = angle_degres / 180 * M_PI;
-                        object->rotate(angle,{xr,yr,zr});
-                    }
-                    else if (transformation_type == "scale") {
-                        float x, y, z;
-                        in_sstream >> x >> y >> z;
-                        object->scale({ x,y,z });
-                    }
+                   
 
                 }
             }
