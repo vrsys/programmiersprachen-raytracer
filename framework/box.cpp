@@ -63,6 +63,7 @@ HitPoint Box::intersect(Ray const& r) const
 		if (t > 0 && y >= min_.y && y <= max_.y && z <= min_.z && z >= max_.z) {
 			float d = sqrt(pow(ray.origin.x - x, 2) + pow(ray.origin.y - y, 2) + pow(ray.origin.z - z, 2)); // distance between starting point of ray and intersection point
 			HitPoint hit{ true, d, name_, material_, glm::vec3(x, y, z), ray.direction, glm::vec3 {1,0,0} };
+			
 			hits_vec.push_back(hit);
 		}
 	}
@@ -81,6 +82,7 @@ HitPoint Box::intersect(Ray const& r) const
 		if (t > 0 && x >= min_.x && x <= max_.x && z <= min_.z && z >= max_.z) {
 			float d = sqrt(pow(ray.origin.x - x, 2) + pow(ray.origin.y - y, 2) + pow(ray.origin.z - z, 2));
 			HitPoint hit{ true, d, name_, material_, glm::vec3(x, y, z), ray.direction, glm::vec3 {0,-1,0} };
+			
 			hits_vec.push_back(hit);
 		}
 	}
@@ -100,10 +102,9 @@ HitPoint Box::intersect(Ray const& r) const
 		if (t > 0 && x >= min_.x && x <= max_.x && z <= min_.z && z >= max_.z) {
 			float distance = sqrt(pow(ray.origin.x - x, 2) + pow(ray.origin.y - y, 2) + pow(ray.origin.z - z, 2));
 			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), ray.direction, glm::vec3 {0,1,0} };
-			if (hit.intersection.x >= 101 && hit.intersection.x <= 104 && hit.intersection.y >= -100.2 && hit.intersection.y <= -99.8 && hit.intersection.z >= -400 && hit.intersection.z <= -398) {
-				hit.intersection;
+			if (hit.intersection.x >= 101 && hit.intersection.x <= 104 && hit.intersection.y >= -100.2 && hit.intersection.y <= -99.8 && hit.intersection.z >= -300 && hit.intersection.z <= -298) {
+				std::cout << hit.intersection.x << std::endl;
 			}
-			
 			hits_vec.push_back(hit);
 		}
 	}
@@ -122,6 +123,7 @@ HitPoint Box::intersect(Ray const& r) const
 		if (t > 0 && y >= min_.y && y <= max_.y && x >= min_.x && x <= max_.x) {
 			float d = sqrt(pow(ray.origin.x - x, 2) + pow(ray.origin.y - y, 2) + pow(ray.origin.z - z, 2));
 			HitPoint hit{ true, d, name_, material_, glm::vec3(x, y, z), ray.direction, glm::vec3 {0,0,1} };
+			
 			hits_vec.push_back(hit);
 		}
 	}
@@ -141,6 +143,7 @@ HitPoint Box::intersect(Ray const& r) const
 		if (y >= min_.y && y <= max_.y && x >= min_.x && x <= max_.x && t > 0) {
 			float d = sqrt(pow(ray.origin.x - x, 2) + pow(ray.origin.y - y, 2) + pow(ray.origin.z - z, 2));
 			HitPoint hit{ true, d, name_, material_, glm::vec3(x, y, z), ray.direction, glm::vec3 {0,0,-1} };
+			
 			hits_vec.push_back(hit);
 		}
 	}
@@ -152,7 +155,7 @@ HitPoint Box::intersect(Ray const& r) const
 	// find closest hit
 	else {
 
-		HitPoint closest_hit = hits_vec.at(0);
+		HitPoint closest_hit;
 
 		for (auto it = 0; it < hits_vec.size(); ++it) {
 
@@ -167,7 +170,6 @@ HitPoint Box::intersect(Ray const& r) const
 				glm::vec4 transformed_normale = glm::transpose(world_transformation_inv_) * glm::vec4{ hits_vec.at(it).normal, 0.0f };
 				hits_vec.at(it).intersection = { transformed_hitpoint.x, transformed_hitpoint.y, transformed_hitpoint.z };
 				hits_vec.at(it).normal = glm::normalize(glm::vec3(transformed_normale.x, transformed_normale.y, transformed_normale.z));
-				
 				closest_hit = hits_vec.at(it);
 
 			}

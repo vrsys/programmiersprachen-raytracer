@@ -61,7 +61,43 @@ void Shape::scale(glm::vec3 const& axis)
 void Shape::rotate(float angle, glm::vec3 const& axis)
 {
 
-	world_transformation_ = glm::rotate(world_transformation_, angle, axis);
+	glm::mat4 rotation_matrix = glm::mat4{
+		glm::vec4(1.0f, 0.0f, 0.0f, 0.0f),
+		glm::vec4(0.0f, 1.0f, 0.0f, 0.0f),
+		glm::vec4(0.0f, 0.0f, 1.0f, 0.0f),
+		glm::vec4(0.0f, 0.0f, 0.0f, 1.0f) 
+	};
+
+	if (axis.x != 0 && axis.y == 0 && axis.z == 0) {
+		rotation_matrix = glm::mat4{
+			glm::vec4(1.0f, 0.0f, 0.0f, 0.0f),
+			glm::vec4(0.0f, std::cos(angle), std::sin(angle), 0.0f),
+			glm::vec4(0.0f, -(std::sin(angle)), std::cos(angle), 0.0f),
+			glm::vec4(0.0f, 0.0f, 0.0f, 1.0f) };
+	}
+	else if (axis.x == 0 && axis.y != 0 && axis.z == 0) {
+		rotation_matrix = glm::mat4{
+			glm::vec4(std::cos(angle), 0.0f, -(std::sin(angle)), 0.0f),
+			glm::vec4(0.0f, 1.0f, 0.0f, 0.0f),
+			glm::vec4(std::sin(angle), 0.0f, std::cos(angle), 0.0f),
+			glm::vec4(0.0f, 0.0f, 0.0f, 1.0f) 
+		};
+
+	}
+	else if (axis.x == 0 && axis.y == 0 && axis.z != 0) {
+		rotation_matrix = glm::mat4{
+			glm::vec4(std::cos(angle), std::sin(angle), 0.0f, 0.0f),
+			glm::vec4(-(std::sin(angle)), std::cos(angle), 0.0f, 0.0f),
+			glm::vec4(0.0f, 0.0f, 1.0f, 0.0f),
+			glm::vec4(0.0f, 0.0f, 0.0f, 1.0f) 
+		};
+	}
+	else {
+		
+		std::cout << "axis must provide only zero-values apart from axis you want to rotate around." << std::endl;
+	}
+
+	world_transformation_ = rotation_matrix * world_transformation_;
 	world_transformation_inv_ = glm::inverse(world_transformation_);
 
 }

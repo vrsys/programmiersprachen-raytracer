@@ -85,7 +85,9 @@ Color Renderer::shading(Scene& scene, HitPoint& hitpoint)
 {
     //First we must look at what light hits our hitpoint
     std::vector<std::shared_ptr<Light>>lights{};
-  
+    if (hitpoint.intersection.x >= 0 && hitpoint.intersection.x <= 4 && hitpoint.intersection.y >= -100.2 && hitpoint.intersection.y <= -99.8 && hitpoint.intersection.z >= -300 && hitpoint.intersection.z <= -298) {
+        std::cout << hitpoint.intersection.x << std::endl;
+    }
     for (auto light : scene.lights) {
 
         glm::vec3 lightDir = hitpoint.intersection - light->pos_;
@@ -97,15 +99,18 @@ Color Renderer::shading(Scene& scene, HitPoint& hitpoint)
         for (auto shape : scene.objects) {
 
             HitPoint hp = shape->intersect(lightRay);
+
             
-            if (glm::distance(hp.intersection, light->pos_) < (dist - 0.1)) {
+            if (glm::distance(hp.intersection, light->pos_) < (dist - 0.2)) {
                 shadow = true;
                 break;
             }
+            
         }
         if (shadow == false) {
             lights.push_back(light);
         }
+        
     }
     
    

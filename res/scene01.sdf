@@ -16,9 +16,10 @@ ambient 0.1 0.1 0.1
 # camera
 define camera eye 45.0 #0 0 0 -1 0 -1
 #transformations
-transform rb_blue translate -100 0 0
+transform rb_blue rotate 45 0 1 0
 #transform msphere rotate 90 1 0 0
 #transform msphere scale 2 1 1
+transfrom msphere translate 300 0 0
 #transform eye rotate 15 0 1 0 
 # ... and go
 render eye image .ppm 480 320
