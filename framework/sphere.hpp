@@ -18,6 +18,10 @@ public:
 
 	float area();
 	float volume();
+	glm::vec3 getCenter();
+	void setCenter(glm::vec3 c);
+	float getRadius();
+	void setRadius(float r);
 	std::ostream& print(std::ostream& os) const override;
 	HitPoint intersect(Ray const& r) const override;
 

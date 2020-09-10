@@ -18,6 +18,26 @@ float Sphere::volume()
 	return (M_PI*pow(radius_,3)*(4.0f/3.0f));
 }
 
+glm::vec3 Sphere::getCenter()
+{
+	return center_;
+}
+
+void Sphere::setCenter(glm::vec3 c)
+{
+	center_ = c;
+}
+
+float Sphere::getRadius()
+{
+	return radius_;
+}
+
+void Sphere::setRadius(float r)
+{
+	radius_ = r;
+}
+
 std::ostream& Sphere::print(std::ostream& os) const
 {
 	Shape::print(os);
@@ -42,19 +62,18 @@ HitPoint Sphere::intersect(Ray const& r) const
 	float distance = 0; //intersection distance
 	Ray ray = transformRay(r, world_transformation_inv_);
 
-	bool hit = glm::intersectRaySphere(ray.origin, ray.direction, center_, pow(radius_, 2), distance);
+	bool hit = glm::intersectRaySphere(ray.origin, glm::normalize(ray.direction), center_, pow(radius_, 2), distance);
 	if (hit == true) {
-		glm::vec3 hitpoint = ray.origin + distance * ray.direction;
-		glm::vec3 normal = hitpoint - center_;
-		normal = glm::normalize(normal);
+		glm::vec3 intersection = ray.origin + distance * ray.direction;
+		glm::vec3 normal = glm::normalize(intersection - center_);
 
-		glm::vec4 hitpoint_transformed = world_transformation_ * glm::vec4{ hitpoint, 1.0f }; // additional 1.0f for multiplying (homogenous coordinates)
+		glm::vec4 intersection_transformed = world_transformation_ * glm::vec4{ intersection, 1.0f }; // additional 1.0f for multiplying (homogenous coordinates)
 		glm::vec4 transform_normal = glm::transpose(world_transformation_inv_) * glm::vec4{ normal, 0.0f };
 
-		hitpoint = { hitpoint_transformed.x, hitpoint_transformed.y, hitpoint_transformed.z };
+		intersection = { intersection_transformed.x, intersection_transformed.y, intersection_transformed.z };
 		normal = { transform_normal.x, transform_normal.y, transform_normal.z }; // das neue normal xd
 	
-		return HitPoint{ hit , distance , name_ ,material_ , hitpoint , ray.direction , normal };
+		return HitPoint{ hit , distance , name_ ,material_ , intersection , ray.direction , normal };
 	}
 	else {
 		return HitPoint{};

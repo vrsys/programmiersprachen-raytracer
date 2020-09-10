@@ -25,11 +25,11 @@ std::ostream& Box::print(std::ostream& os) const
 	return os;
 }
 
-HitPoint Box::intersect(Ray const& ray) const
+HitPoint Box::intersect(Ray const& r) const
 {
 	std::vector<HitPoint> hits_vec{};
 	HitPoint hit;
-
+	Ray ray = transformRay(r, world_transformation_inv_);
 	// left surface
 	// ray is not parallel to x plane
 	if (ray.direction.x != Approx(0.0f)) {
@@ -40,10 +40,11 @@ HitPoint Box::intersect(Ray const& ray) const
 		float y = ray.origin.y + t * ray.direction.y;
 		float z = ray.origin.z + t * ray.direction.z;
 
-		//intersection is on box
+
 		if (t > 0 && y >= min_.y && y <= max_.y && z <= min_.z && z >= max_.z) {
 			float d = sqrt(pow(ray.origin.x - x, 2) + pow(ray.origin.y - y, 2) + pow(ray.origin.z - z, 2));
 			HitPoint hit{ true, d, name_, material_, glm::vec3(x, y, z), ray.direction, glm::vec3 {-1,0,0} };
+			
 			hits_vec.push_back(hit);
 		}
 	}
@@ -58,7 +59,7 @@ HitPoint Box::intersect(Ray const& ray) const
 		float y = ray.origin.y + t * ray.direction.y;
 		float z = ray.origin.z + t * ray.direction.z;
 
-		//intersection is on box
+
 		if (t > 0 && y >= min_.y && y <= max_.y && z <= min_.z && z >= max_.z) {
 			float d = sqrt(pow(ray.origin.x - x, 2) + pow(ray.origin.y - y, 2) + pow(ray.origin.z - z, 2)); // distance between starting point of ray and intersection point
 			HitPoint hit{ true, d, name_, material_, glm::vec3(x, y, z), ray.direction, glm::vec3 {1,0,0} };
@@ -76,7 +77,7 @@ HitPoint Box::intersect(Ray const& ray) const
 		float y = ray.origin.y + t * ray.direction.y;
 		float z = ray.origin.z + t * ray.direction.z;
 
-		//if intersection is on box
+
 		if (t > 0 && x >= min_.x && x <= max_.x && z <= min_.z && z >= max_.z) {
 			float d = sqrt(pow(ray.origin.x - x, 2) + pow(ray.origin.y - y, 2) + pow(ray.origin.z - z, 2));
 			HitPoint hit{ true, d, name_, material_, glm::vec3(x, y, z), ray.direction, glm::vec3 {0,-1,0} };
@@ -95,10 +96,14 @@ HitPoint Box::intersect(Ray const& ray) const
 		float y = ray.origin.y + t * ray.direction.y;
 		float z = ray.origin.z + t * ray.direction.z;
 
-		// if intersection is on box
+
 		if (t > 0 && x >= min_.x && x <= max_.x && z <= min_.z && z >= max_.z) {
 			float distance = sqrt(pow(ray.origin.x - x, 2) + pow(ray.origin.y - y, 2) + pow(ray.origin.z - z, 2));
 			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), ray.direction, glm::vec3 {0,1,0} };
+			if (hit.intersection.x >= 101 && hit.intersection.x <= 104 && hit.intersection.y >= -100.2 && hit.intersection.y <= -99.8 && hit.intersection.z >= -400 && hit.intersection.z <= -398) {
+				hit.intersection;
+			}
+			
 			hits_vec.push_back(hit);
 		}
 	}
@@ -113,7 +118,7 @@ HitPoint Box::intersect(Ray const& ray) const
 		float y = ray.origin.y + t * ray.direction.y;
 		float z = ray.origin.z + t * ray.direction.z;
 
-		//if intersection is on box
+
 		if (t > 0 && y >= min_.y && y <= max_.y && x >= min_.x && x <= max_.x) {
 			float d = sqrt(pow(ray.origin.x - x, 2) + pow(ray.origin.y - y, 2) + pow(ray.origin.z - z, 2));
 			HitPoint hit{ true, d, name_, material_, glm::vec3(x, y, z), ray.direction, glm::vec3 {0,0,1} };
@@ -140,7 +145,6 @@ HitPoint Box::intersect(Ray const& ray) const
 		}
 	}
 
-	// if there was no hit
 	if (hits_vec.empty()) {
 		return HitPoint();
 	}
@@ -174,7 +178,5 @@ HitPoint Box::intersect(Ray const& ray) const
 
 Box::~Box()
 {
-	
 	std::cout << "Box dtor:" << *this << std::endl;
-
 }

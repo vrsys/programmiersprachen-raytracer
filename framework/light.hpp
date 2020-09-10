@@ -1,12 +1,11 @@
 #include <glm/vec3.hpp>
 #include "color.hpp"
 
-class Light
+struct Light
 {
-public:
+	Light();
 	Light(std::string name, glm::vec3 pos, Color color, float brightness);
 
-public:
 	std::string name_;
 	glm::vec3 pos_;
 	Color color_;
