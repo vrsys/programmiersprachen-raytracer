@@ -9,13 +9,28 @@
 //now single threaded again
 int main(int argc, char* argv[])
 {
-  unsigned const image_width = 800;
-  unsigned const image_height = 600;
-  std::string const filename = "./checkerboard.ppm";
+    
+  unsigned const image_width = 500;
+  unsigned const image_height = 500;
+  //std::string const filename = "./checkerboard.ppm";
+  std::string filename = "../../res/scene01.sdf";
+  //File to write image to
+  std::string renderedSceneFilename = "../../res/scene01.ppm";
 
-  Renderer renderer{image_width, image_height, filename};
+  if (argc > 1) {
+      filename = argv[1];
+      std::cout << "filename:" << filename << std::endl;
+  }
+  
+  if (argc > 2) {
+      renderedSceneFilename = argv[2];
+      std::cout << "renderedSceneFilename:" << renderedSceneFilename << std::endl;
+  }
 
-  renderer.render();
+  Renderer renderer{image_width, image_height, renderedSceneFilename};
+  Scene scene = renderer.readScene(filename);
+
+  renderer.render(scene);
 
   Window window{{image_width, image_height}};
 

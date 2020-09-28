@@ -15,6 +15,9 @@
 #include "ppmwriter.hpp"
 #include <string>
 #include <glm/glm.hpp>
+#include "scene.hpp"
+#include "ray.hpp"
+#include "HitPoint.hpp"
 
 class Renderer
 {
@@ -22,7 +25,11 @@ public:
   Renderer(unsigned w, unsigned h, std::string const& file);
 
   void render();
+  void render(Scene& scene);
+  Color trace(Scene& scene, Ray& ray);
+  Color shading(Scene& scene, HitPoint& hitpoint);
   void write(Pixel const& p);
+  Scene readScene(std::string const& filename) const;
 
   inline std::vector<Color> const& color_buffer() const
   {

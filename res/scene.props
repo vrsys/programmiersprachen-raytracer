@@ -1,0 +1,16 @@
+{
+  "patterns" : [
+    { "searchFor":"define light sun", "index":3, "increment":-10 },
+    { "searchFor":"define light sun", "index":4, "increment":-1 }
+  ],
+  "properties" : {
+    "targetDirectory":".",
+    "iterations":2,
+    "outfilename":"a",
+    "outfileextension":"sdf",
+    "genfileextension":"ppm",
+    "executable":"/c/Users/rapha/OneDrive/Documents/Uni/Programiersprachen/programmiersprachen-raytracer/build/source/Debug/raytracer.exe",
+    "cmdfile":"gen.sh",
+    "infilename":"scene01.sdf"
+  }
+}
