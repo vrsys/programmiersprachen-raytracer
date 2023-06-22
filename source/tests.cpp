@@ -57,18 +57,22 @@ TEST_CASE("test_intersect", "[intersect]") {
 
 	REQUIRE(r1_y.cut == true);
 	REQUIRE(r1_y.distance == 4.0f);
-	REQUIRE(r1_y.color == Color{ 255,0,0 });
-/*	REQUIRE(r1_y.direction == glm::vec3{ 0,1,0 });
+	REQUIRE(r1_y.color.r == 255);
+	REQUIRE(r1_y.color.g == 0);
+	REQUIRE(r1_y.color.b == 0);
+	REQUIRE(r1_y.direction == glm::vec3{ 0,1,0 });
 	REQUIRE(r1_y.name == std::string{ "red1" });
 	REQUIRE(r1_y.point == glm::vec3{ 0,4,0 });
 
 
 	REQUIRE(y1_z.cut == true);
 	REQUIRE(y1_z.distance == 6.0f);
-	REQUIRE(y1_z.color == Color{ 255,255,0 });
+	REQUIRE(y1_z.color.r == 255);
+	REQUIRE(y1_z.color.g == 255);
+	REQUIRE(y1_z.color.b == 0);
 	REQUIRE(y1_z.direction == glm::vec3{ 0,0,1 });
 	REQUIRE(y1_z.name == std::string{ "yellow1" });
-	REQUIRE(y1_z.point == glm::vec3{ 0,0,6 });*/
+	REQUIRE(y1_z.point == glm::vec3{ 0,0,6 });/**/
 }
 
 TEST_CASE("destruktor", "[virtual]") {
