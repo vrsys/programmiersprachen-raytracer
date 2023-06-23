@@ -1,7 +1,9 @@
 #include "shape.hpp"
 #include <string>
 
-Shape::Shape(std::string const& name, Color const& color) : name_{ name }, color_{ color } {};
+Shape::Shape(std::string const& name, Color const& color) : name_{ name }, color_{ color } {
+	std::cout << "\n" << "Shape created";
+};
 
 std::ostream& Shape::print(std::ostream& os)const {
 	os << "\n " << "Name: " << name_ << "; Color: {" << color_.r << "; " << color_.g << "; " << color_.b << "}; ";

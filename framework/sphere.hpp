@@ -14,7 +14,7 @@ public:
 	virtual float volume() const;
 	HitPoint intersect(Ray const& ray, float & distance);
 	virtual std::ostream& print(std::ostream& os) const;
-	~Sphere() {};
+	~Sphere() { std::cout << "\n" << "Sphere destroyed"; };
 
 private:
 	glm::vec3 center_ = { 0,0,0 };

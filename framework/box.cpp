@@ -6,7 +6,10 @@
 
 #define OWN_PI 3.14159265359
 
-Box::Box(glm::vec3 const& min, glm::vec3 const& max) : Shape{}, min_{ min }, max_{ max } {};
+Box::Box(glm::vec3 const& min, glm::vec3 const& max) : Shape{}, min_{ min }, max_{ max } {
+	std::cout << "\n" << "Box erstellt";
+
+};
 
 Box::Box(std::string const& name, glm::vec3 const& min, glm::vec3 const& max, Color const& color) : Shape{name,color}, min_{ min }, max_{ max } {};
 

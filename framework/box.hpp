@@ -14,7 +14,7 @@ public:
 	float area() const;
 	float volume() const;
 	virtual std::ostream& print(std::ostream& os) const;
-	~Box() {};
+	~Box() { std::cout << "\n" << "Box destroyed"; };
 
 private: 
 	glm::vec3 min_ = { 0,0,0 };

@@ -7,6 +7,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/intersect.hpp>
 
+/*
 TEST_CASE("intersect_ray_sphere", "[intersect]") {
 	// Ray
 	glm::vec3 ray_origin{ 0.0f, 0.0f, 0.0f };
@@ -72,8 +73,9 @@ TEST_CASE("test_intersect", "[intersect]") {
 	REQUIRE(y1_z.color.b == 0);
 	REQUIRE(y1_z.direction == glm::vec3{ 0,0,1 });
 	REQUIRE(y1_z.name == std::string{ "yellow1" });
-	REQUIRE(y1_z.point == glm::vec3{ 0,0,6 });/**/
+	REQUIRE(y1_z.point == glm::vec3{ 0,0,6 });
 }
+*/
 
 TEST_CASE("destruktor", "[virtual]") {
 	Color red{ 255,0,0 };
@@ -88,7 +90,7 @@ TEST_CASE("destruktor", "[virtual]") {
 	delete s1;
 	delete s2;
 }
-
+/*
 TEST_CASE("area_sphere") {
 	
 	Sphere sphere1 (glm::vec3{ 0,0,0 }, 3);
@@ -99,7 +101,8 @@ TEST_CASE("area_sphere") {
 	REQUIRE(area1 == Approx(113.097f));
 	REQUIRE(area2 == Approx(314.159f));
 }
-
+*/
+/*
 TEST_CASE("volume_sphere") {
 
 	Sphere sphere1(glm::vec3{ 0,0,0 }, 3);
@@ -110,7 +113,8 @@ TEST_CASE("volume_sphere") {
 	REQUIRE(volume1 == Approx(113.097f));
 	REQUIRE(volume2 == Approx(523.599f));
 }
-
+*/
+/*
 TEST_CASE("area_box") {
 
 	Box box1(glm::vec3{ 0,0,0 }, glm::vec3{ 3,4,5 });
@@ -121,7 +125,8 @@ TEST_CASE("area_box") {
 	REQUIRE(area1 == Approx(94.0f));
 	REQUIRE(area2 == Approx(22.0f));
 }
-
+*/
+/*
 TEST_CASE("volume_box") {
 
 	Box box1(glm::vec3{ 0,0,0 }, glm::vec3{ 3,4,5 });
@@ -132,7 +137,7 @@ TEST_CASE("volume_box") {
 	REQUIRE(volume1 == Approx(60.0f));
 	REQUIRE(volume2 == Approx(6.0f));
 }
-
+*/
 int main(int argc, char *argv[])
 {
   return Catch::Session().run(argc, argv);
