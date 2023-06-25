@@ -7,7 +7,7 @@
 #define OWN_PI 3.14159265359
 
 Box::Box(glm::vec3 const& min, glm::vec3 const& max) : Shape{}, min_{ min }, max_{ max } {
-	std::cout << "\n" << "Box erstellt";
+	//std::cout << "\n" << "Box created";
 
 };
 
@@ -17,6 +17,7 @@ float Box::area() const{
 	glm::vec3 quad = max_ - min_;
 	float area = 2 *(abs(quad.x * quad.y) + abs(quad.x * quad.z) + abs(quad.y * quad.z));
 	return area;
+
 }
 
 float Box::volume() const{
