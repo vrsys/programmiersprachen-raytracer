@@ -1,3 +1,5 @@
+
+
 #include <glm/vec3.hpp>
 #include <glm/gtx/intersect.hpp>
 #include "shape.hpp"
@@ -9,12 +11,17 @@
 
 
 Sphere::Sphere(glm::vec3 const& mid_point, float radius) : Shape{ "", Color{0,0,0} }, center_{ mid_point }, radius_{ radius } {
-	std::cout << "\n" << "Sphere created";
 };
 
-Sphere::Sphere(std::string const& name, glm::vec3 const& mid_point, float radius, Color const& color) : Shape{ name, color }, center_{ mid_point }, radius_{ radius } {
-	std::cout << "\n" << "Sphere created";
-};
+Sphere::Sphere(std::string const& name, glm::vec3 const& center, float radius, Color const& color) :
+	Shape{ name, color },
+	center_{ center },
+	radius_{ radius } {
+	if (radius_ < 0.0f) {
+		radius_ = -radius_;
+	}
+
+}
 
 float Sphere::area() const{
 

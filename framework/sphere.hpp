@@ -15,7 +15,7 @@ public:
 	HitPoint intersect(Ray const& ray, float & distance);
 	virtual std::ostream& print(std::ostream& os) const override;
 	~Sphere() { 
-		std::cout << "\n" << "Sphere destroyed";
+		//std::cout << "\n" << "Sphere destroyed";
 	};
 
 private:

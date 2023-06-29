@@ -12,7 +12,7 @@ struct HitPoint
 	float distance = 0.0f;
 	std::string name = "";
 	Color color = { 0.0, 0.0, 0.0 };
-	glm::vec3 point = { 0.0f, 0.0f, 0.0 };
+	glm::vec3 point = { 0.0f, 0.0f, 0.0f };
 	glm::vec3 direction = { 0.0, 0.0, 0.0 };
 };
 

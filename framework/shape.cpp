@@ -2,7 +2,6 @@
 #include <string>
 
 Shape::Shape(std::string const& name, Color const& color) : name_{ name }, color_{ color } {
-	std::cout << "\n" << "Shape created";
 };
 
 std::ostream& Shape::print(std::ostream& os)const {

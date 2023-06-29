@@ -12,8 +12,8 @@ public:
 	virtual float volume() const = 0;
 	virtual std::ostream& print(std::ostream& os) const;
 	std::pair<std::string, Color> get_n_c();
-	~Shape() {
-		std::cout << "\n" << "Shape destroyed" ;
+	virtual ~Shape() {
+		//std::cout << "\n" << "Shape destroyed" ;
 	};
 
 private:
