@@ -4,6 +4,8 @@
 #include <string>
 #include "shape.hpp"
 #include "color.hpp"
+#include "Ray.hpp"
+#include "hitpoint.hpp"
 
 
 class Box : public Shape {
@@ -13,7 +15,8 @@ public:
 	Box(std::string const& name, glm::vec3 const& min, glm::vec3 const& max, Color const& color);
 	float area() const override;
 	float volume() const override;
-	virtual std::ostream& print(std::ostream& os) const;
+	std::ostream& print(std::ostream& os) const;
+	HitPoint intersect(Ray const& r);
 	~Box() {
 		//std::cout << "\n" << "Box destroyed"; 
 	};
