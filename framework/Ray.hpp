@@ -13,6 +13,4 @@ struct Ray
 };
 
 
-
-
 #endif

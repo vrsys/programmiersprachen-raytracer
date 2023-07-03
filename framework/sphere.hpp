@@ -9,13 +9,12 @@ class Sphere : public Shape {
 public:
 	Sphere()= default;
 	Sphere(glm::vec3 const& mid_point, float radius);
-	Sphere(std::string const& name, glm::vec3 const& mid_point, float radius, Color const& color);
-	virtual float area() const override;
-	virtual float volume() const override;
+	Sphere(std::string const& name, glm::vec3 const& mid_point, float radius, std::shared_ptr<Material> const& material);
+	float area() const override;
+	float volume() const override;
 	HitPoint intersect(Ray const& ray, float & distance);
-	virtual std::ostream& print(std::ostream& os) const override;
-	~Sphere() { 
-		//std::cout << "\n" << "Sphere destroyed";
+	std::ostream& print(std::ostream& os) const override;
+	~Sphere() {
 	};
 
 private:

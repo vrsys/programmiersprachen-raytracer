@@ -1,11 +1,11 @@
 #include "shape.hpp"
 #include <string>
 
-Shape::Shape(std::string const& name, Color const& color) : name_{ name }, color_{ color } {
+Shape::Shape(std::string const& name, std::shared_ptr<Material> const& material) : name_{ name }, material_{ material } {
 };
 
 std::ostream& Shape::print(std::ostream& os)const {
-	os << "\n " << "Name: " << name_ << "; Color: {" << color_.r << "; " << color_.g << "; " << color_.b << "}; ";
+	os << "\n " << "Name: " << name_ <<  "Material: " << material_;
 	return os;
 }
 
@@ -14,6 +14,6 @@ std::ostream& operator<<(std::ostream& os, Shape const& s) {
 	return os;
 }
 
-std::pair<std::string, Color> Shape::get_n_c() {
-	return std::pair<std::string, Color> {name_, color_};
+std::pair<std::string, std::shared_ptr<Material>> Shape::get_n_c() {
+	return std::pair<std::string, std::shared_ptr<Material>> {name_, material_};
 }

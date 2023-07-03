@@ -2,15 +2,17 @@
 #include "shape.hpp"
 #include "Box.hpp"
 #include "color.hpp"
+#include "material.hpp"
 #include <string>
 
 #define OWN_PI 3.14159265359
 
+
 Box::Box(glm::vec3 const& min, glm::vec3 const& max) : Shape{}, min_{ min }, max_{ max } {
 };
 
-Box::Box(std::string const& name, glm::vec3 const& min, glm::vec3 const& max, Color const& color) :
-	Shape{ name, color },
+Box::Box(std::string const& name, glm::vec3 const& min, glm::vec3 const& max, std::shared_ptr<Material> const& material) :
+	Shape{ name, material},
 	min_{ min },
 	max_{ max } {
 	if (max_.x < min_.x) {

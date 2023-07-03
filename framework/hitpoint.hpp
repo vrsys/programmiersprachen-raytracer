@@ -11,7 +11,7 @@ struct HitPoint
 	bool cut = false;
 	float distance = 0.0f;
 	std::string name = "";
-	Color color = { 0.0, 0.0, 0.0 };
+	std::shared_ptr<Material> material_ = std::make_shared<Material>();
 	glm::vec3 point = { 0.0f, 0.0f, 0.0f };
 	glm::vec3 direction = { 0.0, 0.0, 0.0 };
 };
