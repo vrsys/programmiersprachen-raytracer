@@ -10,12 +10,13 @@ public:
 	Sphere()= default;
 	Sphere(glm::vec3 const& mid_point, float radius);
 	Sphere(std::string const& name, glm::vec3 const& mid_point, float radius, std::shared_ptr<Material> const& material);
+
 	float area() const override;
 	float volume() const override;
-	HitPoint intersect(Ray const& ray, float & distance);
+	HitPoint intersect(Ray const& ray);
 	std::ostream& print(std::ostream& os) const override;
-	~Sphere() {
-	};
+
+	~Sphere();
 
 private:
 	glm::vec3 center_ = { 0,0,0 };

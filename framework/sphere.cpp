@@ -32,7 +32,8 @@ float Sphere::volume() const{
 	return (4.0f / 3.0f * OWN_PI * abs(radius_) * abs(radius_) * abs(radius_));
 }
 
-HitPoint Sphere::intersect(Ray const& ray, float & distance) {
+HitPoint Sphere::intersect(Ray const& ray) {
+	float distance = 0.0f;
 	glm::normalize(ray.direction);
 	bool cut = glm::intersectRaySphere(ray.origin, ray.direction, center_, radius_ * radius_, distance);
 	std::pair<std::string, std::shared_ptr<Material>> n_c = Shape::get_n_c();

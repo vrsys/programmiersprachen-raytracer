@@ -9,12 +9,15 @@ public:
 	
 	Shape() = default;
 	Shape(std::string const& name_, std::shared_ptr<Material> const& material);
+
 	virtual float area() const = 0;
 	virtual float volume() const = 0;
 	virtual std::ostream& print(std::ostream& os) const;
 	std::pair<std::string, std::shared_ptr<Material>> get_n_c();
-	virtual ~Shape() {
-	};
+	std::string get_name() const;
+	std::shared_ptr<Material> get_material() const;
+
+	virtual ~Shape();
 
 private:
 	std::string name_ = "no_name";

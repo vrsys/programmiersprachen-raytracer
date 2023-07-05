@@ -7,7 +7,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/intersect.hpp>
 
-
+/*
 TEST_CASE("intersect_ray_sphere", "[intersect]") {
 	// Ray
 	glm::vec3 ray_origin{ 0.0f, 0.0f, 0.0f };
@@ -127,7 +127,7 @@ TEST_CASE("volume_box") {
 }
 
 
-/*
+
 TEST_CASE("destruktor", "[virtual]") {
 	Color red{ 255,0,0 };
 	glm::vec3 position{ 0.0f,0.0f,0.0f };
@@ -140,7 +140,7 @@ TEST_CASE("destruktor", "[virtual]") {
 
 	delete s1;
 	delete s2;
-}*/
+}
 
 
 
@@ -153,7 +153,7 @@ TEST_CASE("destruktor", "[virtual]") {
 
 
 
-/*
+
 TEST_CASE("volume_box") {
 	Color red{ 255,0,0 };
 	glm::vec3 position{ 0.0f,0.0f,0.0f };

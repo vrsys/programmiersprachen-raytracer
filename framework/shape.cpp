@@ -17,3 +17,11 @@ std::ostream& operator<<(std::ostream& os, Shape const& s) {
 std::pair<std::string, std::shared_ptr<Material>> Shape::get_n_c() {
 	return std::pair<std::string, std::shared_ptr<Material>> {name_, material_};
 }
+
+std::string Shape::get_name() const {
+	return name_;
+}
+
+std::shared_ptr<Material> Shape::get_material() const {
+	return material_;
+}

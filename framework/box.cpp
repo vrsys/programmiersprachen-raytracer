@@ -84,7 +84,7 @@ HitPoint Box::intersect(Ray const& r) {
 
 		if (x >= min_.x && x <= max_.x && z >= min_.z && z <= max_.z) {
 			glm::normalize(r.direction);
-			hitpoint = HitPoint{ true, dist, Shape::get_n_c().first, Shape::get_n_c().second, glm::vec3{x, min_.y, z}, r.direction };
+			hitpoint = HitPoint{ true, dist, Shape::get_name(), Shape::get_material(), glm::vec3{x, min_.y, z}, r.direction};
 		}
 	}
 

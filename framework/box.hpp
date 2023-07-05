@@ -13,12 +13,13 @@ public:
 	Box()  = default;
 	Box(glm::vec3 const& min, glm::vec3 const& max);
 	Box(std::string const& name, glm::vec3 const& min, glm::vec3 const& max, std::shared_ptr<Material> const& material);
+
 	float area() const override;
 	float volume() const override;
 	std::ostream& print(std::ostream& os) const;
 	HitPoint intersect(Ray const& r);
-	~Box() {
-	};
+
+	~Box();
 
 private: 
 	glm::vec3 min_ = { 0,0,0 };
