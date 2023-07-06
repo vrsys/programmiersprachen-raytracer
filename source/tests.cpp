@@ -6,6 +6,7 @@
 #include <sphere.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtx/intersect.hpp>
+#include "scene.hpp"
 
 /*
 TEST_CASE("intersect_ray_sphere", "[intersect]") {
@@ -165,6 +166,13 @@ TEST_CASE("volume_box") {
 	s2->print(std::cout);
 }
 */
+
+
+TEST_CASE() {
+
+	parse_sdf(".. / scene_1.sdf");
+
+}
 
 
 int main(int argc, char *argv[])
