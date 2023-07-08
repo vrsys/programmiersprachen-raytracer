@@ -17,7 +17,7 @@ public:
 	std::string get_name() const;
 	std::shared_ptr<Material> get_material() const;
 
-	virtual ~Shape();
+	//virtual ~Shape();
 
 private:
 	std::string name_ = "no_name";

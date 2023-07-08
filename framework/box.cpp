@@ -55,9 +55,9 @@ HitPoint Box::intersect(Ray const& r) {
 	float z = 0.0f;
 
 	
-	dist = (min_.x - r.origin.x) / r.direction.x;
+	dist = (min_.x - r.origin.x) / r.direction.x; // ray.direction.x * dist + ray.origin.x = min_.x -> umstellen nach dist
 	if (hitpoint.distance > dist) {
-		y = r.origin.y + dist * r.direction.y;
+		y = r.origin.y + dist * r.direction.y; // y und z werte des Schnittpunktes des rays mit der Ebene bei min_.x
 		z = r.origin.z + dist * r.direction.z;
 
 		if (y >= min_.y && y <= max_.y && z >= min_.z && z <= max_.z) {

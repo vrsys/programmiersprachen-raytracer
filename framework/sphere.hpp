@@ -16,7 +16,7 @@ public:
 	HitPoint intersect(Ray const& ray);
 	std::ostream& print(std::ostream& os) const override;
 
-	~Sphere();
+	//~Sphere();
 
 private:
 	glm::vec3 center_ = { 0,0,0 };

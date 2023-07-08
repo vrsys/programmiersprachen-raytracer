@@ -19,7 +19,7 @@ public:
 	std::ostream& print(std::ostream& os) const;
 	HitPoint intersect(Ray const& r);
 
-	~Box();
+	//~Box();
 
 private: 
 	glm::vec3 min_ = { 0,0,0 };
