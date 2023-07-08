@@ -8,6 +8,7 @@
 
 
 Scene parse_sdf(std::string const& sdf_path) {
+	
 
 	Scene scene{};
 
@@ -15,7 +16,7 @@ Scene parse_sdf(std::string const& sdf_path) {
 
 	if (!f_stream.is_open()) {
 		std::cout << "Cannot open file\n";
-		return;
+		return scene;
 	}
 	
 	std::string line_buffer;
@@ -31,7 +32,7 @@ Scene parse_sdf(std::string const& sdf_path) {
 			if (token == "material") {
 				std::string name;
 				string_stream >> name;
-				std::cout << name;
+				//std::cout << name;
 
 				float value = 0.0f;
 
@@ -39,7 +40,7 @@ Scene parse_sdf(std::string const& sdf_path) {
 				for (int i = 0; i < ka.size(); ++i) {
 					string_stream >> value;
 					ka[i] = value;
-					std::cout << ka[i];
+					//std::cout << ka[i];
 				}
 
 				std::array<float, 3> kd{};
@@ -66,4 +67,5 @@ Scene parse_sdf(std::string const& sdf_path) {
 		}
 
 	}
+	return scene;
 }

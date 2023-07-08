@@ -1,11 +1,12 @@
 #define CATCH_CONFIG_RUNNER
-#include <glm/vec3.hpp>
+//#include <glm/vec3.hpp>
 #include <catch.hpp>
-#include <Box.hpp>
-#include <shape.hpp>
-#include <sphere.hpp>
-#include <glm/glm.hpp>
-#include <glm/gtx/intersect.hpp>
+//#include <Box.hpp>
+//#include <shape.hpp>
+//#include <sphere.hpp>
+//#include <glm/glm.hpp>
+//#include <glm/gtx/intersect.hpp>
+#include <iostream>
 #include "scene.hpp"
 
 /*
@@ -168,9 +169,16 @@ TEST_CASE("volume_box") {
 */
 
 
-TEST_CASE() {
+TEST_CASE(" parse sdf file to scene object", "[parse_sdf]") {
 
-	parse_sdf(".. / scene_1.sdf");
+	Scene scene{};
+	//std::cout << "hallo";
+	Scene s = parse_sdf("C:\\Users\\Annika\\00UNI\\SE1\\06Aufgabe\\programmiersprachen-raytracer\\scene_1.sdf");
+
+	for (auto i : s.material_container) {
+		//std::cout << "hallo";
+		std::cout << i->name << "\n";
+	}
 
 }
 
