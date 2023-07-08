@@ -1,4 +1,7 @@
-#pragma once
+//#pragma once
+
+#ifndef MATERIAL_HPP
+#define MATERIAL_HPP
 #include <string>
 #include "color.hpp"
 
@@ -10,8 +13,7 @@ struct Material {
 	float m = 0.0f;
 };
 
-std::ostream& operator<<(std::ostream& os, Material const& m) {
-	os << m.name << ":"  << "Ka:" << m.ka << ", " << "Kd:" << m.kd << ", " << "Ka:" << m.ks << ", " << m.m;
-	return os;
-}
+std::ostream& operator<<(std::ostream& os, Material const& m);
 
+
+#endif
