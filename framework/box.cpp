@@ -56,7 +56,7 @@ HitPoint Box::intersect(Ray const& r) {
 
 	
 	dist = (min_.x - r.origin.x) / r.direction.x; // ray.direction.x * dist + ray.origin.x = min_.x -> umstellen nach dist
-	if (hitpoint.distance > dist) {
+	if (hitpoint.distance > dist && dist >= 0.0f) {
 		y = r.origin.y + dist * r.direction.y; // y und z werte des Schnittpunktes des rays mit der Ebene bei min_.x
 		z = r.origin.z + dist * r.direction.z;
 
@@ -67,7 +67,7 @@ HitPoint Box::intersect(Ray const& r) {
 	}
 	
 	dist = (max_.x - r.origin.x) / r.direction.x;
-	if (hitpoint.distance > dist) {
+	if (hitpoint.distance > dist && dist >= 0.0f) {
 		y = r.origin.y + dist * r.direction.y;
 		z = r.origin.z + dist * r.direction.z;
 
@@ -78,7 +78,7 @@ HitPoint Box::intersect(Ray const& r) {
 	}
 
 	dist = (min_.y - r.origin.y) / r.direction.y;
-	if (hitpoint.distance > dist) {
+	if (hitpoint.distance > dist && dist >= 0.0f) {
 		x = r.origin.x + dist * r.direction.x;
 		z = r.origin.z + dist * r.direction.z;
 
@@ -89,7 +89,7 @@ HitPoint Box::intersect(Ray const& r) {
 	}
 
 	dist = (max_.y - r.origin.y) / r.direction.y;
-	if (hitpoint.distance > dist) {
+	if (hitpoint.distance > dist && dist >= 0.0f) {
 		x = r.origin.x + dist * r.direction.x;
 		z = r.origin.z + dist * r.direction.z;
 
@@ -100,7 +100,7 @@ HitPoint Box::intersect(Ray const& r) {
 	}
 
 	dist = (min_.z - r.origin.z) / r.direction.z;
-	if (hitpoint.distance > dist) {
+	if (hitpoint.distance > dist && dist >= 0.0f) {
 		x = r.origin.x + dist * r.direction.x;
 		y = r.origin.y + dist * r.direction.y;
 
@@ -111,7 +111,7 @@ HitPoint Box::intersect(Ray const& r) {
 	}
 
 	dist = (max_.z - r.origin.z) / r.direction.z;
-	if (hitpoint.distance > dist) {
+	if (hitpoint.distance > dist && dist >= 0.0f) {
 		x = r.origin.x + dist * r.direction.x;
 		y = r.origin.y + dist * r.direction.y;
 

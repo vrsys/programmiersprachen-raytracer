@@ -197,11 +197,12 @@ TEST_CASE("test_intersect", "[intersect]") {
 	Ray y{ glm::vec3{0,0,0} , glm::vec3{0,1,0} };
 	Ray z{ glm::vec3{0,0,0} , glm::vec3{0,0,1} };
 	Ray mz{ glm::vec3{0,0,0} , glm::vec3{0,0,-1} };
-
+	
+	HitPoint r1_mz = r1.intersect(mz);
 	HitPoint r1_x = r1.intersect(x);
 	HitPoint r1_y = r1.intersect(y);
 	HitPoint r1_z = r1.intersect(z);
-	//HitPoint r1_mz = r1.intersect(mz);
+	
 
 	HitPoint y1_x = y1.intersect(x);
 	HitPoint y1_y = y1.intersect(y);
@@ -212,9 +213,10 @@ TEST_CASE("test_intersect", "[intersect]") {
 	HitPoint g1_y = g1.intersect(y);
 	HitPoint g1_z = g1.intersect(z);
 	HitPoint g1_mz = g1.intersect(mz);
-
+	
 	REQUIRE(r1_x.cut == false);
 	REQUIRE(r1_y.cut == false);
+	REQUIRE(r1_mz.cut == false);
 	REQUIRE(y1_x.cut == false);
 	REQUIRE(y1_z.cut == false);
 	REQUIRE(y1_mz.cut == false);
@@ -227,7 +229,7 @@ TEST_CASE("test_intersect", "[intersect]") {
 	REQUIRE(r1_z.material == mat);
 	REQUIRE(r1_z.direction == glm::vec3{ 0,0,1 });
 	REQUIRE(r1_z.name == std::string{ "red1" });
-	REQUIRE(r1_z.point == glm::vec3{ 0,0,1 });
+	REQUIRE(r1_z.point == glm::vec3{ 0,0,6 });
 
 	REQUIRE(y1_y.cut == true);
 	REQUIRE(y1_y.distance == 4.0f);
@@ -241,7 +243,7 @@ TEST_CASE("test_intersect", "[intersect]") {
 	REQUIRE(g1_x.material == mat);
 	REQUIRE(g1_x.direction == glm::vec3{ 1,0,0 });
 	REQUIRE(g1_x.name == std::string{ "green1" });
-	REQUIRE(g1_x.point == glm::vec3{ 5,0,0 });
+	REQUIRE(g1_x.point == glm::vec3{ 4,0,0 });
 
 
 
