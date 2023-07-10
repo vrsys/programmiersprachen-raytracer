@@ -20,6 +20,10 @@
 *.out
 *.app
 
+# build directory
+[Bb]uild
+.vs
+
 checkerboard.ppm
 
 build
