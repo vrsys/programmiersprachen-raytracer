@@ -244,10 +244,9 @@ TEST_CASE("test_intersect", "[intersect]") {
 	REQUIRE(g1_x.point == glm::vec3{ 4,0,0 });
 
 
-
-
-
 }
+
+
 
 int main(int argc, char *argv[])
 {
