@@ -173,11 +173,9 @@ TEST_CASE("volume_box") {
 TEST_CASE(" parse sdf file to scene object", "[parse_sdf]") {
 
 	Scene scene{};
-	//std::cout << "hallo";
 	Scene s = parse_sdf("C:\\Users\\Annika\\00UNI\\SE1\\06Aufgabe\\programmiersprachen-raytracer\\scene_1.sdf");
 
 	for (auto i : s.material_container) {
-		//std::cout << "hallo";
 		std::cout << i->name << "\n";
 	}
 

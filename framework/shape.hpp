@@ -3,6 +3,8 @@
 #include <string>
 #include "color.hpp"
 #include "material.hpp"
+#include "hitpoint.hpp"
+#include "Ray.hpp"
 
 class Shape {
 public:
@@ -16,6 +18,8 @@ public:
 	std::pair<std::string, std::shared_ptr<Material>> get_n_c();
 	std::string get_name() const;
 	std::shared_ptr<Material> get_material() const;
+
+	virtual HitPoint intersect(Ray const& r) = 0;
 
 	//virtual ~Shape();
 

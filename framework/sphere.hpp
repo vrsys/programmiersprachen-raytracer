@@ -13,7 +13,7 @@ public:
 
 	float area() const override;
 	float volume() const override;
-	HitPoint intersect(Ray const& ray);
+	HitPoint intersect(Ray const& ray) override;
 	std::ostream& print(std::ostream& os) const override;
 
 	//~Sphere();
