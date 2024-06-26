@@ -17,3 +17,14 @@ double Box::volume() const {
 	glm::vec3 diagonal_{ maximum_ - minimum_ };
 	return std::abs(diagonal_.x * diagonal_.y * diagonal_.z);
 }
+
+std::ostream& Box::print(std::ostream& os) const
+{
+	Shape::print(os);
+	return os << "maximum: (" << maximum_.x << ", " << maximum_.y << ", " << maximum_.z << ')' << " minimum: (" << minimum_.x << ", " << minimum_.y << ", " << minimum_.z << ')' << '\n';
+}
+
+std::ostream& operator<<(std::ostream& os, Box const& b)
+{
+	return b.print(os);
+}

@@ -13,3 +13,14 @@ double Sphere::area() const {
 double Sphere::volume() const {
 	return 4.0 / 3.0 * std::numbers::pi * radius_ * radius_ * radius_;
 }
+
+std::ostream& Sphere::print(std::ostream& os) const
+{
+	Shape::print(os);
+	return os << "center: (" << center_.x << ", " << center_.y << ", " << center_.z << ')' << " radius: " << radius_ << '\n';
+}
+
+std::ostream& operator<<(std::ostream& os, Sphere const& s)
+{
+	return s.print(os);
+}

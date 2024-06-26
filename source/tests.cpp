@@ -18,6 +18,9 @@ TEST_CASE("Box and Sphere")
 	Box box_1 { "name", { 0, 0.5, 0.7 }, {5, 3, 2}, {2, 1, 0} };
 	Box box_2{ "name", { 0, 0.5, 0.7 }, {1.5, 9.4, 7.2}, {-1.2, -4.1, -3.3} };
 
+	std::cout << sphere_1;
+	std::cout << box_2;
+
 	CHECK(box_0.area() == 0);
 	CHECK(box_0.volume() == 0);
 
