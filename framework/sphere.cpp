@@ -2,7 +2,7 @@
 #include <numbers>
 #include "glm/gtx/intersect.hpp"
 
-Sphere::Sphere(std::string name, Color color, glm::vec3 const& center, float radius):
+Sphere::Sphere(std::string const& name, Color const& color, glm::vec3 const& center, float radius):
 	Shape::Shape{name, color},
 	center_{center},
 	radius_{radius} {}
@@ -19,4 +19,12 @@ std::ostream& Sphere::print(std::ostream& os) const {
 	return Shape::print(os) <<
 		"Radius: " << radius_ << "\n" <<
 		"Center: " << "(" << center_.x << ", " << center_.y << ", " << center_.z << ")\n";
+}
+
+HitPoint Sphere::intersect(Ray const& ray) const {
+	HitPoint hit_point{ false, 0.0f, Shape::name_, Shape::color_, {0.0f, 0.0f, 0.0f}, ray.direction };
+	hit_point.success = glm::intersectRaySphere(ray.origin, ray.direction, center_,
+		radius_ * radius_, hit_point.distance);
+	hit_point.intersection_point = ray.origin + hit_point.distance * ray.direction;
+	return hit_point;
 }
