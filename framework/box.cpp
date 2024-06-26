@@ -1,7 +1,7 @@
 #include "box.hpp"
 #include <numbers>
 
-Box::Box(std::string name, Color color, glm::vec3 const& min, glm::vec3 const& max):
+Box::Box(std::string const& name, Color const& color, glm::vec3 const& min, glm::vec3 const& max):
 	Shape::Shape{name, color},
 	min_{min},
 	max_{max} {}
