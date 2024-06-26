@@ -13,6 +13,9 @@ TEST_CASE(" sphere and box methods ", "[sphere_box_methods]") {
 	Box b{ "box", {0.0f, 0.0f, 0.0f}, glm::vec3{1.2f, 3.4f, 5.6f}, glm::vec3{7.8f, 9.0f, 10.2f} };
 	REQUIRE(186.16f == Approx(b.area()));
 	REQUIRE(170.016f == Approx(b.volume()));
+
+	std::cout << s << std::endl;
+	std::cout << b << std::endl;
 }
 
 int main(int argc, char *argv[])

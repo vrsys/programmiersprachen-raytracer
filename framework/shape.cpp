@@ -5,8 +5,7 @@ Shape::Shape(std::string name, Color color) :
 	color_{ color } {}
 
 std::ostream& Shape::print(std::ostream& os) const {
-	return os << "Objekt von Klasse Shape\n" <<
-		"Name: " << name_ << "\n" <<
+	return os << "Name: " << name_ << "\n" <<
 		"Color: " << color_;
 }
 

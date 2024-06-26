@@ -15,3 +15,9 @@ float Box::volume() const {
 	glm::vec3 diag = max_ - min_;
 	return diag.x * diag.y * diag.z;
 }
+
+std::ostream& Box::print(std::ostream& os) const {
+	return Shape::print(os) <<
+		"Min: " << "(" << min_.x << ", " << min_.y << ", " << min_.z << ")\n" <<
+		"Max: " << "(" << max_.x << ", " << max_.y << ", " << max_.z << ")\n";
+}
