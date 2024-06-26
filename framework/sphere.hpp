@@ -13,6 +13,7 @@ public:
 	float volume() const override;
 	std::ostream& print(std::ostream& os) const override;
 	HitPoint intersect(Ray const& ray) const;
+	~Sphere() override;
 private:
 	glm::vec3 center_;
 	float radius_;

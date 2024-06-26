@@ -5,7 +5,9 @@
 Sphere::Sphere(std::string const& name, Color const& color, glm::vec3 const& center, float radius):
 	Shape::Shape{name, color},
 	center_{center},
-	radius_{radius} {}
+	radius_{radius} {
+	std::cout << "Sphere Konstruktor Aufruf" << std::endl;
+}
 
 float Sphere::area() const {
 	return 4 * std::numbers::pi * radius_ * radius_ ;
@@ -27,4 +29,8 @@ HitPoint Sphere::intersect(Ray const& ray) const {
 		radius_ * radius_, hit_point.distance);
 	hit_point.intersection_point = ray.origin + hit_point.distance * ray.direction;
 	return hit_point;
+}
+
+Sphere::~Sphere() {
+	std::cout << "Sphere Destruktor Aufruf" << std::endl;
 }
