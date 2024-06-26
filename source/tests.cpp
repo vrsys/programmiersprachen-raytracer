@@ -12,11 +12,11 @@ int main(int argc, char *argv[])
 
 TEST_CASE("Box and Sphere")
 {
-	Sphere sphere_0{ {0, 0, 0}, 0 };
-	Sphere sphere_1 { {5, 3, 2}, 2.5 };
-	Box box_0{ {0, 0, 0}, {0, 0, 0 } };
-	Box box_1 { {5, 3, 2}, {2, 1, 0} };
-	Box box_2{ {1.5, 9.4, 7.2}, {-1.2, -4.1, -3.3} };
+	Sphere sphere_0{ "name", { 0, 0.5, 0.7 }, { 0, 0, 0 }, 0 };
+	Sphere sphere_1 { "name", { 0, 0.5, 0.7 }, {5, 3, 2}, 2.5 };
+	Box box_0{ "name", { 0, 0.5, 0.7 }, {0, 0, 0}, {0, 0, 0 } };
+	Box box_1 { "name", { 0, 0.5, 0.7 }, {5, 3, 2}, {2, 1, 0} };
+	Box box_2{ "name", { 0, 0.5, 0.7 }, {1.5, 9.4, 7.2}, {-1.2, -4.1, -3.3} };
 
 	CHECK(box_0.area() == 0);
 	CHECK(box_0.volume() == 0);
