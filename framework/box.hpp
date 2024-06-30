@@ -2,11 +2,12 @@
 #define BOX_HPP
 
 #include "shape.hpp"
+#include "color.hpp"
 #include <glm/vec3.hpp>
 
 class Box : public Shape {
 public:
-	Box(std::string const& name_parameter, glm::vec3 const& color_parameter, glm::vec3 const& maximum_parameter, glm::vec3 const& minimum_parameter);
+	Box(std::string const& name_parameter, Color const& color_parameter, glm::vec3 const& maximum_parameter, glm::vec3 const& minimum_parameter);
 	double area() const override;
 	double volume() const override;
 	std::ostream& print(std::ostream& os) const override;

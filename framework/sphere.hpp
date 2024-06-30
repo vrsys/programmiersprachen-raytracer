@@ -4,11 +4,12 @@
 #include "shape.hpp"
 #include "hitpoint.hpp"
 #include "ray.hpp"
+#include "color.hpp"
 #include <glm/vec3.hpp>
 
 class Sphere : public Shape {
 public:
-	Sphere(std::string const& name_parameter, glm::vec3 const& color_parameter, glm::vec3 const& center_parameter, double radius_parameter);
+	Sphere(std::string const& name_parameter, Color const& color_parameter, glm::vec3 const& center_parameter, double radius_parameter);
 	double area() const override;
 	double volume() const override;
 	std::ostream& print(std::ostream& os) const override;

@@ -3,6 +3,7 @@
 #include "box.hpp"
 #include "sphere.hpp"
 #include "hitpoint.hpp"
+#include "color.hpp"
 #include <glm/vec3.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtx/intersect.hpp>
@@ -59,9 +60,9 @@ TEST_CASE("intersect_ray_sphere", "[intersect]")
 		distance);
 	REQUIRE(distance == Approx(4.0f));
 
-	Sphere sphere_0{ "sphere_0", { 0, 0.5, 0.7 }, { -1, 0, 0 }, 1 };
-	Sphere sphere_1{ "sphere_1", { 0, 0.5, 0.7 }, { 0, 7.51, 0 }, 1 };
-	Sphere sphere_2{ "sphere_2", { 0, 0.5, 0.7 }, { -1.14, -2.68, 0 }, 3.0974 };
+	Sphere sphere_0{ "sphere_0", { 0.0f, 0.5f, 0.7f }, { -1, 0, 0 }, 1 };
+	Sphere sphere_1{ "sphere_1", { 0.0f, 0.5f, 0.7f }, { 0, 7.51, 0 }, 1 };
+	Sphere sphere_2{ "sphere_2", { 0.0f, 0.5f, 0.7f }, { -1.14, -2.68, 0 }, 3.0974 };
 
 	Ray ray_0{ { 9.0f, 0.0f, 0.0f }, { -1.0f, 0.0f, 0.0f } };
 	Ray ray_1{ { 0.0f, 11.0f, 0.0f }, { 0.0f, -11.0f, 2.0f } };
@@ -79,7 +80,9 @@ TEST_CASE("intersect_ray_sphere", "[intersect]")
 	CHECK(hitpoint_0.did_intersect_);
 	CHECK(hitpoint_0.distance_ == 9);
 	CHECK(hitpoint_0.object_name_ == "sphere_0");
-	CHECK(hitpoint_0.object_color_ == glm::vec3{ 0, 0.5, 0.7 });
+	CHECK(hitpoint_0.object_color_.r == 0);
+	CHECK(hitpoint_0.object_color_.g == 0.5);
+	CHECK(hitpoint_0.object_color_.b == 0.7f);
 	CHECK(hitpoint_0.position_ == glm::vec3{ 0, 0, 0 });
 	CHECK(hitpoint_0.direction_ == ray_0.direction);
 
@@ -88,7 +91,9 @@ TEST_CASE("intersect_ray_sphere", "[intersect]")
 	CHECK(hitpoint_2.did_intersect_);
 	CHECK(hitpoint_2.distance_ == Approx(8.57).margin(0.02));
 	CHECK(hitpoint_2.object_name_ == "sphere_2");
-	CHECK(hitpoint_2.object_color_ == glm::vec3{ 0, 0.5, 0.7 });
+	CHECK(hitpoint_2.object_color_.r == 0);
+	CHECK(hitpoint_2.object_color_.g == 0.5);
+	CHECK(hitpoint_2.object_color_.b == 0.7f);
 	CHECK(hitpoint_2.position_.x == Approx(0.43).margin(0.02));
 	CHECK(hitpoint_2.position_.y == 0);
 	CHECK(hitpoint_2.position_.z == 0);
@@ -99,7 +104,9 @@ TEST_CASE("intersect_ray_sphere", "[intersect]")
 	CHECK(hitpoint_4.did_intersect_);
 	CHECK(hitpoint_4.distance_ == Approx(2.47).margin(0.3));
 	CHECK(hitpoint_4.object_name_ == "sphere_1");
-	CHECK(hitpoint_4.object_color_ == glm::vec3{ 0, 0.5, 0.7 });
+	CHECK(hitpoint_4.object_color_.r == 0);
+	CHECK(hitpoint_4.object_color_.g == 0.5);
+	CHECK(hitpoint_4.object_color_.b == 0.7f);
 	CHECK(hitpoint_4.position_.x == 0);
 	CHECK(hitpoint_4.position_.y == Approx(8.57).margin(0.3));
 	CHECK(hitpoint_4.position_.z == Approx(0.44).margin(0.3));
@@ -108,9 +115,23 @@ TEST_CASE("intersect_ray_sphere", "[intersect]")
 	CHECK(hitpoint_5.did_intersect_);
 	CHECK(hitpoint_5.distance_ == Approx(11.93).margin(0.1));
 	CHECK(hitpoint_5.object_name_ == "sphere_2");
-	CHECK(hitpoint_5.object_color_ == glm::vec3{ 0, 0.5, 0.7 });
+	CHECK(hitpoint_5.object_color_.r == 0);
+	CHECK(hitpoint_5.object_color_.g == 0.5);
+	CHECK(hitpoint_5.object_color_.b == 0.7f);
 	CHECK(hitpoint_5.position_.x == 0);
 	CHECK(hitpoint_5.position_.y == Approx(-0.74).margin(0.1));
 	CHECK(hitpoint_5.position_.z == Approx(2.13).margin(0.1));
 	CHECK(hitpoint_5.direction_ == ray_1.direction);
+}
+
+TEST_CASE("static and dynamic type")
+{
+	Color red{ 255 , 0 , 0 };
+	glm::vec3 position{ 0.0f , 0.0f , 0.0f };
+	std::shared_ptr<Sphere> s1 =
+		std::make_shared<Sphere>("sphere0", red, position, 1.2f);
+	std::shared_ptr<Shape> s2 =
+		std::make_shared<Sphere>("sphere1", red, position, 1.2f);
+	s1->print(std::cout);
+	s2->print(std::cout);
 }

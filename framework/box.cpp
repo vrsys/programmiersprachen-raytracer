@@ -1,8 +1,9 @@
 #include "box.hpp"
+#include "color.hpp"
 #include <glm/vec3.hpp>
 #include <cmath>
 
-Box::Box(std::string const& name_parameter, glm::vec3 const& color_parameter, glm::vec3 const& maximum_parameter, glm::vec3 const& minimum_parameter) : Shape::Shape{ name_parameter, color_parameter }, maximum_(maximum_parameter), minimum_(minimum_parameter)
+Box::Box(std::string const& name_parameter, Color const& color_parameter, glm::vec3 const& maximum_parameter, glm::vec3 const& minimum_parameter) : Shape::Shape{ name_parameter, color_parameter }, maximum_(maximum_parameter), minimum_(minimum_parameter)
 {}
 
 double Box::area() const {
