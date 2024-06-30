@@ -8,6 +8,7 @@
 class Box : public Shape {
 public:
 	Box(std::string const& name_parameter, Color const& color_parameter, glm::vec3 const& maximum_parameter, glm::vec3 const& minimum_parameter);
+	~Box();
 	double area() const override;
 	double volume() const override;
 	std::ostream& print(std::ostream& os) const override;

@@ -8,7 +8,14 @@
 #include <string>
 
 Sphere::Sphere(std::string const& name_parameter, Color const& color_parameter, glm::vec3 const& center_parameter, double radius_parameter) : Shape::Shape{ name_parameter, color_parameter }, center_{center_parameter}, radius_(radius_parameter)
-{}
+{
+	std::cout << "Sphere constructor called\n";
+}
+
+Sphere::~Sphere()
+{
+	std::cout << "Sphere destructor called\n";
+}
 
 double Sphere::area() const {
 	return 4 * std::numbers::pi * radius_ * radius_;

@@ -135,3 +135,19 @@ TEST_CASE("static and dynamic type")
 	s1->print(std::cout);
 	s2->print(std::cout);
 }
+
+
+TEST_CASE("constructor, destructor order")
+{
+	// if virtual: c Shape, c Sphere, c Shape, c Sphere | d Sphere, d Shape, d Sphere, d Shape
+	// no virtual: c Shape, c Sphere, c Shape, c Sphere | d Sphere, d Shape, d Shape
+	std::cout << "_______________________________________________________________________\n";
+	Color red{ 255 , 0 , 0 };
+	glm::vec3 position{ 0.0f , 0.0f , 0.0f };
+	Sphere* s1 = new Sphere{ "sphere0", red, position, 1.2f };
+	Shape* s2 = new Sphere{ "sphere0", red, position, 1.2f };
+	s1->print(std::cout);
+	s2->print(std::cout);
+	delete s1;
+	delete s2;
+}

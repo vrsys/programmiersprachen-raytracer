@@ -4,7 +4,14 @@
 #include <cmath>
 
 Box::Box(std::string const& name_parameter, Color const& color_parameter, glm::vec3 const& maximum_parameter, glm::vec3 const& minimum_parameter) : Shape::Shape{ name_parameter, color_parameter }, maximum_(maximum_parameter), minimum_(minimum_parameter)
-{}
+{
+	std::cout << "Box constructor called\n";
+}
+
+Box::~Box()
+{
+	std::cout << "Box destructor called\n";
+}
 
 double Box::area() const {
 	glm::vec3 diagonal_{ maximum_ - minimum_ };
