@@ -11,7 +11,7 @@ public:
 	virtual double area() const = 0;
 	virtual double volume() const = 0;
 	virtual std::ostream& print(std::ostream& os) const;
-private:
+protected:
 	std::string name_;
 	glm::vec3 color_;
 };
