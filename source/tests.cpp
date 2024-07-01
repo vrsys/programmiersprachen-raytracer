@@ -146,8 +146,8 @@ TEST_CASE("constructor, destructor order")
 	glm::vec3 position{ 0.0f , 0.0f , 0.0f };
 	Sphere* s1 = new Sphere{ "sphere0", red, position, 1.2f };
 	Shape* s2 = new Sphere{ "sphere0", red, position, 1.2f };
-	s1->print(std::cout);
-	s2->print(std::cout);
+	s1->print(std::cout); // type Sphere: Sphere destructor called, Shape destructor called automatically
+	s2->print(std::cout); // type Shape: only shape destructor called
 	delete s1;
 	delete s2;
 }
