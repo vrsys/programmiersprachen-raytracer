@@ -69,13 +69,13 @@ TEST_CASE("intersect_ray_sphere", "[intersect]")
 
 	float intersection_distance_parameter = -1;
 
-	HitPoint hitpoint_0 = sphere_0.intersect(ray_0, intersection_distance_parameter); // yes
-	HitPoint hitpoint_1 = sphere_1.intersect(ray_0, intersection_distance_parameter); // no
-	HitPoint hitpoint_2 = sphere_2.intersect(ray_0, intersection_distance_parameter); // yes
+	HitPoint hitpoint_0 = sphere_0.intersect(ray_0); // yes
+	HitPoint hitpoint_1 = sphere_1.intersect(ray_0); // no
+	HitPoint hitpoint_2 = sphere_2.intersect(ray_0); // yes
 
-	HitPoint hitpoint_3 = sphere_0.intersect(ray_1, intersection_distance_parameter); // no
-	HitPoint hitpoint_4 = sphere_1.intersect(ray_1, intersection_distance_parameter); // yes
-	HitPoint hitpoint_5 = sphere_2.intersect(ray_1, intersection_distance_parameter); // yes
+	HitPoint hitpoint_3 = sphere_0.intersect(ray_1); // no
+	HitPoint hitpoint_4 = sphere_1.intersect(ray_1); // yes
+	HitPoint hitpoint_5 = sphere_2.intersect(ray_1); // yes
 
 	CHECK(hitpoint_0.did_intersect_);
 	CHECK(hitpoint_0.distance_ == 9);

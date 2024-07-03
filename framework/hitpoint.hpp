@@ -7,12 +7,12 @@
 
 struct HitPoint
 {
-	bool did_intersect_{};
-	float distance_{};
-	std::string object_name_{};
-	Color object_color_{};
-	glm::vec3 position_{};
-	glm::vec3 direction_{};
+	bool did_intersect_{ false };
+	float distance_{ 0 };
+	std::string object_name_{"placeholder"};
+	Color object_color_{ 0, 0, 0 };
+	glm::vec3 position_{ 0, 0, 0 };
+	glm::vec3 direction_{ 0, 0, 0 };
 };
 
 #endif

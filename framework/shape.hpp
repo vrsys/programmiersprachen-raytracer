@@ -2,6 +2,8 @@
 #define SHAPE_HPP
 
 #include "color.hpp"
+#include "ray.hpp"
+#include "hitpoint.hpp"
 #include <string>
 #include <glm/vec3.hpp>
 #include <iostream>
@@ -13,6 +15,7 @@ public:
 	virtual double area() const = 0;
 	virtual double volume() const = 0;
 	virtual std::ostream& print(std::ostream& os) const;
+	virtual HitPoint intersect(Ray const& ray_) const = 0;
 protected:
 	std::string name_;
 	Color color_;

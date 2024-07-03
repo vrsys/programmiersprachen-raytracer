@@ -3,6 +3,7 @@
 
 #include "shape.hpp"
 #include "color.hpp"
+#include "hitpoint.hpp"
 #include <glm/vec3.hpp>
 
 class Box : public Shape {
@@ -12,6 +13,7 @@ public:
 	double area() const override;
 	double volume() const override;
 	std::ostream& print(std::ostream& os) const override;
+	HitPoint intersect(Ray const& ray_) const override;
 private:
 	glm::vec3 maximum_;
 	glm::vec3 minimum_;

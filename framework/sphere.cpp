@@ -31,11 +31,12 @@ std::ostream& Sphere::print(std::ostream& os) const
 	return os << "center: (" << center_.x << ", " << center_.y << ", " << center_.z << ')' << " radius: " << radius_ << '\n';
 }
 
-HitPoint Sphere::intersect(Ray & ray_, float intersection_distance_parameter) const
+HitPoint Sphere::intersect(Ray const& ray_) const
 {	
-	ray_.direction = glm::normalize(ray_.direction);
-	bool did_intersect_parameter = glm::intersectRaySphere(ray_.origin, ray_.direction, center_, radius_ * radius_, intersection_distance_parameter); // outside so intersection_distance_parameter is updated
-	return HitPoint{ did_intersect_parameter, intersection_distance_parameter, Shape::name_, Shape::color_,  (ray_.origin + intersection_distance_parameter * ray_.direction), ray_.direction };
+	float intersection_distance_parameter = 0;
+	glm::vec3 ray_direction = glm::normalize(ray_.direction);
+	bool did_intersect_parameter = glm::intersectRaySphere(ray_.origin, ray_direction, center_, radius_ * radius_, intersection_distance_parameter); // outside so intersection_distance_parameter is updated
+	return HitPoint{ did_intersect_parameter, intersection_distance_parameter, Shape::name_, Shape::color_,  (ray_.origin + intersection_distance_parameter * ray_direction), ray_direction };
 }
 
 std::ostream& operator<<(std::ostream& os, Sphere const& s)

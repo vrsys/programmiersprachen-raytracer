@@ -1,5 +1,6 @@
 #include "box.hpp"
 #include "color.hpp"
+#include "hitpoint.hpp"
 #include <glm/vec3.hpp>
 #include <cmath>
 
@@ -35,4 +36,9 @@ std::ostream& Box::print(std::ostream& os) const
 std::ostream& operator<<(std::ostream& os, Box const& b)
 {
 	return b.print(os);
+}
+
+HitPoint Box::intersect(Ray const& ray_) const
+{
+	return HitPoint{};
 }
