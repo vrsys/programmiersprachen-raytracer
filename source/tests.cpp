@@ -49,9 +49,9 @@ TEST_CASE(" intersect_method_sphere ", "[intersect_method_sphere]") {
 		REQUIRE(true == hit_point.success);
 		REQUIRE(4.0f == Approx(hit_point.distance));
 		REQUIRE("sphere1" == hit_point.name_intersected_obj);
-		REQUIRE(0.0f == Approx(hit_point.color_intersected_onj.r));
-		REQUIRE(0.0f == Approx(hit_point.color_intersected_onj.g));
-		REQUIRE(0.0f == Approx(hit_point.color_intersected_onj.b));
+		REQUIRE(0.0f == Approx(hit_point.color_intersected_obj.r));
+		REQUIRE(0.0f == Approx(hit_point.color_intersected_obj.g));
+		REQUIRE(0.0f == Approx(hit_point.color_intersected_obj.b));
 		REQUIRE(0.0f == Approx(hit_point.intersection_point.x));
 		REQUIRE(0.0f == Approx(hit_point.intersection_point.y));
 		REQUIRE(4.0f == Approx(hit_point.intersection_point.z));
@@ -74,9 +74,9 @@ TEST_CASE(" intersect_method_sphere ", "[intersect_method_sphere]") {
 		REQUIRE(true == hit_point.success);
 		REQUIRE(4.0f == Approx(hit_point.distance));
 		REQUIRE("sphere3" == hit_point.name_intersected_obj);
-		REQUIRE(1.0f == Approx(hit_point.color_intersected_onj.r));
-		REQUIRE(1.0f == Approx(hit_point.color_intersected_onj.g));
-		REQUIRE(1.0f == Approx(hit_point.color_intersected_onj.b));
+		REQUIRE(1.0f == Approx(hit_point.color_intersected_obj.r));
+		REQUIRE(1.0f == Approx(hit_point.color_intersected_obj.g));
+		REQUIRE(1.0f == Approx(hit_point.color_intersected_obj.b));
 		REQUIRE(4.2f == Approx(hit_point.intersection_point.x));
 		REQUIRE(4.4f == Approx(hit_point.intersection_point.y));
 		REQUIRE(3.0f == Approx(hit_point.intersection_point.z));
@@ -97,6 +97,35 @@ TEST_CASE(" destructor ", "[destructor]") {
 	delete s1;
 	delete s2;
 
+}
+
+TEST_CASE(" box intersection ", "[box_intersection]") {
+	Box box{ "box", {0.0f, 0.0f, 0.0f}, { 1.0f, 1.0f, 1.0f }, {3.0f, 4.0f, 5.0f} };
+	SECTION("intersection") {
+		HitPoint hit_point = box.intersect({ {0.0f, 0.0f, 0.0f}, { 1.0f / std::sqrt(14), 2.0f / std::sqrt(14), 3.0f / std::sqrt(14)} });
+		REQUIRE(true == hit_point.success);
+		REQUIRE(std::sqrt(14) == Approx(hit_point.distance));
+		REQUIRE("box" == hit_point.name_intersected_obj);
+		REQUIRE(0.0f == Approx(hit_point.color_intersected_obj.r));
+		REQUIRE(0.0f == Approx(hit_point.color_intersected_obj.g));
+		REQUIRE(0.0f == Approx(hit_point.color_intersected_obj.b));
+		REQUIRE(1.0f == Approx(hit_point.intersection_point.x));
+		REQUIRE(2.0f == Approx(hit_point.intersection_point.y));
+		REQUIRE(3.0f == Approx(hit_point.intersection_point.z));
+		REQUIRE(1.0f / std::sqrt(14) == Approx(hit_point.ray_direction.x));
+		REQUIRE(2.0f / std::sqrt(14) == Approx(hit_point.ray_direction.y));
+		REQUIRE(3.0f / std::sqrt(14) == Approx(hit_point.ray_direction.z));
+	}
+
+	SECTION("no intersection") {
+		HitPoint hit_point = box.intersect({ {0.0f, 0.0f, 0.0f}, {1.0f / std::sqrt(46), 3.0f / std::sqrt(46), 6.0f / std::sqrt(46)}});
+		REQUIRE(false == hit_point.success);
+	}
+
+	SECTION("oppesite direction") {
+		HitPoint hit_point = box.intersect({ {0.0f, 0.0f, 0.0f}, { -1.0f / std::sqrt(14), -2.0f / std::sqrt(14), -3.0f / std::sqrt(14)} });
+		REQUIRE(false == hit_point.success);
+	}
 }
 
 int main(int argc, char *argv[])
