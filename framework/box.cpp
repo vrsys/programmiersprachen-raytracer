@@ -98,5 +98,5 @@ HitPoint Box::intersect(Ray const& ray) const {
 		}
 	}
 
-	return HitPoint { success, t_min, Shape::name_, Shape::color_, intersection_point, ray.direction };
+	return HitPoint { success, t_min, Shape::name_, Shape::material_, intersection_point, ray.direction };
 }

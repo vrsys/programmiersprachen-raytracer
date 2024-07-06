@@ -103,15 +103,15 @@ TEST_CASE(" destructor ", "[destructor]") {
 }
 
 TEST_CASE(" box intersection ", "[box_intersection]") {
-	Box box{ "box", {0.0f, 0.0f, 0.0f}, { 1.0f, 1.0f, 1.0f }, {3.0f, 4.0f, 5.0f} };
+    Color red{255 , 0 , 0 };
+    auto material = std::make_shared<Material>("smth", red, red, red, 0.85f);
+	Box box{ "box", material, { 1.0f, 1.0f, 1.0f }, {3.0f, 4.0f, 5.0f} };
 	SECTION("intersection") {
 		HitPoint hit_point = box.intersect(norm({ {0.0f, 0.0f, 0.0f}, {1.0f, 2.0f, 3.0f} }));
 		REQUIRE(true == hit_point.success);
 		REQUIRE(std::sqrt(14) == Approx(hit_point.distance));
 		REQUIRE("box" == hit_point.name_intersected_obj);
-		REQUIRE(0.0f == Approx(hit_point.color_intersected_obj.r));
-		REQUIRE(0.0f == Approx(hit_point.color_intersected_obj.g));
-		REQUIRE(0.0f == Approx(hit_point.color_intersected_obj.b));
+
 		REQUIRE(1.0f == Approx(hit_point.intersection_point.x));
 		REQUIRE(2.0f == Approx(hit_point.intersection_point.y));
 		REQUIRE(3.0f == Approx(hit_point.intersection_point.z));
