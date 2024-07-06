@@ -4,11 +4,13 @@
 #include "shape.hpp"
 #include "color.hpp"
 #include "hitpoint.hpp"
+#include "material.hpp"
+//#include <memory>
 #include <glm/vec3.hpp>
 
 class Box : public Shape {
 public:
-	Box(std::string const& name_parameter, Color const& color_parameter, glm::vec3 const& maximum_parameter, glm::vec3 const& minimum_parameter);
+	Box(std::string const& name_parameter, std::shared_ptr<Material> const& material_parameter, glm::vec3 const& maximum_parameter, glm::vec3 const& minimum_parameter);
 	~Box();
 	double area() const override;
 	double volume() const override;

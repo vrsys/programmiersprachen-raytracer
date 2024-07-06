@@ -9,7 +9,7 @@
 
 class Sphere : public Shape {
 public:
-	Sphere(std::string const& name_parameter, Color const& color_parameter, glm::vec3 const& center_parameter, double radius_parameter);
+	Sphere(std::string const& name_parameter, std::shared_ptr<Material> const& material_parameter, glm::vec3 const& center_parameter, double radius_parameter);
 	~Sphere();
 	double area() const override;
 	double volume() const override;

@@ -7,7 +7,7 @@
 #include <cmath>
 #include <string>
 
-Sphere::Sphere(std::string const& name_parameter, Color const& color_parameter, glm::vec3 const& center_parameter, double radius_parameter) : Shape::Shape{ name_parameter, color_parameter }, center_{center_parameter}, radius_(radius_parameter)
+Sphere::Sphere(std::string const& name_parameter, std::shared_ptr<Material> const& material_parameter, glm::vec3 const& center_parameter, double radius_parameter) : Shape::Shape{ name_parameter, material_parameter }, center_{center_parameter}, radius_(radius_parameter)
 {
 	std::cout << "Sphere constructor called\n";
 }
@@ -36,7 +36,7 @@ HitPoint Sphere::intersect(Ray const& ray_) const
 	float intersection_distance_parameter = 0;
 	glm::vec3 ray_direction = glm::normalize(ray_.direction);
 	bool did_intersect_parameter = glm::intersectRaySphere(ray_.origin, ray_direction, center_, radius_ * radius_, intersection_distance_parameter); // outside so intersection_distance_parameter is updated
-	return HitPoint{ did_intersect_parameter, intersection_distance_parameter, Shape::name_, Shape::color_,  (ray_.origin + intersection_distance_parameter * ray_direction), ray_direction };
+	return HitPoint{ did_intersect_parameter, intersection_distance_parameter, Shape::name_, Shape::material_,  (ray_.origin + intersection_distance_parameter * ray_direction), ray_direction };
 }
 
 std::ostream& operator<<(std::ostream& os, Sphere const& s)
