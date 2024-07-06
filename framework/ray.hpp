@@ -8,4 +8,6 @@ struct Ray {
 	glm::vec3 direction = { 0.0f, 0.0f, 0.0f };
 };
 
+Ray norm(Ray const& ray);
+
 #endif

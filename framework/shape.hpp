@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include "color.hpp"
+#include "ray.hpp"
+#include "hit_point.hpp"
 #include "hit_point.hpp"
 #include "ray.hpp"
 #include "material.hpp"
@@ -14,6 +16,7 @@ public:
 	virtual float volume() const = 0;
 	virtual std::ostream& print(std::ostream& os) const;
 	virtual ~Shape();
+	virtual HitPoint intersect(Ray const& ray) const = 0;
 protected:
 	std::string name_;
     std::shared_ptr<Material> material_;
