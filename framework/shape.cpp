@@ -1,14 +1,14 @@
 #include "shape.hpp"
 
-Shape::Shape(std::string const& name, Color const& color) :
+Shape::Shape(std::string const& name, std::shared_ptr<Material> const& material) :
 	name_{ name },
-	color_{ color } {
+	material_{ material } {
 	std::cout << "Shape Konstruktor Aufruf" << std::endl;
 }
 
 std::ostream& Shape::print(std::ostream& os) const {
 	return os << "Name: " << name_ << "\n" <<
-		"Color: " << color_;
+		"Material: " << material_;
 }
 
 std::ostream& operator<<(std::ostream& os, Shape const& s) {

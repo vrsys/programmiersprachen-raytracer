@@ -1,8 +1,8 @@
 #include "box.hpp"
 #include <numbers>
 
-Box::Box(std::string const& name, Color const& color, glm::vec3 const& min, glm::vec3 const& max):
-	Shape::Shape{name, color},
+Box::Box(std::string const& name, std::shared_ptr<Material> const& material, glm::vec3 const& min, glm::vec3 const& max):
+	Shape::Shape{name, material},
 	min_{min},
 	max_{max} {}
 

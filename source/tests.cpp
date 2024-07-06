@@ -9,11 +9,13 @@
 #include "hit_point.hpp"
 
 TEST_CASE(" sphere and box methods ", "[sphere_box_methods]") {
-	Sphere s{ "sphere", {0.0f, 0.0f, 0.0f}, glm::vec3{0.0f, 0.0f, 0.0f}, 12.34f };
+    Color red{255 , 0 , 0 };
+    auto material = std::make_shared<Material>("smth", red, red, red, 0.85f);
+	Sphere s{ "sphere", material, glm::vec3{0.0f, 0.0f, 0.0f}, 12.34f };
 	REQUIRE(1913.55123f == Approx(s.area()));
 	REQUIRE(7871.074 == Approx(s.volume()));
 
-	Box b{ "box", {0.0f, 0.0f, 0.0f}, glm::vec3{1.2f, 3.4f, 5.6f}, glm::vec3{7.8f, 9.0f, 10.2f} };
+	Box b{ "box",material, glm::vec3{1.2f, 3.4f, 5.6f}, glm::vec3{7.8f, 9.0f, 10.2f} };
 	REQUIRE(186.16f == Approx(b.area()));
 	REQUIRE(170.016f == Approx(b.volume()));
 
@@ -42,16 +44,15 @@ TEST_CASE(" intersect_ray_sphere ", "[intersect]")
 }
 
 TEST_CASE(" intersect_method_sphere ", "[intersect_method_sphere]") {
-	SECTION(" there is intersection ") {
+        Color red{255 , 0 , 0 };
+        auto material = std::make_shared<Material>("smth", red, red, red, 0.85f);
+        SECTION(" there is intersection ") {
 		Ray ray{ glm::vec3{0.0f, 0.0f, 0.0f}, glm::vec3{0.0f, 0.0f, 1.0f} };
-		Sphere s{ "sphere1", {0.0f, 0.0f, 0.0f}, glm::vec3{0.0f, 0.0f, 5.0f}, 1.0f };
+		Sphere s{ "sphere1", material, glm::vec3{0.0f, 0.0f, 5.0f}, 1.0f };
 		HitPoint hit_point = s.intersect(ray);
 		REQUIRE(true == hit_point.success);
 		REQUIRE(4.0f == Approx(hit_point.distance));
 		REQUIRE("sphere1" == hit_point.name_intersected_obj);
-		REQUIRE(0.0f == Approx(hit_point.color_intersected_onj.r));
-		REQUIRE(0.0f == Approx(hit_point.color_intersected_onj.g));
-		REQUIRE(0.0f == Approx(hit_point.color_intersected_onj.b));
 		REQUIRE(0.0f == Approx(hit_point.intersection_point.x));
 		REQUIRE(0.0f == Approx(hit_point.intersection_point.y));
 		REQUIRE(4.0f == Approx(hit_point.intersection_point.z));
@@ -61,22 +62,23 @@ TEST_CASE(" intersect_method_sphere ", "[intersect_method_sphere]") {
 	}
 
 	SECTION(" there is no intersection ") {
+        Color red{255 , 0 , 0 };
+        auto material = std::make_shared<Material>("smth", red, red, red, 0.85f);
 		Ray ray{ glm::vec3{0.0f, 0.0f, 0.0f}, glm::vec3{0.0f, 1.0f, 0.0f} };
-		Sphere s{ "sphere2", {0.0f, 0.0f, 0.0f}, glm::vec3{0.0f, 0.0f, 5.0f}, 1.0f };
+		Sphere s{ "sphere2", material, glm::vec3{0.0f, 0.0f, 5.0f}, 1.0f };
 		HitPoint hit_point = s.intersect(ray);
 		REQUIRE(false == hit_point.success);
 	}
 
 	SECTION(" ray touches sphere ") {
+        Color red{255 , 0 , 0 };
+        auto material = std::make_shared<Material>("smth", red, red, red, 0.85f);
 		Ray ray{ glm::vec3{1.0f, 2.0f, 3.0f}, glm::vec3{0.8f, 0.6f, 0.0f} };
-		Sphere s{ "sphere3", {1.0f, 1.0f, 1.0f}, glm::vec3{6.0f, 2.0f, 3.0f}, 3.0f };
+		Sphere s{ "sphere3", material, glm::vec3{6.0f, 2.0f, 3.0f}, 3.0f };
 		HitPoint hit_point = s.intersect(ray);
 		REQUIRE(true == hit_point.success);
 		REQUIRE(4.0f == Approx(hit_point.distance));
 		REQUIRE("sphere3" == hit_point.name_intersected_obj);
-		REQUIRE(1.0f == Approx(hit_point.color_intersected_onj.r));
-		REQUIRE(1.0f == Approx(hit_point.color_intersected_onj.g));
-		REQUIRE(1.0f == Approx(hit_point.color_intersected_onj.b));
 		REQUIRE(4.2f == Approx(hit_point.intersection_point.x));
 		REQUIRE(4.4f == Approx(hit_point.intersection_point.y));
 		REQUIRE(3.0f == Approx(hit_point.intersection_point.z));
@@ -87,11 +89,12 @@ TEST_CASE(" intersect_method_sphere ", "[intersect_method_sphere]") {
 }
 
 TEST_CASE(" destructor ", "[destructor]") {
-	Color red{ 255 , 0 , 0 };
+    Color red{255 , 0 , 0 };
+    auto material = std::make_shared<Material>("smth", red, red, red, 0.85f);
 	glm::vec3 position{ 0.0f, 0.0f, 0.0f };
 	std::cout << std::endl;
-	Sphere* s1 = new Sphere{"sphere0", red, position , 1.2f };
-	Shape* s2 = new Sphere{"sphere1", red, position , 1.2f };
+	Sphere* s1 = new Sphere{"sphere0", material, position , 1.2f };
+	Shape* s2 = new Sphere{"sphere1", material, position , 1.2f };
 	s1 -> print(std::cout);
 	s2 -> print(std::cout);
 	delete s1;

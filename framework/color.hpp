@@ -56,4 +56,6 @@ struct Color
   float b;
 };
 
+
+
 #endif //#define BUW_COLOR_HPP
