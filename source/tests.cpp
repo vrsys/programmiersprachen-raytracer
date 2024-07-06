@@ -102,7 +102,7 @@ TEST_CASE(" destructor ", "[destructor]") {
 TEST_CASE(" box intersection ", "[box_intersection]") {
 	Box box{ "box", {0.0f, 0.0f, 0.0f}, { 1.0f, 1.0f, 1.0f }, {3.0f, 4.0f, 5.0f} };
 	SECTION("intersection") {
-		HitPoint hit_point = box.intersect({ {0.0f, 0.0f, 0.0f}, { 1.0f / std::sqrt(14), 2.0f / std::sqrt(14), 3.0f / std::sqrt(14)} });
+		HitPoint hit_point = box.intersect(norm({ {0.0f, 0.0f, 0.0f}, {1.0f, 2.0f, 3.0f} }));
 		REQUIRE(true == hit_point.success);
 		REQUIRE(std::sqrt(14) == Approx(hit_point.distance));
 		REQUIRE("box" == hit_point.name_intersected_obj);
@@ -118,12 +118,12 @@ TEST_CASE(" box intersection ", "[box_intersection]") {
 	}
 
 	SECTION("no intersection") {
-		HitPoint hit_point = box.intersect({ {0.0f, 0.0f, 0.0f}, {1.0f / std::sqrt(46), 3.0f / std::sqrt(46), 6.0f / std::sqrt(46)}});
+		HitPoint hit_point = box.intersect(norm({ {0.0f, 0.0f, 0.0f}, {1.0f, 3.0f, 6.0f} }));
 		REQUIRE(false == hit_point.success);
 	}
 
 	SECTION("oppesite direction") {
-		HitPoint hit_point = box.intersect({ {0.0f, 0.0f, 0.0f}, { -1.0f / std::sqrt(14), -2.0f / std::sqrt(14), -3.0f / std::sqrt(14)} });
+		HitPoint hit_point = box.intersect(norm({ {0.0f, 0.0f, 0.0f}, { -1.0f, -2.0f, -3.0f} }));
 		REQUIRE(false == hit_point.success);
 	}
 }

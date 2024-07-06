@@ -8,12 +8,6 @@ struct Ray {
 	glm::vec3 direction = { 0.0f, 0.0f, 0.0f };
 };
 
-/*
-Ray norm(Ray const& ray, bool b) {
-	float length = std::sqrt(ray.direction.x * ray.direction.x + ray.direction.y * ray.direction.y +
-		ray.direction.z + ray.direction.z);
-	return Ray{ ray.origin, {ray.direction.x / length, ray.direction.y / length, ray.direction.z / length} };
-}
-*/
+Ray norm(Ray const& ray);
 
 #endif
