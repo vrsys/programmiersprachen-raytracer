@@ -3,22 +3,24 @@
 
 #include "color.hpp"
 #include <string>
+#include <glm/vec3.hpp>
 
 struct Material
 {
 
-	std::string name_{ "placeholder" };
-	Color ka_{ 0, 0, 0 };
-	Color kd_{ 0, 0, 0 };
-	Color ks_{ 0, 0, 0 };
-	float exponent_{ 0 };
+	std::string name{ "placeholder" };
+	Color ka{ 0, 0, 0 };
+	Color kd{ 0, 0, 0 };
+	Color ks{ 0, 0, 0 };
+	float exponent{ 0 };
 };
 
 inline std::ostream& operator<<(std::ostream& os, Material const& material) // inline makes it so that the function can be defined within the header file
 {
-	os << "material name: " << material.name_ << " ka: " << "(" << material.ka_.r << ", " << material.ka_.g << ", " << material.ka_.b << ") "
-		<< "kd: " << "(" << material.kd_.r << ", " << material.kd_.g << ", " << material.kd_.b << ") "
-		<< "ks: " << "(" << material.ks_.r << ", " << material.kd_.g << ", " << material.kd_.b << ")";
+	os << "material name: " << material.name << " ka: " << "(" << material.ka.r << ", " << material.ka.g << ", " << material.ka.b << ") "
+		<< "kd: " << "(" << material.kd.r << ", " << material.kd.g << ", " << material.kd.b << ") "
+		<< "ks: " << "(" << material.ks.r << ", " << material.kd.g << ", " << material.kd.b << ")"
+		<< " exponent: " << material.exponent;
 	return os;
 }
 #endif

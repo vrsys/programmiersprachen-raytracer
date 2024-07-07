@@ -43,18 +43,20 @@ HitPoint Box::intersect(Ray const& ray_) const
 {
 	glm::vec3 ray_direction{ glm::normalize(ray_.direction) }; // normalize direction
 
-	bool did_intersect = false;
+	bool did_intersect = false; // HitPoint parameter to be filled or remain if no intersection occurs
 
-	glm::vec3 intersection{};
-	float t_parameter = std::numeric_limits<float>::max();
+	glm::vec3 intersection{}; // the HitPoints position parameter, will be filled along the way too
+	float t_parameter = std::numeric_limits<float>::max(); // general shortest found distance to an intersection
 
-	float t = 0;
+	float t = 0; // current found distance to an intersection
 
+	// lambda that is used to shorten if statements
 	auto better_t = [&t_parameter](float new_t) -> bool
 		{
 			return (new_t >= 0) && (new_t < t_parameter);
 		};
 
+	// lambda used to decrease size of bodies of if statements
 	auto update_intersection = [&](glm::vec3 new_intersection, float new_t) -> void 
 		{
 			intersection = new_intersection;
@@ -64,10 +66,12 @@ HitPoint Box::intersect(Ray const& ray_) const
 
 	if (ray_.direction.x != 0)
 	{
-		t = (minimum_.x - ray_.origin.x) / ray_direction.x;
-		glm::vec3 intersection_x_min{ ray_.origin + t * ray_direction };
+		t = (minimum_.x - ray_.origin.x) / ray_direction.x; // calculate distance to the x_min plane
+		glm::vec3 intersection_x_min{ ray_.origin + t * ray_direction }; // calculate the intersection point
+		// check if the intersection point is closer than ones already found and if it is within the other coordinates of the box
 		if (better_t(t) && (minimum_.y <= intersection_x_min.y) && (intersection_x_min.y <= maximum_.y) && (minimum_.z <= intersection_x_min.z) && (intersection_x_min.z <= maximum_.z))
 		{
+			// remember this point
 			update_intersection(intersection_x_min, t);
 		}
 		// ...x_max plane

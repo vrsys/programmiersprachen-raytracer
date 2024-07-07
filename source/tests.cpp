@@ -5,10 +5,13 @@
 #include "hitpoint.hpp"
 #include "color.hpp"
 #include "material.hpp"
+#include "sdf_reader.hpp"
+#include "scene.hpp"
 #include <glm/vec3.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtx/intersect.hpp>
 #include <catch.hpp>
+#include <vector>
 
 int main(int argc, char *argv[])
 {
@@ -154,18 +157,24 @@ TEST_CASE("box intersection")
 
 	CHECK(hitpoint_0.did_intersect_ == false);
 
-	CHECK(box_1.intersect(ray_0).did_intersect_);
+	CHECK(hitpoint_1.did_intersect_);
 	CHECK(hitpoint_1.position_ == glm::vec3{ -3, 5, 0 });
 
-	CHECK(box_2.intersect(ray_0).did_intersect_);
-	std::cout << "\n" << box_2.intersect(ray_0).position_.x << ", " << box_2.intersect(ray_0).position_.y << ", " << box_2.intersect(ray_0).position_.z << "\n" << "\n";
-	CHECK(box_3.intersect(ray_0).did_intersect_ == false);
+	CHECK(hitpoint_2.did_intersect_);
+	CHECK(hitpoint_2.position_.x == Approx(2.10251));
+	CHECK(hitpoint_2.position_.y == -1.25);
+	CHECK(hitpoint_2.position_.z == 3.76377f);
 
-	CHECK(box_0.intersect(ray_1).did_intersect_ == false);
-	CHECK(box_1.intersect(ray_1).did_intersect_ == false);
-	CHECK(box_2.intersect(ray_1).did_intersect_ == false);
-	CHECK(box_3.intersect(ray_1).did_intersect_);
-	std::cout << "\n" << box_3.intersect(ray_1).position_.x << ", " << box_3.intersect(ray_1).position_.y << ", " << box_3.intersect(ray_1).position_.z << "\n" << "\n";
+	CHECK(hitpoint_3.did_intersect_ == false);
+
+	CHECK(hitpoint_4.did_intersect_ == false);
+	CHECK(hitpoint_5.did_intersect_ == false);
+	CHECK(hitpoint_6.did_intersect_ == false);
+
+	CHECK(hitpoint_7.did_intersect_);
+	CHECK(hitpoint_7.position_.x == Approx(- 4.11));
+	CHECK(hitpoint_7.position_.y == Approx(- 5.38384));
+	CHECK(hitpoint_7.position_.z == Approx(- 3.496));
 }
 
 TEST_CASE("static and dynamic type")
@@ -200,4 +209,19 @@ TEST_CASE("constructor, destructor order")
 	s2->print(std::cout); // type Shape: only shape destructor called
 	delete s1;
 	delete s2;
+}
+
+TEST_CASE("sdf file reader")
+{
+	// will obviously not work anywhere besides my laptop
+	std::string const path = "C:\\university\\computer_science\\SoSe2024\\SE_I\\programmiersprachen-raytracer\\example.sdf";
+
+	Scene incorrect_file_path{ read_sdf_file("nonsense") };
+
+	Scene test_scene{ read_sdf_file(path) };
+
+	for (std::shared_ptr<Material> material : test_scene.materials)
+	{
+		std::cout << *material << '\n';
+	}
 }
