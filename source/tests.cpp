@@ -7,6 +7,7 @@
 #include <glm/gtx/intersect.hpp>
 #include "ray.hpp"
 #include "hit_point.hpp"
+#include "scene.hpp"
 
 TEST_CASE(" sphere and box methods ", "[sphere_box_methods]") {
     Color red{255 , 0 , 0 };
@@ -131,7 +132,69 @@ TEST_CASE(" box intersection ", "[box_intersection]") {
 	}
 }
 
-int main(int argc, char *argv[])
-{
+int load_materials(std::string const& file_path, Scene& scene){
+
+    std::ifstream sdf_file(file_path);
+    if (!sdf_file.is_open()) {
+        std::cout << "Could not find or open: " << file_path << std::endl;
+        return -1;
+    }
+    std::map<std::string, std::shared_ptr<Material>> materials;
+    std::string line_buffer;
+    while (std::getline(sdf_file, line_buffer)) {
+        std::istringstream line_as_stream(line_buffer);
+        std::string token;
+        line_as_stream >> token;
+        if ("define" == token) {
+            line_as_stream >> token;
+            if ("material" == token) {
+                std::shared_ptr<Material> parsed_material;
+                line_as_stream >> parsed_material->name_;
+
+                line_as_stream >> parsed_material->ka_.r;
+                line_as_stream >> parsed_material->ka_.g;
+                line_as_stream >> parsed_material->ka_.b;
+
+                line_as_stream >> parsed_material->kd_.r;
+                line_as_stream >> parsed_material->kd_.g;
+                line_as_stream >> parsed_material->kd_.b;
+
+                line_as_stream >> parsed_material->ks_.r;
+                line_as_stream >> parsed_material->ks_.g;
+                line_as_stream >> parsed_material->ks_.b;
+
+                line_as_stream >> parsed_material->m_;
+
+                materials.insert(std::make_pair(parsed_material->name_,parsed_material));
+
+                std::cout << "Parsed material " <<
+                          parsed_material->name_ << " "
+                          << parsed_material->ka_ << " " << parsed_material->kd_ << parsed_material->ks_ << std::endl;
+            }
+            else {
+                std::cout << "Unexpected keyword: " << token << std::endl;
+            }
+        }
+        else {
+            std::cout << "Unexpected keyword: " << token << std::endl;
+        }
+
+    }
+
+};
+
+
+
+int main(int argc, char** argv){
+    if (argc < 2) {
+        std::cout << "Please call the program in the following way:" << std::endl;
+        std::cout << argv[0] << " <sdf_file_path.sdf>" << std::endl;
+        return -1;
+    }
+
+    Scene scene{};
+    load_materials(argv[1],scene);
+
   return Catch::Session().run(argc, argv);
 }
+
