@@ -13,19 +13,54 @@
 #include <catch.hpp>
 #include <vector>
 
-int main(int argc, char *argv[])
+//Tests for the ex. 6.6:
+bool operator<(std::shared_ptr<Material> const& lhs, std::shared_ptr<Material> const& rhs)
 {
-  return Catch::Session().run(argc, argv);
+	return lhs->name < rhs->name;
+};
+std::shared_ptr<Material> vec_search(std::string name, std::vector<std::shared_ptr<Material>> vector_test)
+{
+	for (std::shared_ptr<Material> vec : vector_test)
+	{
+		if (vec->name == name) { return vec; }
+	}
+	return nullptr;
+};
+std::shared_ptr<Material> set_search(std::string name, std::set<std::shared_ptr<Material>> set_test)
+{
+	std::shared_ptr<Material> mySharedPtr(new Material{ name, {1,0,0 },{1,0,0 },{1,0,0 },20 });
+	auto it = set_test.find(mySharedPtr);
+	if (it == set_test.end())
+	{
+		return nullptr;
+	}
+	else { return *it; }
+};
+std::shared_ptr<Material> map_search(std::string name, std::map<std::string, std::shared_ptr<Material>> map_test)
+{
+	auto it = map_test.find(name);
+	if (it == map_test.end())
+	{
+		return nullptr;
+	}
+	else { return it->second; }
+
+};
+//----------------------------------
+
+int main(int argc, char* argv[])
+{
+	return Catch::Session().run(argc, argv);
 }
 
 TEST_CASE("Box and Sphere")
 {
 	Material material{ "placeholder", {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, 0 };
 	std::shared_ptr<Material> material_ = std::make_shared<Material>(material);
-	Sphere sphere_0{ "name", material_, {0, 0, 0}, 0};
-	Sphere sphere_1 { "name", material_, {5, 3, 2}, 2.5 };
+	Sphere sphere_0{ "name", material_, {0, 0, 0}, 0 };
+	Sphere sphere_1{ "name", material_, {5, 3, 2}, 2.5 };
 	Box box_0{ "name", material_, {0, 0, 0}, {0, 0, 0 } };
-	Box box_1 { "name", material_, {5, 3, 2}, {2, 1, 0} };
+	Box box_1{ "name", material_, {5, 3, 2}, {2, 1, 0} };
 	Box box_2{ "name", material_, {1.5, 9.4, 7.2}, {-1.2, -4.1, -3.3} };
 
 	std::cout << sphere_1;
@@ -172,9 +207,9 @@ TEST_CASE("box intersection")
 	CHECK(hitpoint_6.did_intersect_ == false);
 
 	CHECK(hitpoint_7.did_intersect_);
-	CHECK(hitpoint_7.position_.x == Approx(- 4.11));
-	CHECK(hitpoint_7.position_.y == Approx(- 5.38384));
-	CHECK(hitpoint_7.position_.z == Approx(- 3.496));
+	CHECK(hitpoint_7.position_.x == Approx(-4.11));
+	CHECK(hitpoint_7.position_.y == Approx(-5.38384));
+	CHECK(hitpoint_7.position_.z == Approx(-3.496));
 }
 
 TEST_CASE("static and dynamic type")
@@ -203,25 +238,55 @@ TEST_CASE("constructor, destructor order")
 	std::cout << "_______________________________________________________________________\n";
 	Color red{ 255 , 0 , 0 };
 	glm::vec3 position{ 0.0f , 0.0f , 0.0f };
-	Sphere* s1 = new Sphere{ "sphere0", material_, position, 1.2f};
-	Shape* s2 = new Sphere{ "sphere0", material_, position, 1.2f};
+	Sphere* s1 = new Sphere{ "sphere0", material_, position, 1.2f };
+	Shape* s2 = new Sphere{ "sphere0", material_, position, 1.2f };
 	s1->print(std::cout); // type Sphere: Sphere destructor called, Shape destructor called automatically
 	s2->print(std::cout); // type Shape: only shape destructor called
 	delete s1;
 	delete s2;
 }
-
+//---------------------------------------
 TEST_CASE("sdf file reader")
 {
 	// will obviously not work anywhere besides my laptop
+	//std::string const path = "C:\\Users\\User\\Dropbox\\Software Engineering I Programmiersprachen\\Uebungen\\programmiersprachen-raytracer\\example.sdf";
 	std::string const path = "C:\\university\\computer_science\\SoSe2024\\SE_I\\programmiersprachen-raytracer\\example.sdf";
 
 	Scene incorrect_file_path{ read_sdf_file("nonsense") };
 
 	Scene test_scene{ read_sdf_file(path) };
-
 	for (std::shared_ptr<Material> material : test_scene.materials)
 	{
 		std::cout << *material << '\n';
 	}
+
+	//------------- Tests for ex. 6.6
+	std::vector<std::shared_ptr<Material>> vector_test;
+	std::set<std::shared_ptr<Material>> set_test;
+	std::map<std::string, std::shared_ptr<Material>> map_test;
+
+	//Fill the containers
+	for (std::shared_ptr<Material> material : test_scene.materials)
+	{
+		vector_test.push_back(material);
+		set_test.insert(material);
+		map_test.insert({ material->name, material });
+	}
+	//check of the working
+
+	//Vector_test (Complexity N - linear):
+	CHECK(vec_search("red", vector_test)->name == "red");
+	CHECK(vec_search("yellow", vector_test) == nullptr);
+
+	//Set_test (Complexity Logarithmic in size)
+
+	CHECK(set_search("red", set_test)->name == "red");
+	CHECK(set_search("yellow", set_test) == nullptr);
+
+
+	//Map O(log(n))
+	std::string name6 = "red";
+	CHECK(map_search(name6, map_test)->name == "red");
+	CHECK(map_search("yellow", map_test) == nullptr);
+
 }
