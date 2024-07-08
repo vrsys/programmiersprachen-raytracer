@@ -192,17 +192,19 @@ bool operator <( std :: shared_ptr < Material > const & lhs ,
                  std :: shared_ptr < Material > const & rhs)
 { return lhs -> name_ < rhs -> name_ ;};
 
-std::shared_ptr<Material> search_by_name_set(std::string name,std::set<std::shared_ptr<Material>>& set ){
+std::shared_ptr<Material> search_by_name_set(std::string name,std::set<std::shared_ptr<Material>>& set ) {
 
-    Material material{};
-    material.name_ = name;
 
-    auto it = set.find(std::make_shared<Material>(material));
+    auto it = std::find_if(set.begin(), set.end(), [&name](std::shared_ptr<Material> x) { return x->name_ == name; });
     if (it != set.end()) {
+        // Element found, 'it' points to the matching element
         return *it;
     } else {
-        return nullptr;
-    }}
+        // Element not found in set
+        return nullptr;  // or handle the not found case accordingly
+    }
+}
+
 
 auto search_by_name_map(std::string name,std::map<std::string, std::shared_ptr<Material>> map){
     return map.find(name);
@@ -226,14 +228,21 @@ TEST_CASE("searching","[searching]"){
     load_materials("C:/Users/Polina/Desktop/new_folder/programmiersprachen-raytracer/source/materials.sdf",scene);
     std::vector<std::shared_ptr<Material>> material_vector;
     std::set<std::shared_ptr<Material>> material_set;
-    for (const auto& pair:scene.materials_){
+    std::map<std::string, std::shared_ptr<Material>> material_map;
+
+    for (const auto& pair : scene.materials_) {
         material_vector.push_back(pair.second);
         material_set.insert(pair.second);
-        }
-    REQUIRE(search_by_name_set("yellow",material_set)== nullptr);
-    REQUIRE(search_by_name_set("red",material_set)==scene.materials_.at("red"));
-    REQUIRE(search_by_name_vector("yellow",material_vector)== nullptr);
-    REQUIRE(search_by_name_vector("blue",material_vector)==scene.materials_.at("blue"));
+        material_map.insert(pair);
+    }
+    REQUIRE(search_by_name_map("red", material_map)->second == scene.materials_.at("red"));
+    REQUIRE(search_by_name_map("yellow", material_map)->second == nullptr);
+
+    REQUIRE(search_by_name_set("red", material_set) == scene.materials_.at("red"));
+    REQUIRE(search_by_name_set("yellow", material_set) == nullptr);
+
+    REQUIRE(search_by_name_vector("blue", material_vector) == scene.materials_.at("blue"));
+    REQUIRE(search_by_name_vector("green", material_vector) == nullptr);
 
 
 }
