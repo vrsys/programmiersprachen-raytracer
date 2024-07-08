@@ -181,6 +181,10 @@ int load_materials(std::string const& file_path, Scene& scene){
 
     }
 
+    sdf_file.close();
+
+    return 0;
+
 };
 
 
