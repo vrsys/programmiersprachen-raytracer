@@ -3,6 +3,8 @@
 //
 #include "material.hpp"
 
+Material::Material(std::string const& name,Color const& ka,Color const& kd,Color const& ks, float m):name_(name),ka_(ka),kd_(kd),ks_(ks),m_(m){};
+
 std::ostream& Material::print(std::ostream &os) const {
     os<<"name: "<< name_<<"\n"
       <<"ka: "<<ka_<<"\n"
@@ -15,5 +17,3 @@ std::ostream& Material::print(std::ostream &os) const {
 std::ostream& operator<<(std::ostream &os,Material const& m) {
     return m.print(os);
 }
-Material::Material(const std::string& name, Color const& ka, Color const& kd, Color const& ks, float m)
-        : name_(name), ka_(ka),kd_(kd), ks_(ks),m_(m) {};

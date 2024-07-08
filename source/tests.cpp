@@ -8,6 +8,7 @@
 #include "ray.hpp"
 #include "hit_point.hpp"
 #include "scene.hpp"
+#include "set"
 
 TEST_CASE(" sphere and box methods ", "[sphere_box_methods]") {
     Color red{255 , 0 , 0 };
@@ -24,8 +25,7 @@ TEST_CASE(" sphere and box methods ", "[sphere_box_methods]") {
 	std::cout << b << std::endl;
 }
 
-TEST_CASE(" intersect_ray_sphere ", "[intersect]")
-{
+TEST_CASE(" intersect_ray_sphere ", "[intersect]"){
 	// Ray
 	glm::vec3 ray_origin{ 0.0f, 0.0f, 0.0f };
 	// ray direction has to be normalized !
@@ -139,7 +139,7 @@ int load_materials(std::string const& file_path, Scene& scene){
         std::cout << "Could not find or open: " << file_path << std::endl;
         return -1;
     }
-    std::map<std::string, std::shared_ptr<Material>> materials;
+    std::map<std::string, std::shared_ptr<Material>> map_materials;
     std::string line_buffer;
     while (std::getline(sdf_file, line_buffer)) {
         std::istringstream line_as_stream(line_buffer);
@@ -148,7 +148,7 @@ int load_materials(std::string const& file_path, Scene& scene){
         if ("define" == token) {
             line_as_stream >> token;
             if ("material" == token) {
-                std::shared_ptr<Material> parsed_material;
+                std::shared_ptr<Material> parsed_material = std::make_shared<Material>(Material{"",{0.0f,0.f,0.0f},{0.0f,0.f,0.0f},{0.0f,0.f,0.0f},0.0f});
                 line_as_stream >> parsed_material->name_;
 
                 line_as_stream >> parsed_material->ka_.r;
@@ -165,7 +165,9 @@ int load_materials(std::string const& file_path, Scene& scene){
 
                 line_as_stream >> parsed_material->m_;
 
-                materials.insert(std::make_pair(parsed_material->name_,parsed_material));
+                map_materials.insert(std::make_pair(parsed_material->name_, parsed_material));
+
+
 
                 std::cout << "Parsed material " <<
                           parsed_material->name_ << " "
@@ -186,19 +188,63 @@ int load_materials(std::string const& file_path, Scene& scene){
     return 0;
 
 };
+bool operator <( std :: shared_ptr < Material > const & lhs ,
+                 std :: shared_ptr < Material > const & rhs)
+{ return lhs -> name_ < rhs -> name_ ;};
 
+std::shared_ptr<Material> search_by_name_set(std::string name,std::set<std::shared_ptr<Material>>& set ){
 
+    Material material{};
+    material.name_ = name;
 
-int main(int argc, char** argv){
-    if (argc < 2) {
-        std::cout << "Please call the program in the following way:" << std::endl;
-        std::cout << argv[0] << " <sdf_file_path.sdf>" << std::endl;
-        return -1;
-    }
+    auto it = set.find(std::make_shared<Material>(material));
+    if (it != set.end()) {
+        return *it;
+    } else {
+        return nullptr;
+    }}
 
-    Scene scene{};
-    load_materials(argv[1],scene);
-
-  return Catch::Session().run(argc, argv);
+auto search_by_name_map(std::string name,std::map<std::string, std::shared_ptr<Material>> map){
+    return map.find(name);
 }
+
+std::shared_ptr<Material> search_by_name_vector(std::string name,std::vector<std::shared_ptr<Material>>& vector ){
+    auto it = std::find_if(vector.begin(), vector.end(), [&name](const std::shared_ptr<Material>& material) {
+        return material->name_ == name;
+    });
+
+    if (it != vector.end()) {
+        return *it;
+    } else {
+        return nullptr;
+    }}
+
+
+
+TEST_CASE("searching","[searching]"){
+    Scene scene{};
+    load_materials("C:/Users/Polina/Desktop/new_folder/programmiersprachen-raytracer/source/materials.sdf",scene);
+    std::vector<std::shared_ptr<Material>> material_vector;
+    std::set<std::shared_ptr<Material>> material_set;
+    for (const auto& pair:scene.materials_){
+        material_vector.push_back(pair.second);
+        material_set.insert(pair.second);
+        }
+    REQUIRE(search_by_name_set("yellow",material_set)== nullptr);
+    REQUIRE(search_by_name_set("red",material_set)==scene.materials_.at("red"));
+    REQUIRE(search_by_name_vector("yellow",material_vector)== nullptr);
+    REQUIRE(search_by_name_vector("blue",material_vector)==scene.materials_.at("blue"));
+
+
+}
+
+int main(int argc, char* argv[]){
+    Scene scene{};
+    load_materials("C:/Users/Polina/Desktop/new_folder/programmiersprachen-raytracer/source/materials.sdf",scene);
+    return Catch::Session().run(argc, argv);
+}
+
+
+
+
 
