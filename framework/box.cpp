@@ -1,9 +1,14 @@
 #include "box.hpp"
 #include "color.hpp"
 #include "hitpoint.hpp"
+#include "material.hpp"
 #include <glm/vec3.hpp>
+#include <vector>
+#include <map>
 #include <limits>
 #include <cmath>
+#include <algorithm>
+#include <tuple>
 
 Box::Box(std::string const& name_parameter, std::shared_ptr<Material> const& material_parameter, glm::vec3 const& maximum_parameter, glm::vec3 const& minimum_parameter) : Shape::Shape{ name_parameter, material_parameter }, maximum_(maximum_parameter), minimum_(minimum_parameter)
 {
@@ -43,78 +48,53 @@ HitPoint Box::intersect(Ray const& ray_) const
 {
 	glm::vec3 ray_direction{ glm::normalize(ray_.direction) }; // normalize direction
 
-	bool did_intersect = false; // HitPoint parameter to be filled or remain if no intersection occurs
+	std::vector<std::tuple<float, int>> distances; // t, (x|y|z)
 
-	glm::vec3 intersection{}; // the HitPoints position parameter, will be filled along the way too
-	float t_parameter = std::numeric_limits<float>::max(); // general shortest found distance to an intersection
+	distances.push_back(std::make_tuple((minimum_.x - ray_.origin.x) / ray_direction.x, 0));
+	distances.push_back(std::make_tuple((maximum_.x - ray_.origin.x) / ray_direction.x, 0));
+	distances.push_back(std::make_tuple((minimum_.y - ray_.origin.y) / ray_direction.y, 1));
+	distances.push_back(std::make_tuple((maximum_.y - ray_.origin.y) / ray_direction.y, 1));
+	distances.push_back(std::make_tuple((minimum_.z - ray_.origin.z) / ray_direction.z, 2));
+	distances.push_back(std::make_tuple((maximum_.z - ray_.origin.z) / ray_direction.z, 2));
 
-	float t = 0; // current found distance to an intersection
+	// sort the vector by distances from low to high
+	std::sort(distances.begin(), distances.end(), [](std::tuple<float, int> & t_0, std::tuple<float, int> & t_1) -> bool {
+		return std::get<0>(t_0) < std::get<0>(t_1);
+		});
 
-	// lambda that is used to shorten if statements
-	auto better_t = [&t_parameter](float new_t) -> bool
-		{
-			return (new_t >= 0) && (new_t < t_parameter);
-		};
+	// erase all the negative distances
+	std::erase_if(distances, [](std::tuple<float, int> & t) -> bool { return std::get<0>(t) < 0; });
 
-	// lambda used to decrease size of bodies of if statements
-	auto update_intersection = [&](glm::vec3 new_intersection, float new_t) -> void 
-		{
-			intersection = new_intersection;
-			t_parameter = new_t;
-			did_intersect = true;
-		};
-
-	if (ray_.direction.x != 0)
+	// this seems highly illegal: assume the shortest 3 distances are the only valid ones, works with my tests, will probably fail at edge cases
+	/*if (distances.size() > 3)
 	{
-		t = (minimum_.x - ray_.origin.x) / ray_direction.x; // calculate distance to the x_min plane
-		glm::vec3 intersection_x_min{ ray_.origin + t * ray_direction }; // calculate the intersection point
-		// check if the intersection point is closer than ones already found and if it is within the other coordinates of the box
-		if (better_t(t) && (minimum_.y <= intersection_x_min.y) && (intersection_x_min.y <= maximum_.y) && (minimum_.z <= intersection_x_min.z) && (intersection_x_min.z <= maximum_.z))
-		{
-			// remember this point
-			update_intersection(intersection_x_min, t);
-		}
-		// ...x_max plane
-		t = (maximum_.x - ray_.origin.x) / ray_direction.x;
-		glm::vec3 intersection_x_max{ ray_.origin + t * ray_direction };
-		if (better_t(t) && (minimum_.y <= intersection_x_max.y) && (intersection_x_max.y <= maximum_.y) && (minimum_.z <= intersection_x_max.z) && (intersection_x_max.z <= maximum_.z))
-		{
-			update_intersection(intersection_x_max, t);
-		}
-	}
-	// ...y_min plane
-	if (ray_.direction.y != 0)
+		distances.erase(distances.begin() + 3, distances.end());
+	}*/
+	
+	// boolean later used to remember whether an intersection was in bounds of y, for example while checking z
+	bool is_in_bounds = true;
+
+	// go through distances, check if one intersects and if yes, return
+	for (std::tuple<float, int> tuple : distances)
 	{
-		t = (minimum_.y - ray_.origin.y) / ray_direction.y;
-		glm::vec3 intersection_y_min{ ray_.origin + t * ray_direction };
-		if (better_t(t) && (minimum_.x <= intersection_y_min.x) && (intersection_y_min.x <= maximum_.x) && (minimum_.z <= intersection_y_min.z) && (intersection_y_min.z <= maximum_.z))
+		// check if in bounds
+		float t = std::get<0>(tuple); // the distance t
+		int x_y_z = std::get<1>(tuple); // the value that stored whether we intersected with an x-, y- or z-plane
+		glm::vec3 intersection{ ray_.origin + t * ray_direction }; // calculate the intersection point with said plane
+		for (int i = x_y_z + 1; i < x_y_z + 3; ++i) // have to compare with other variables (if x-plane, compare to y and z)
 		{
-			update_intersection(intersection_y_min, t);
+			int j = i % 3; // this makes sure that we get all the indices different from the one we intersected with
+			is_in_bounds = true; // in case this was set to false by an earlier intersection test, reset
+			if (!((minimum_[j] <= intersection[j]) && (intersection[j] <= maximum_[j]))) // if the intersection is not in bounds...
+			{
+				is_in_bounds = false; // ...remember that...
+				break; // ...and exit the checks for this intersection
+			}
 		}
-		// ...y_max plane
-		t = (maximum_.y - ray_.origin.y) / ray_direction.y;
-		glm::vec3 intersection_y_max{ ray_.origin + t * ray_direction };
-		if (better_t(t) && (minimum_.x <= intersection_y_max.x) && (intersection_y_max.x <= maximum_.x) && (minimum_.z <= intersection_y_max.z) && (intersection_y_max.z <= maximum_.z))
-		{
-			update_intersection(intersection_y_max, t);
-		}
+		// check if all was in bounds before
+		if (is_in_bounds) { return HitPoint{ true, t, Shape::name_, Shape::material_, intersection, ray_direction }; }
 	}
-	// ...z_min plane
-	if (ray_.direction.z != 0)
-	{
-		t = (minimum_.z - ray_.origin.z) / ray_direction.z;
-		glm::vec3 intersection_z_min{ ray_.origin + t * ray_direction };
-		if (better_t(t) && (minimum_.x <= intersection_z_min.x) && (intersection_z_min.x <= maximum_.x) && (minimum_.y <= intersection_z_min.y) && (intersection_z_min.y <= maximum_.y))
-		{
-			update_intersection(intersection_z_min, t);
-		}
-		// ...z_max plane
-		t = (maximum_.z - ray_.origin.z) / ray_direction.z;
-		glm::vec3 intersection_z_max{ ray_.origin + t * ray_direction };
-		if (better_t(t) && (minimum_.x <= intersection_z_max.x) && (intersection_z_max.x <= maximum_.x) && (minimum_.y <= intersection_z_max.y) && (intersection_z_max.y <= maximum_.y))
-		{
-			update_intersection(intersection_z_max, t);
-		}
-	}
-	return HitPoint{ did_intersect, t_parameter, Shape::name_, Shape::material_, intersection, ray_direction };
+
+	// if we didn't find an intersection so far, return false and some default values
+	return HitPoint{ false, 0, "", std::shared_ptr<Material>{}, glm::vec3{}, glm::vec3{} };
 }
