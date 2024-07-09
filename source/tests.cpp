@@ -27,7 +27,7 @@ std::shared_ptr<Material> vec_search(std::string name, std::vector<std::shared_p
 };
 std::shared_ptr<Material> set_search(std::string name, std::set<std::shared_ptr<Material>> set_test)
 {
-	std::shared_ptr<Material> mySharedPtr(new Material{ name, {1,0,0 },{1,0,0 },{1,0,0 },20 });
+	std::shared_ptr<Material> mySharedPtr(new Material{ name, {0,0,0 },{1,0,0 },{1,0,0 },20 });
 	auto it= set_test.find(mySharedPtr);
 	if (it == set_test.end()) {
 		return nullptr;
@@ -274,9 +274,9 @@ TEST_CASE("sdf file reader")
 	//Vector_test (Complexity N - linear):
 	CHECK(vec_search("red", vector_test)->name =="red");
 	CHECK(vec_search("yellow", vector_test) == nullptr);
-		
-	//Set_test (Complexity Logarithmic in size)
 	
+
+	//Set_test (Complexity Logarithmic in size)
 	CHECK(set_search("red", set_test)->name=="red");
 	CHECK(set_search("yellow", set_test) == nullptr);
 
