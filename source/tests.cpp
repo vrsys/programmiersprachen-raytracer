@@ -249,9 +249,9 @@ TEST_CASE("constructor, destructor order")
 TEST_CASE("sdf file reader")
 {
 	// will obviously not work anywhere besides my laptop
-	//std::string const path = "C:\\Users\\User\\Dropbox\\Software Engineering I Programmiersprachen\\Uebungen\\programmiersprachen-raytracer\\example.sdf";
-	std::string const path = "C:\\university\\computer_science\\SoSe2024\\SE_I\\programmiersprachen-raytracer\\example.sdf";
-
+	std::string const path = "C:\\Users\\User\\Dropbox\\Software Engineering I Programmiersprachen\\Uebungen\\programmiersprachen-raytracer\\example.sdf";
+	// Anton: std::string const path = "C:\\university\\computer_science\\SoSe2024\\SE_I\\programmiersprachen-raytracer\\example.sdf";
+	
 	Scene incorrect_file_path{ read_sdf_file("nonsense") };
 
 	Scene test_scene{ read_sdf_file(path) };
@@ -261,7 +261,7 @@ TEST_CASE("sdf file reader")
 	}
 
 	//------------- Tests for ex. 6.6
-	std::vector<std::shared_ptr<Material>> vector_test;
+	std::vector<std::shared_ptr<Material>> vector_test; 
 	std::set<std::shared_ptr<Material>> set_test;
 	std::map<std::string, std::shared_ptr<Material>> map_test;
 
@@ -275,18 +275,17 @@ TEST_CASE("sdf file reader")
 	//check of the working
 
 	//Vector_test (Complexity N - linear):
-	CHECK(vec_search("red", vector_test)->name == "red");
+	CHECK(vec_search("red", vector_test)->name =="red");
 	CHECK(vec_search("yellow", vector_test) == nullptr);
+	
 
 	//Set_test (Complexity Logarithmic in size)
-
-	CHECK(set_search("red", set_test)->name == "red");
+	CHECK(set_search("red", set_test)->name=="red");
 	CHECK(set_search("yellow", set_test) == nullptr);
 
 
 	//Map O(log(n))
-	std::string name6 = "red";
-	CHECK(map_search(name6, map_test)->name == "red");
-	CHECK(map_search("yellow", map_test) == nullptr);
-
+	 std::string name6 = "red";
+	 CHECK(map_search(name6, map_test)->name == "red");
+	 CHECK(map_search("yellow", map_test) == nullptr);
 }
