@@ -89,6 +89,37 @@ Scene read_sdf_file(std::string const& sdf_file_path)
 							shapes.push_back(std::make_shared<Sphere>(Sphere{ parsed_sphere_name_, (*material).second, parsed_sphere_center_, parsed_sphere_radius_ })); //don't do std::make_shared<Shape>, EVER!
 						}
 					}
+
+					else if (token == "box")
+					{
+						std::string parsed_box_name_;
+						std::string parsed_box_material_;
+						glm::vec3 parsed_box_max_;
+						glm::vec3 parsed_box_min_;
+
+						line_as_stream >> parsed_box_name_;
+						for (int x_y_z = 0; x_y_z < 3; ++x_y_z)
+						{
+							line_as_stream >> parsed_box_max_[x_y_z];
+						}
+						for (int x_y_z = 0; x_y_z < 3; ++x_y_z)
+						{
+							line_as_stream >> parsed_box_min_[x_y_z];
+						}
+
+						line_as_stream >> parsed_box_material_;
+
+						auto material = materials.find(parsed_box_material_);
+						if (material == materials.end())
+						{
+							std::cout << "the Material " << parsed_box_material_ << "could not be found.\n";
+						}
+						else
+						{
+							shapes.push_back(std::make_shared<Box>(Box{ parsed_box_name_, (*material).second, parsed_box_max_, parsed_box_min_ }));
+						}
+					}
+
 					else
 					{
 						std::cout << "unexpected keyword: " << token << '\n';
