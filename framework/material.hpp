@@ -7,7 +7,6 @@
 
 struct Material
 {
-
 	std::string name{ "placeholder" };
 	Color ka{ 0, 0, 0 };
 	Color kd{ 0, 0, 0 };

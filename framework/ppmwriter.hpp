@@ -30,7 +30,7 @@ public:
 
 private:
   std::string file_;
-  std::vector<unsigned int> data_;
+  std::vector<unsigned int> data_; //color values reaching from 0 to 255
   size_t width_;
   size_t height_;
 };

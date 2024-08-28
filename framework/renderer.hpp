@@ -32,7 +32,7 @@ public:
 private:
   unsigned width_;
   unsigned height_;
-  std::vector<Color> color_buffer_;
+  std::vector<Color> color_buffer_; //values reaching from 0.0f to 1.0f
   std::string filename_;
   PpmWriter ppm_;
 };

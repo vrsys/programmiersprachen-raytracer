@@ -7,6 +7,7 @@
 #include "material.hpp"
 #include "sdf_reader.hpp"
 #include "scene.hpp"
+
 #include <glm/vec3.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtx/intersect.hpp>
@@ -250,12 +251,13 @@ TEST_CASE("sdf file reader")
 {
 	// will obviously not work anywhere besides my laptop
 	//std::string const path = "C:\\Users\\User\\Dropbox\\Software Engineering I Programmiersprachen\\Uebungen\\programmiersprachen-raytracer\\example.sdf";
-	std::string const path = "C:\\university\\computer_science\\SoSe2024\\SE_I\\programmiersprachen-raytracer\\example.sdf";
+	std::string const path = "C:\\university\\computer_science\\SoSe2024\\SE_I\\programmiersprachen-raytracer\\build\\source\\example.sdf";
 
 	Scene incorrect_file_path{ read_sdf_file("nonsense") };
-
+	
 	Scene test_scene{ read_sdf_file(path) };
-	for (std::shared_ptr<Material> material : test_scene.materials)
+
+	for ( auto [name_, material] : test_scene.materials)
 	{
 		std::cout << *material << '\n';
 	}
@@ -266,7 +268,7 @@ TEST_CASE("sdf file reader")
 	std::map<std::string, std::shared_ptr<Material>> map_test;
 
 	//Fill the containers
-	for (std::shared_ptr<Material> material : test_scene.materials)
+	for (auto [name_, material] : test_scene.materials)
 	{
 		vector_test.push_back(material);
 		set_test.insert(material);
