@@ -13,6 +13,11 @@
 #include "color.hpp"
 #include "pixel.hpp"
 #include "ppmwriter.hpp"
+#include "pixel.hpp"
+#include "ray.hpp"
+#include "scene.hpp"
+#include "sdf_reader.hpp"
+
 #include <string>
 #include <glm/glm.hpp>
 
