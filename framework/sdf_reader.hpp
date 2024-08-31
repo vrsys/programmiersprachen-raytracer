@@ -5,6 +5,7 @@
 #include "scene.hpp"
 #include "sphere.hpp"
 #include "box.hpp"
+#include "light.hpp"
 
 #include <glm/glm.hpp>
 #include <iostream>

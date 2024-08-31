@@ -46,7 +46,7 @@ std::ostream& operator<<(std::ostream& os, Box const& b)
 
 HitPoint Box::intersect(Ray const& ray_) const
 {
-	glm::vec3 ray_direction{ glm::normalize(ray_.direction) }; // normalize direction
+	glm::vec3 ray_direction{ glm::normalize(ray_.direction) }; // normalize direction (redundant?)
 
 	std::vector<std::tuple<float, int>> distances; // t, (x|y|z)
 
@@ -97,4 +97,26 @@ HitPoint Box::intersect(Ray const& ray_) const
 
 	// if we didn't find an intersection so far, return false and some default values
 	return HitPoint{ false, 0, "", std::shared_ptr<Material>{}, glm::vec3{}, glm::vec3{} };
+}
+
+glm::vec3 Box::get_surface_normal(HitPoint const& hitpoint) const
+{
+	float margin = 0.0001;
+	glm::vec3 surface_normal{ 0, 0, 0 };
+	for (int i = 0; i < 3; ++i)
+	{
+		if (std::fabs(minimum_[i] - hitpoint.position_[i]) < margin) //-margin < minimum_[i] - hitpoint.direction_[i] < margin
+		{
+			surface_normal[i] = -1.0f;
+			return surface_normal;
+		}
+		else if (std::fabs(maximum_[i] - hitpoint.position_[i]) < margin) //-margin < minimum_[i] - hitpoint.direction_[i] < margin
+		{
+			surface_normal[i] = 1.0f;/*hitpoint.position_[i];*/
+			return surface_normal;/*glm::normalize(surface_normal);*/
+		}
+	}
+	HitPoint debug{ hitpoint };
+	std::cout << "couldn't find intersecting plane\n";
+	return surface_normal;
 }

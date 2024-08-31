@@ -13,7 +13,8 @@ Scene read_sdf_file(std::string const& sdf_file_path)
 		}
 
 		std::map<std::string, std::shared_ptr<Material>> materials;
-		std::vector<std::shared_ptr<Shape>> shapes;
+		std::map<std::string, std::shared_ptr<Shape>> shapes;
+		std::vector<Light> lights;
 
 		std::string line_buffer; // individual lines are stored here
 
@@ -86,7 +87,8 @@ Scene read_sdf_file(std::string const& sdf_file_path)
 
 						else
 						{
-							shapes.push_back(std::make_shared<Sphere>(Sphere{ parsed_sphere_name_, (*material).second, parsed_sphere_center_, parsed_sphere_radius_ })); //don't do std::make_shared<Shape>, EVER!
+							Sphere parsed_sphere{ parsed_sphere_name_, (*material).second, parsed_sphere_center_, parsed_sphere_radius_ };
+							shapes.insert({ parsed_sphere_name_, std::make_shared<Sphere>(parsed_sphere) }); //don't do std::make_shared<Shape>, EVER!
 						}
 					}
 
@@ -116,7 +118,8 @@ Scene read_sdf_file(std::string const& sdf_file_path)
 						}
 						else
 						{
-							shapes.push_back(std::make_shared<Box>(Box{ parsed_box_name_, (*material).second, parsed_box_max_, parsed_box_min_ }));
+							Box parsed_box{ parsed_box_name_, (*material).second, parsed_box_max_, parsed_box_min_ };
+							shapes.insert({ parsed_box_name_, std::make_shared<Box>(parsed_box) });
 						}
 					}
 
@@ -125,6 +128,24 @@ Scene read_sdf_file(std::string const& sdf_file_path)
 						std::cout << "unexpected keyword: " << token << '\n';
 					}
 
+				}
+
+				else if (token == "light")
+				{
+					Light parsed_light; //if weird error, probably change this
+					line_as_stream >> parsed_light.name_;
+
+					for (int i = 0; i < 3; ++i)
+					{
+						line_as_stream >> parsed_light.position_[i];
+					}
+					for (int i = 0; i < 3; ++i)
+					{
+						line_as_stream >> parsed_light.color_[i];
+					}
+
+					line_as_stream >> parsed_light.brightness_;
+					lights.push_back(parsed_light);
 				}
 
 				else
@@ -140,6 +161,6 @@ Scene read_sdf_file(std::string const& sdf_file_path)
 		}
 
 		sdf_file.close();
-		return Scene{ materials, shapes };
+		return Scene{ materials, shapes, lights };
 	}
 }

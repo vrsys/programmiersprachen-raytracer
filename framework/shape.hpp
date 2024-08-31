@@ -18,6 +18,7 @@ public:
 	virtual double volume() const = 0;
 	virtual std::ostream& print(std::ostream& os) const;
 	virtual HitPoint intersect(Ray const& ray_) const = 0;
+	virtual glm::vec3 get_surface_normal(HitPoint const& hitpoint) const = 0;
 protected:
 	std::string name_;
 	std::shared_ptr<Material> material_;

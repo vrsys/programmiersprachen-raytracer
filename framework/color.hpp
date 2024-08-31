@@ -63,6 +63,7 @@ struct Color
       }
   }
 
+  //max should be 1.0 for each value
   float r;
   float g;
   float b;

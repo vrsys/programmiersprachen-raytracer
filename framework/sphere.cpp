@@ -39,6 +39,12 @@ HitPoint Sphere::intersect(Ray const& ray_) const
 	return HitPoint{ did_intersect_parameter, intersection_distance_parameter, Shape::name_, Shape::material_,  (ray_.origin + intersection_distance_parameter * ray_direction), ray_direction };
 }
 
+glm::vec3 Sphere::get_surface_normal(HitPoint const& hitpoint) const
+{
+	//if shadow acne on small spheres, look here
+	return glm::normalize(hitpoint.position_ - center_);
+}
+
 std::ostream& operator<<(std::ostream& os, Sphere const& s)
 {
 	return s.print(os);

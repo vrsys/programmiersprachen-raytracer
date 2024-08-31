@@ -30,21 +30,55 @@ void Renderer::render()
   //intersect all rays with all objects...
   for (int position = 0; position < rays.size(); ++position)
   {
+      //make the following into a function
       HitPoint min_distance_hitpoint{ false, std::numeric_limits<float>::max() };
       Ray ray{ rays[position] };
-      for (std::shared_ptr<Shape> shape : scene_.shapes)
+      for (auto [name, shape] : scene_.shapes)
       {
           HitPoint hitpoint{ shape->intersect(ray) };
           if (hitpoint.did_intersect_ && hitpoint.distance_ < min_distance_hitpoint.distance_) //...and remember the closest hitpoint
           {
+              //move the hitpoint back a bit by the surface_normal, if shadow acne, check out get_surface_normal in Box and Sphere
+              hitpoint.position_ = hitpoint.position_ + 0.0001f * shape->get_surface_normal(hitpoint);
               min_distance_hitpoint = hitpoint;
           }
       }
+
+      //write the calculated color as a pixel
       Pixel pixel{ position % width_, position / width_ };
-      if (min_distance_hitpoint.did_intersect_ == true) //if we did find a closer one...
+      if (min_distance_hitpoint.did_intersect_) //if we did intersect an object
       {
-          pixel.color = min_distance_hitpoint.object_material_->ka; //remember its color...
-          write(pixel); //...and write it into the color_buffer_ and ppm_file
+          //see if there is an obstacle inbetween the hitpoint and the light source
+          HitPoint closest_obstacle{ false, std::numeric_limits<float>::max() };
+          //the following only works for one light source + find a good way to calculate color
+          for (Light light : scene_.lights)
+          {
+              //get the path to a lightsource
+              Ray path{ min_distance_hitpoint.position_, light.position_ - min_distance_hitpoint.position_ };
+              //check if any objects are in the way
+              for (auto [name, shape] : scene_.shapes)
+              {
+                  //remember the hitpoint
+                  HitPoint obstacle{ shape->intersect(path) };
+                  if (obstacle.did_intersect_ && obstacle.distance_ < closest_obstacle.distance_) //...and remember the closest hitpoint
+                  {
+                      closest_obstacle = obstacle;
+                  }
+              }
+              //somehow accumulate light for this hitpoint
+          }
+
+          if (closest_obstacle.did_intersect_)
+          {
+              //write the parsed ambient value (so far just a placeholder)
+              pixel.color = { min_distance_hitpoint.object_material_->ka[0] * 0.25f, min_distance_hitpoint.object_material_->ka[1] * 0.25f, min_distance_hitpoint.object_material_->ka[2] * 0.25f };
+              write(pixel);
+          }
+          else
+          {
+              pixel.color = min_distance_hitpoint.object_material_->ka; //remember its color...
+              write(pixel); //...and write it into the color_buffer_ and ppm_file
+          }
       }
       else
       {
