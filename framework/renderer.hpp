@@ -17,6 +17,7 @@
 #include "ray.hpp"
 #include "scene.hpp"
 #include "sdf_reader.hpp"
+#include "camera.hpp"
 
 #include <string>
 #include <glm/glm.hpp>

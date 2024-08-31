@@ -22,9 +22,6 @@ int main(int argc, char* argv[])
   unsigned const image_height = 1200; //(1200) //formerly 600 //don't set to 0!
   std::string const filename = "./rendered_image.ppm";
 
-  
-
-  //create the following renderer with that ppm file (hopefully that's it)
   Renderer renderer{image_width, image_height, filename};
 
   renderer.render();
@@ -36,7 +33,6 @@ int main(int argc, char* argv[])
       window.close();
     }
     window.show(renderer.color_buffer());
-    //window.show(colors);
   }
 
   return 0;
