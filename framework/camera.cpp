@@ -31,7 +31,7 @@ std::vector<Ray> Camera::generate_rays(unsigned int width_, unsigned int height_
 	}
 
 	//so far we should have a default camera at origin{0, 0, 0} pointing towards {0, 0, -1}, up is {0, 1, 0} (no matter what up_ and dir_ are)
-	//now apply a transformation matrix to conform to up_ and dir_
+	//now apply a rotation matrix to the camera conform to up_ and dir_
 	
 	return rays;
 }

@@ -132,7 +132,7 @@ Scene read_sdf_file(std::string const& sdf_file_path)
 
 				else if (token == "light")
 				{
-					Light parsed_light; //if weird error, probably change this
+					Light parsed_light; //if weird error, probably change this to not involve default construction that is undefined
 					line_as_stream >> parsed_light.name_;
 
 					for (int i = 0; i < 3; ++i)
@@ -146,6 +146,11 @@ Scene read_sdf_file(std::string const& sdf_file_path)
 
 					line_as_stream >> parsed_light.brightness_;
 					lights.push_back(parsed_light);
+				}
+
+				else if (token == "camera")
+				{
+
 				}
 
 				else

@@ -8,6 +8,7 @@
 #include <string>
 #include <memory>
 #include <glm/vec3.hpp>
+#include <glm/mat4x4.hpp>
 #include <iostream>
 
 class Shape {
@@ -22,6 +23,8 @@ public:
 protected:
 	std::string name_;
 	std::shared_ptr<Material> material_;
+	glm::mat4 world_transformation_;
+	glm::mat4 world_transformation_inv;
 };
 
 std::ostream& operator<<(std::ostream& os, Shape const& s);

@@ -8,10 +8,10 @@
 struct Material
 {
 	std::string name{ "placeholder" };
-	Color ka{ 0, 0, 0 };
-	Color kd{ 0, 0, 0 };
-	Color ks{ 0, 0, 0 };
-	float exponent{ 0 };
+	Color ka{ 0, 0, 0 }; //0 <= ka <= 1.0
+	Color kd{ 0, 0, 0 }; //0 <= kd <= 1.0
+	Color ks{ 0, 0, 0 }; //0 <= ks <= 1.0
+	float exponent{ 0 }; //10 <= m <= 810
 };
 
 inline std::ostream& operator<<(std::ostream& os, Material const& material) // inline makes it so that the function can be defined within the header file
