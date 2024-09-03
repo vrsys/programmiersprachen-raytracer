@@ -16,6 +16,7 @@
 class Camera
 {
 public:
+	Camera();
 	Camera(std::string const& name_parameter, float fov_x_parameter, glm::vec3 const& eye_parameter, glm::vec3 const& dir_parameter, glm::vec3 const& up_parameter);
 	~Camera();
 	std::vector<Ray> generate_rays(unsigned int width_, unsigned int height_) const;

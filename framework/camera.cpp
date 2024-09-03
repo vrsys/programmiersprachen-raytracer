@@ -1,5 +1,16 @@
 #include "camera.hpp"
 
+Camera::Camera() :
+	name_("default_camera"),
+	fov_x(std::numbers::pi / 2.0),
+	eye_({ 0, 0, 0 }),
+	dir_({ 0, 0, -1 }),
+	up_({ 0, 1, 0 }),
+	distance_((std::sin(std::numbers::pi / 2.0 - fov_x / 2.0) / (2 * std::sin(fov_x / 2.0))))
+{
+	std::cout << "Camera constructor called\n";
+}
+
 Camera::Camera(std::string const& name_parameter, float fov_x_parameter, glm::vec3 const& eye_parameter, glm::vec3 const& dir_parameter, glm::vec3 const& up_parameter) :
 	name_(name_parameter), 
 	fov_x(fov_x_parameter), 

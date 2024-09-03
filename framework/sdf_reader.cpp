@@ -15,6 +15,7 @@ Scene read_sdf_file(std::string const& sdf_file_path)
 		std::map<std::string, std::shared_ptr<Material>> materials;
 		std::map<std::string, std::shared_ptr<Shape>> shapes;
 		std::vector<Light> lights;
+		Camera camera{ "default_camera", std::numbers::pi / 2.0, { 0, 0, 0 }, { 0, 0, -1 }, { 0, 1, 0 } };
 
 		std::string line_buffer; // individual lines are stored here
 
@@ -150,7 +151,31 @@ Scene read_sdf_file(std::string const& sdf_file_path)
 
 				else if (token == "camera")
 				{
+					std::string parsed_camera_name_;
+					float parsed_camera_fov_x_;
+					glm::vec3 parsed_camera_eye_;
+					glm::vec3 parsed_camera_dir_;
+					glm::vec3 parsed_camera_up_;
 
+					line_as_stream >> parsed_camera_name_;
+					line_as_stream >> parsed_camera_fov_x_;
+
+					for (int i = 0; i < 3; ++i)
+					{
+						line_as_stream >> parsed_camera_eye_[i];
+					}
+
+					for (int i = 0; i < 3; ++i)
+					{
+						line_as_stream >> parsed_camera_dir_[i];
+					}
+
+					for (int i = 0; i < 3; ++i)
+					{
+						line_as_stream >> parsed_camera_up_[i];
+					}
+
+					camera = { parsed_camera_name_, parsed_camera_fov_x_, parsed_camera_eye_, parsed_camera_dir_, parsed_camera_up_ };
 				}
 
 				else
@@ -166,6 +191,6 @@ Scene read_sdf_file(std::string const& sdf_file_path)
 		}
 
 		sdf_file.close();
-		return Scene{ materials, shapes, lights };
+		return Scene{ materials, shapes, lights, camera };
 	}
 }

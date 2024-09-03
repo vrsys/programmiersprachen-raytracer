@@ -94,13 +94,12 @@ void Renderer::render()
           //{
           //    pixel.color[i] = /*std::abs(*/intersected_shape_surface_normal[i]/*)*/;
           //}
-          write(pixel);
       }
       else //if no object is hit
       {
           pixel.color = { 0.25, 0.25, 0.25 }; //this should be some sort of background image (or the ambient color value?)
-          write(pixel);
       }
+      write(pixel);
   }
   ppm_.save(filename_); //writes everything out of ppm_.data_ into a ppm file
 }
